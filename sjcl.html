@@ -1,0 +1,24 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="scjl.js"></script>
+</head>
+<body>
+
+<form>
+	<div>Password: <input type="text"></div>
+	<div>Salt: <input type="text"></div>
+	<div>Hash: <input type="text"></div>
+</form>
+
+
+
+</body>
+
+<script type="text/javascript">
+	var passwordSalt = sjcl.codec.hex.toBits( "cf7488cd1e48e84990f51b3f121e161318ba2098aa6c993ded1012c955d5a3e8" );
+	var derivedKey = sjcl.misc.pbkdf2( "password", passwordSalt, 100, 256, hmacSHA1 );
+	var hexKey = sjcl.codec.hex.fromBits( derivedKey );
+</script>
+</html>>
