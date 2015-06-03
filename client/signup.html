@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+   <link href='http://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+   <!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
+   <link href="lib/bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="index.css" rel="stylesheet">
+   <link href="lib/signin.css" rel="stylesheet">
+</head>
+<body>
+   <!-- Header -->
+   <nav class="navbar navbar-default" id="banner" role="banner">
+      <div class="container-fluid">
+         <div class="navbar-header">
+<!--             <a class="navbar-brand" href="#">
+             <img alt="Brand" src="...">
+            </a> -->
+          <a href="../" class="navbar-brand">AccountsJS</a>
+       </div>
+   </div>
+</nav>
+
+<div class="container-fluid" id="signup_container">
+   <form class="form-signin" id="signup_form">
+      <br>
+      <br>
+      <br>
+      <label for="signup_email" class="sr-only">Email address</label>
+      <input type="email" id="signup_email" class="form-control" placeholder="Email address" required="" autofocus="">
+      <label for="signup_password" class="sr-only">Password</label>
+      <input type="password" id="signup_password" class="form-control" placeholder="Password" required="">
+      <button class="btn btn-lg btn-success btn-block" type="button" id="signup_button">Sign Up</button>
+      <br>
+      <div class="alert alert-danger" role="alert" style="display: none" id="signup_error"></div>
+   </form>
+</div>
+<div class="collapse container-fluid" id="signup_success">
+   <form class="form-signin">
+      <br>
+      <br>
+      <br>
+      <div class="alert alert-success" role="alert">Your account has been created.<br><br>You will receive an email shorty to activate your account.</div>
+   </form>
+</div>
+
+   <script src="lib/bower_components/jquery/dist/jquery.js"></script>
+   <script src="lib/bower_components/bootstrap/js/bootstrap.js"></script>
+   <script src="js/app/signup_controller.js"></script>
+</body>
+</html>

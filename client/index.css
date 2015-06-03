@@ -1,0 +1,23 @@
+#banner {
+  margin-bottom: 0;
+}
+
+#button-bar {
+  border-top: 0;
+  background-color: transparent;
+}
+
+
+#businesses_container {
+  margin-top: 40px;
+}
+
+tr.special {
+  cursor: pointer;
+}
+
+add_customer:after {
+  content: "Add Customer";
+}
+
+
