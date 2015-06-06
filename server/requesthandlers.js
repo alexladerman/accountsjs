@@ -110,9 +110,8 @@ function signin(req, res) {
                         }
 
                         var token = jwt.sign(rows[0], AUTH_TOKEN_SECRET, token_options);
-                        respond_json(req, res,  {"access_token": token});
+                        respond_json(req, res, {access_token: token});
                     } else {
-                        console.log('username and password do not match'); 
                         respond_unauthorized(req, res);
                     }
                 }

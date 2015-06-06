@@ -21,15 +21,12 @@ json_res_header = function (req) {
 
 respond_json = function (req, res, json) {
     var headers = json_res_header(req);
-    res.writeHead(200, headers);
-    console.log("200", JSON.stringify(headers));
     res.write(JSON.stringify(json));
-    console.log(JSON.stringify(json));
     res.end();
 }
 
 respond_unauthorized = function (req, res) {
-    res.writeHead(401, res_header(req));
+    respond_json(req, res, {error: "unauthorized"});
     res.end();
 }
 
