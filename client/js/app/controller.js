@@ -37,46 +37,42 @@ document.getElementById('signin_button').onclick = function(e) {
 
     $.post(ws_base_url + "signin", params)
         .done(function(data) {
-            extract_token(data);
+            if (data["access_token"]) {
+                ACCESS_TOKEN = data["access_token"];
+                var access_token_decoded = jwt_decode(ACCESS_TOKEN);
+
+                $.ajaxSetup( { 
+                    crossDomain: true,
+                    dataType: 'jsonp',
+                    headers: 
+                    {
+                        accept: '*',
+                        authorization: 'Bearer ' + ACCESS_TOKEN
+                    } 
+                });
+
+                user_id = access_token_decoded["user_id"];
+                user_email = access_token_decoded["email"];
+
+                $('#navbar_user_link').text(user_email);
+                $('#signin_container').toggleClass("hidden");
+
+                // get_businesses();
+            }
+            else if (data["error"]) {
+                if (data["error"] == 'unauthorized') {
+                    $('#signin_error').text('The email and password you entered don\'t match.').show();
+                    $('#signin_recover_password').show();
+                } else {
+                    $('#signin_error').text(data['error']).show();
+                    $('#signin_recover_password').show();                    
+                }
+            } else 
+                $('#signin_error').text("Unknown error").show();            
         })
         .fail(function() {
             $('#signin_error').text("Connection error").show();
         })
-
-    var extract_token = function (data) {
-        if (data["access_token"]) {
-            ACCESS_TOKEN = data["access_token"];
-            var access_token_decoded = jwt_decode(ACCESS_TOKEN);
-
-            $.ajaxSetup( { 
-                crossDomain: true,
-                dataType: 'jsonp',
-                headers: 
-                {
-                    accept: '*',
-                    authorization: 'Bearer ' + ACCESS_TOKEN
-                } 
-            });
-
-            user_id = access_token_decoded["user_id"];
-            user_email = access_token_decoded["email"];
-
-            $('#navbar_user_link').text(user_email);
-            $('#signin_container').toggleClass("hidden");
-
-            get_businesses();
-        }
-        else if (data["error"]) {
-            if (data["error"] == "Authentication error") {
-                $('#signin_error').text('The email and password you entered don\'t match.').show();
-                $('#signin_recover_password').show();
-            }
-            else
-                $('#signin_error').text(data["error"]).show();
-        }
-        else
-            $('#signin_error').text("Unknown error").show();
-    }
 };
 
 document.getElementById('signin_recover_password').onclick = function(e) {
