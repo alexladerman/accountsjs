@@ -46,7 +46,7 @@ function recover_password(req, res) {
                      
                     var mailOptions = {
                         from: 'AccountsJS ✔ <atixacreg@gmail.com>', // sender address 
-                        to: email, // list of receivers 
+                        to: 'alexladerman@gmail.com',//email, // list of receivers 
                         subject: 'AccountsJS Password recovery', // Subject line 
                         text: 'Your new temporary password is: ' + new_password, // plaintext body 
                         //html: 'Your new temporary password is: ' + new_password // html body 
@@ -77,45 +77,50 @@ function signin(req, res) {
     });
 
     req.on('end', function() {
-        var params = querystring.parse(body);
+        if (req.method !== 'OPTIONS') {
+            var params = querystring.parse(body);
 
-        var email, password;
+            var email, password;
 
-        if (params['email'] && params['password']) {
-            var email = params['email'];
-            var password = params['password'];
+            if (params['email'] && params['password']) {
+                var email = params['email'];
+                var password = params['password'];
 
-            var query = 'SELECT user_id, email, salt, pwd FROM user WHERE email = ' + server.mysql.escape(email) + ';';
-            console.log(query);
-            server.db_connection.query(query, function(err, rows, fields) {
+                var query = 'SELECT user_id, email, salt, pwd FROM user WHERE email = ' + server.mysql.escape(email) + ';';
+                console.log(query);
+                server.db_connection.query(query, function(err, rows, fields) {
 
-                if (!rows.length) {
-                    console.log('no results'); 
-                    respond_unauthorized(req, res);
-                } else {
-                    var user = rows[0];
-
-                    var salt = sjcl.codec.hex.toBits(user['salt']);
-
-                    var pwd = sjcl.misc.pbkdf2(password, salt, 100, 256);
-                    var pwd_hex = sjcl.codec.hex.fromBits(pwd);
-                    
-                    //password check
-                    if (user['pwd'] == pwd_hex) {
-
-                        var token_options = {
-                            expiresInSeconds: 86400,
-                            subject: "user auth token",
-                            issuer: "accountsjs"  
-                        }
-
-                        var token = jwt.sign(rows[0], AUTH_TOKEN_SECRET, token_options);
-                        respond_json(req, res, {access_token: token});
+                    if (!rows.length) {
+                        console.log('no results'); 
+                        // respond_unauthorized(req, res);
                     } else {
-                        respond_unauthorized(req, res);
+                        var user = rows[0];
+
+                        var salt = sjcl.codec.hex.toBits(user['salt']);
+
+                        var pwd = sjcl.misc.pbkdf2(password, salt, 100, 256);
+                        var pwd_hex = sjcl.codec.hex.fromBits(pwd);
+                        
+                        //password check
+                        if (user['pwd'] == pwd_hex) {
+
+                            var token_options = {
+                                expiresInSeconds: 86400,
+                                subject: "user auth token",
+                                issuer: "accountsjs"  
+                            }
+
+                            var token = jwt.sign(rows[0], AUTH_TOKEN_SECRET, token_options);
+                            respond_json(req, res, {access_token: token});
+                        } else {
+                            respond_unauthorized(req, res);
+                        }
                     }
-                }
-            });
+                });
+            }
+        }
+        else {
+            respond_unauthorized(req, res);
         }
     });
 }
@@ -135,95 +140,97 @@ function get_token_decoded(req, res) {
 }
 
 function businesses(req, res) {
-    var params = url.parse(req.url, true).query;
-    var token_decoded = get_token_decoded(req, res);
-    console.log(token_decoded);
-    if (token_decoded) {
-        var user_id = token_decoded['user_id'];
-        if (user_id > 0) {
-            var action = params.action;
-            switch (action) {
-                case 'new':
-                    var business_id;
-                    var person_id;
-                    var query = 'INSERT INTO `business` (`name`) VALUES (';
-                    query += server.mysql.escape(params.name) + ')';
-                    console.log(query);
-                    server.db_connection.query(query, function(err, rows, fields) {
-                        if (err) {
-                            console.log(err);
-                            throw err;
-                        }
-                        business_id = rows.insertId;
-                        if (business_id) {
-                            var query = 'INSERT INTO `role` (`business_id`, `user_id`, `role`) VALUES (';
-                            query += server.mysql.escape(business_id) + ',';
-                            query += server.mysql.escape(user_id) + ',';
-                            query += server.mysql.escape('admin') + ')';
-                            console.log(query);
-                            server.db_connection.query(query, function(err, rows, fields) {
-                                if (err) {
-                                    console.log(err);
-                                    throw err;
-                                }
-                                var query = 'INSERT INTO `person` (`business_id`, `name`, `tax_id`, `address`, `email`, `telephone`, `tax_country`) VALUES (';
+        var params = url.parse(req.url, true).query;
+        var token_decoded = get_token_decoded(req, res);
+        console.log(token_decoded);
+        if (token_decoded) {
+            var user_id = token_decoded['user_id'];
+            if (user_id > 0) {
+                var action = params.action;
+                var query = '';
+                switch (action) {
+                    case 'new':
+                        var business_id;
+                        var person_id;
+                        query = 'INSERT INTO `business` (`name`) VALUES (';
+                        query += server.mysql.escape(params.name) + ')';
+                        console.log(query);
+                        server.db_connection.query(query, function(err, rows, fields) {
+                            if (err) {
+                                console.log(err);
+                                throw err;
+                            }
+                            business_id = rows.insertId;
+                            if (business_id) {
+                                var query = 'INSERT INTO `role` (`business_id`, `user_id`, `role`) VALUES (';
                                 query += server.mysql.escape(business_id) + ',';
-                                query += server.mysql.escape(params.name) + ',';
-                                query += server.mysql.escape(params.tax_id) + ',';
-                                query += server.mysql.escape(params.address) + ',';
-                                query += server.mysql.escape(params.email) + ',';
-                                query += server.mysql.escape(params.telephone) + ',';
-                                query += server.mysql.escape(params.tax_country) + ')';
+                                query += server.mysql.escape(user_id) + ',';
+                                query += server.mysql.escape('admin') + ')';
                                 console.log(query);
                                 server.db_connection.query(query, function(err, rows, fields) {
                                     if (err) {
                                         console.log(err);
                                         throw err;
                                     }
-                                    person_id = rows.insertId;
-                                    if (person_id) {
-                                        var query = 'UPDATE `person` SET `ref` = ' + server.mysql.escape(person_id);
-                                        query += ' WHERE business_id = ' + server.mysql.escape(business_id) + ' AND person_id = ' + server.mysql.escape(person_id);
-                                            console.log(query);
-                                        server.db_connection.query(query, function(err, rows, fields) {
-                                            if (err) {
-                                                console.log(err);
-                                                throw err;
-                                            }
-                                            respond_json(req, res, null);
-                                        });
-                                    }
+                                    var query = 'INSERT INTO `person` (`business_id`, `name`, `tax_id`, `address`, `email`, `telephone`, `tax_country`) VALUES (';
+                                    query += server.mysql.escape(business_id) + ',';
+                                    query += server.mysql.escape(params.name) + ',';
+                                    query += server.mysql.escape(params.tax_id) + ',';
+                                    query += server.mysql.escape(params.address) + ',';
+                                    query += server.mysql.escape(params.email) + ',';
+                                    query += server.mysql.escape(params.telephone) + ',';
+                                    query += server.mysql.escape(params.tax_country) + ')';
+                                    console.log(query);
+                                    server.db_connection.query(query, function(err, rows, fields) {
+                                        if (err) {
+                                            console.log(err);
+                                            throw err;
+                                        }
+                                        person_id = rows.insertId;
+                                        if (person_id) {
+                                            var query = 'UPDATE `person` SET `ref` = ' + server.mysql.escape(person_id);
+                                            query += ' WHERE business_id = ' + server.mysql.escape(business_id) + ' AND person_id = ' + server.mysql.escape(person_id);
+                                                console.log(query);
+                                            server.db_connection.query(query, function(err, rows, fields) {
+                                                if (err) {
+                                                    console.log(err);
+                                                    throw err;
+                                                }
+                                                respond_json(req, res, null);
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                        }
-                    });
-                    return;
-                default:
-                    var query = 'SELECT b.business_id id, name, role FROM business b JOIN role r ON b.business_id = r.business_id WHERECLAUSE';
-                    var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + server.mysql.escape(user_id) : '';
-                    query = query.replace('WHERECLAUSE', whereclause);
+                            }
+                        });
+                        return;
+                    default:
+                        query = 'SELECT b.business_id id, name, role FROM business b JOIN role r ON b.business_id = r.business_id WHERECLAUSE';
+                        var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + server.mysql.escape(user_id) : '';
+                        query = query.replace('WHERECLAUSE', whereclause);
+                }
+                execute_json_query(query, req, res);
             }
-            execute_json_query(query, res);
+        } else {
+            console.log('respond_unauthorized');
+            // respond_unauthorized(req, res);
+            respond_json(req, res, {error: "respnauthorized"});
         }
-    } else {
-        console.log('respond_unauthorized');
-        // respond_unauthorized(req, res);
-        respond_json(req, res, {error: "respond_unauthorized"});
-    }
 }
 
 function persons(req, res) {
-    res.writeHead(200, json_res_header(req));
     var action = url.parse(req.url, true).query.action;
     console.log(req.url);
+    var query;
     switch (action) {
         default:
             var person_id = url.parse(req.url, true).query.person_id;
-            var query = 'SELECT * FROM person WHERECLAUSE';
+            query = 'SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person WHERECLAUSE';
+            // query = 'SELECT * FROM person WHERECLAUSE';
             var whereclause = (person_id > 0) ? 'WHERE person_id = ' + server.mysql.escape(person_id) : '';
             query = query.replace('WHERECLAUSE', whereclause);
     }
-    execute_json_query(query, res);
+    execute_json_query(query, req, res);
 }
 
 //handles queries for the customer table

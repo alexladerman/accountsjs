@@ -7,21 +7,29 @@ var selected_customer_id = 0;
 var selected_business_id = 0;
 var selected_business_name = 'Add business';
 
+function formatMoney(value) {
+    accounting.formatMoney(value/100, "€", 2, ".", ","); // €4.999,99
+}
+
 //printable column headers
 var dictionary = {
-    // id: 'ID',
-    name: 'Name',
-    email: 'Email',
-    hourly_rate: 'Hourly Rate',
-    billable_time: 'Time Spent',
-    billable_amount: 'Amount Due',
-    bill: '',
-    start_stop_btn: '',
-    project_id: 'Project ID',
-    start: 'Start',
-    stop: 'Stop',
-    billed: 'Billed',
-    role: 'Role'
+    id: {text:  'ID', type: 'text'},
+    Account: {text:  'Account', type: 'text'},
+    name: {text:  'Name', type: 'text'},
+    tax_id: {text:  'Tax ID', type: 'text'},
+    email: {text:  'Email', type: 'text'},
+    hourly_rate: {text:  'Hourly Rate', type: 'text'},
+    billable_time: {text:  'Time Spent', type: 'text'},
+    billable_amount: {text:  'Amount Due', type: 'text'},
+    bill: {text:  '', type: 'text'},
+    start_stop_btn: {text:  '', type: 'text'},
+    project_id: {text:  'Project ID', type: 'text'},
+    start: {text:  'Start', type: 'text'},
+    stop: {text:  'Stop', type: 'text'},
+    billed: {text:  'Billed', type: 'text'},
+    role: {text:  'Role', type: 'text'},
+    Balance: {text:  'Balance', type: 'currency'},
+    TurnoverYTD: {text:  'TurnoverYTD', type: 'currency'},
 };
 
 //signin
@@ -57,7 +65,7 @@ document.getElementById('signin_button').onclick = function(e) {
                 $('#navbar_user_link').text(user_email);
                 $('#signin_container').toggleClass("hidden");
 
-                // get_businesses();
+                get_businesses();
             }
             else if (data["error"]) {
                 if (data["error"] == 'unauthorized') {
@@ -162,6 +170,11 @@ function replace_business_dropdown(data) {
         var li = document.createElement('li');
         var a = document.createElement('a');
         a.setAttribute('href', '#');
+        a.onclick = function(e) {
+            e.stopPropagation();
+            $('#businesses_container').show();
+            document.getElementById('new_business_btn').click();
+        };
         var text = document.createTextNode('Add business');
         a.appendChild(text);
         li.appendChild(a);
@@ -170,8 +183,10 @@ function replace_business_dropdown(data) {
 }
 
 function select_business(e) {
-    selected_business_id = parseInt(this.attributes.business_id.value);
-    selected_business_name = this.attributes.business_name.value;
+    if (e) {
+        selected_business_id = parseInt(this.attributes.business_id.value);
+        selected_business_name = this.attributes.business_name.value;
+    }
     var t = document.getElementById('selected_business');
     while (t.hasChildNodes()) {
         t.removeChild(t.lastChild);
@@ -181,6 +196,7 @@ function select_business(e) {
     span.className = 'caret';
     t.appendChild(span);
     $('#selected_business_dropdown').show();
+    $('#button_bar').show();
 }
 
 function replace_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
@@ -198,7 +214,7 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
     for (field in thdata) {
         if (dictionary.hasOwnProperty(field)) {
             var th = document.createElement('th');
-            th.innerHTML = dictionary[field];
+            th.innerHTML = dictionary[field][name];
             thr.appendChild(th);
         }
     }
@@ -224,7 +240,12 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
         for (field in rowdata) {
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('td');
-                td.innerHTML = rowdata[field];
+                var text; 
+                switch (dictionary[field][name]) {
+                    default:
+                        text = document.createTextNode(rowdata[field][name]); 
+                }
+                td.appendChild(text);
                 row.appendChild(td);
             }
         }
@@ -386,16 +407,27 @@ function get_customers(callback) {
 function get_businesses(callback) {
     $.getJSON(ws_base_url + "businesses", function(data) {
         replace_business_dropdown(data);
+        if (!selected_business_id && data.length > 0) { //init
+            selected_business_id =  data[0]['id'];
+            selected_business_name = data[0]['name'];
+            select_business(null);
+        }
     });
 }
 
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
-        var table = document.getElementById("master_table");
-        replace_table(table, data, true, customer_row_onclick, [ 'bill' ], selected_customer_id);
+        var table = document.getElementById("persons_table");
+        replace_table(table, data, false, null, [ 'bill' ], selected_customer_id);
         callback();
     });
 }
+
+document.getElementById('customers_btn').onclick = function(e) {
+    e.stopPropagation();
+    get_persons(function () { $('#persons_container').show() });
+};
+
 
 //produces projects table
 function get_projects(customer_id) {
@@ -414,6 +446,7 @@ document.getElementById('new_business_btn').onclick = function(e) {
     $('#new_business_btn_icon').toggleClass('glyphicon-plus').toggleClass('glyphicon-minus');
     document.getElementById('new_business_form').reset();
 };
+
 document.getElementById('save_new_business_btn').onclick = function(e) {
     var url = ws_base_url + 'businesses';
 

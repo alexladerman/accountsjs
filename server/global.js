@@ -8,19 +8,21 @@ AUTH_TOKEN_SECRET = 'something unmemorable';
 
 res_header = function (req) {
     return {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": req.headers['access-control-request-headers'] // allow any headers
     }
 }
 
-json_res_header = function (req) {
-    var headers = res_header(req);
-    headers['Content-Type'] = "application/json";
-    return headers;
-}
+// json_res_header = function (req) {
+//     var headers = res_header(req);
+//     headers['Content-Type'] = "application/json";
+//     return headers;
+// }
 
 respond_json = function (req, res, json) {
-    var headers = json_res_header(req);
+    var headers = res_header(req);
+    res.writeHead(200, headers);
     res.write(JSON.stringify(json));
     res.end();
 }
@@ -36,12 +38,12 @@ validate_email = function (email) {
 }
 
 //queries the database and outputs rows as JSON
-execute_json_query = function (query, res) {
+execute_json_query = function (query, req, res) {
     console.log(query);
     server.db_connection.query(query, function(err, rows, fields) {
         if (err) {
             throw err;
         }
-        respond_json(res, rows);
+        respond_json(req, res, rows);
     });
 }
