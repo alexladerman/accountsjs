@@ -1,0 +1,50 @@
+exec = require("child_process").exec;
+querystring = require("querystring");
+url = require("url");
+jwt = require("jsonwebtoken");
+sjcl = require("sjcl");
+
+AUTH_TOKEN_SECRET = 'something unmemorable';
+
+res_header = function (req) {
+    return {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": req.headers['access-control-request-headers'] // allow any headers
+    }
+}
+
+json_res_header = function (req) {
+    var headers = res_header(req);
+    headers['Content-Type'] = "application/json";
+    return headers;
+}
+
+respond_json = function (req, res, json) {
+    var headers = json_res_header(req);
+    res.writeHead(200, headers);
+    console.log("200", JSON.stringify(headers));
+    res.write(JSON.stringify(json));
+    console.log(JSON.stringify(json));
+    res.end();
+}
+
+respond_unauthorized = function (req, res) {
+    res.writeHead(401, res_header(req));
+    res.end();
+}
+
+validate_email = function (email) {
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    return re.test(email);
+}
+
+//queries the database and outputs rows as JSON
+execute_json_query = function (query, res) {
+    console.log(query);
+    server.db_connection.query(query, function(err, rows, fields) {
+        if (err) {
+            throw err;
+        }
+        respond_json(res, rows);
+    });
+}

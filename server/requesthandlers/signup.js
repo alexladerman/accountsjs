@@ -31,9 +31,9 @@ module.exports = function (req, res) {
 			console.log(query);
 			server.db_connection.query(query, function(err, rows, fields) {
 				if (err) { 
-					respond_json(res, {"error": err});
+					respond_json(req, res, {"error": err});
 				} else {
-					respond_json(res, {"account created": "yes"});
+					respond_json(req, res, {"account created": "yes"});
 				}
 			});
 		}

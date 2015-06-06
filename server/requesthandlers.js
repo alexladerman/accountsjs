@@ -32,7 +32,7 @@ function recover_password(req, res) {
             server.db_connection.query(query, function(err, rows, fields) {
                 if (err) {
                     console.log(err);
-                    respond_json(res, {"error": err});
+                    respond_json(req, res, {"error": err});
                 } else {
                     var nodemailer = require('nodemailer');
                      
@@ -55,16 +55,16 @@ function recover_password(req, res) {
                     transporter.sendMail(mailOptions, function(err, info){
                         if (err) {
                             console.log(err);
-                            respond_json(res, {"error": err});
+                            respond_json(req, res, {"error": err});
                         } else {
                             console.log('Message sent: ' + info.response);
-                            respond_json(res, null);
+                            respond_json(req, res, null);
                         }
                     });
                 }
             });
         } else {
-            respond_json(res,  {"error": "invalid email"});
+            respond_json(req, res,  {"error": "invalid email"});
         }
     });
 }
@@ -89,8 +89,9 @@ function signin(req, res) {
             console.log(query);
             server.db_connection.query(query, function(err, rows, fields) {
 
-                if (!rows.length) { 
-                    respond_json(res, {"error": "Authentication error"});
+                if (!rows.length) {
+                    console.log('no results'); 
+                    respond_unauthorized(req, res);
                 } else {
                     var user = rows[0];
 
@@ -109,9 +110,10 @@ function signin(req, res) {
                         }
 
                         var token = jwt.sign(rows[0], AUTH_TOKEN_SECRET, token_options);
-                        respond_json(res,  {"access_token": token});
+                        respond_json(req, res,  {"access_token": token});
                     } else {
-                        respond_json(res,  {"error": "Authentication error"});
+                        console.log('username and password do not match'); 
+                        respond_unauthorized(req, res);
                     }
                 }
             });
@@ -128,7 +130,7 @@ function get_token_decoded(req, res) {
         try {
           return jwt.verify(bearer_token, AUTH_TOKEN_SECRET);
         } catch(err) {
-            respond_unauthorized();
+            respond_unauthorized(req, res);
         } 
     } 
 }
@@ -189,7 +191,7 @@ function businesses(req, res) {
                                                 console.log(err);
                                                 throw err;
                                             }
-                                            respond_json(res, null);
+                                            respond_json(req, res, null);
                                         });
                                     }
                                 });
@@ -205,7 +207,9 @@ function businesses(req, res) {
             execute_json_query(query, res);
         }
     } else {
-        respond_unauthorized();
+        console.log('respond_unauthorized');
+        // respond_unauthorized(req, res);
+        respond_json(req, res, {error: "respond_unauthorized"});
     }
 }
 
@@ -272,7 +276,7 @@ function projects(req, res) {
                 if (err) {
                     throw err;
                 }
-                respond_json(res, null);
+                respond_json(req, res, null);
             });
             return;
         default:
@@ -300,7 +304,7 @@ function periods(req, res) {
                     if (err) {
                         throw err;
                     }
-                    respond_json(res, null); 
+                    respond_json(req, res, null); 
                 });
             }
             return;
@@ -313,7 +317,7 @@ function periods(req, res) {
                 if (err) {
                     throw err;
                 }
-                respond_json(res, null); 
+                respond_json(req, res, null); 
             });
             return;
         case 'stop':
@@ -338,7 +342,7 @@ function periods(req, res) {
                                 if (err) {
                                     throw err;
                                 }
-                                respond_json(res, null); 
+                                respond_json(req, res, null); 
                             });
                         }
                     }

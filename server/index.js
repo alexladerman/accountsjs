@@ -1,7 +1,7 @@
-var server = require("./server");
-var router = require("./router");
-var requesthandlers = require("./requesthandlers");
-require("./requesthandlers/common");
+server = require("./server");
+router = require("./router");
+require("./global");
+requesthandlers = require("./requesthandlers");
 
 var handle = {};
 
