@@ -7,17 +7,33 @@ var selected_customer_id = 0;
 var selected_business_id = 0;
 var selected_business_name = 'Add business';
 
+accounting.settings = {
+    currency: {
+        symbol : "€",   // default currency symbol is '$'
+        format: "%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+        decimal : ".",  // decimal point separator
+        thousand: ",",  // thousands separator
+        precision : 2   // decimal places
+    },
+    number: {
+        precision : 0,  // default precision on numbers is 0
+        thousand: ",",
+        decimal : "."
+    }
+}
+
 function formatMoney(value) {
-    accounting.formatMoney(value/100, "€", 2, ".", ","); // €4.999,99
+    return accounting.formatMoney(value/100); // €4.999,99
 }
 
 //printable column headers
 var dictionary = {
-    id: {text:  'ID', type: 'text'},
+    id: {text:  'ID', type: 'text'},    
     Account: {text:  'Account', type: 'text'},
     name: {text:  'Name', type: 'text'},
     tax_id: {text:  'Tax ID', type: 'text'},
     email: {text:  'Email', type: 'text'},
+    address: {text:  'Address', type: 'text'},
     hourly_rate: {text:  'Hourly Rate', type: 'text'},
     billable_time: {text:  'Time Spent', type: 'text'},
     billable_amount: {text:  'Amount Due', type: 'text'},
@@ -29,7 +45,7 @@ var dictionary = {
     billed: {text:  'Billed', type: 'text'},
     role: {text:  'Role', type: 'text'},
     Balance: {text:  'Balance', type: 'currency'},
-    TurnoverYTD: {text:  'TurnoverYTD', type: 'currency'},
+    TurnoverYTD: {text:  'TurnoverYTD', type: 'currency'}
 };
 
 //signin
@@ -214,7 +230,12 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
     for (field in thdata) {
         if (dictionary.hasOwnProperty(field)) {
             var th = document.createElement('th');
-            th.innerHTML = dictionary[field][name];
+            th.appendChild(document.createTextNode(dictionary[field].text));
+            switch (dictionary[field].type) {
+                    case 'currency':
+                        th.className += " text-right";
+                        break;
+                }
             thr.appendChild(th);
         }
     }
@@ -241,9 +262,13 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('td');
                 var text; 
-                switch (dictionary[field][name]) {
+                switch (dictionary[field].type) {
+                    case 'currency':
+                        text = document.createTextNode(formatMoney(rowdata[field])); 
+                        td.className += " text-right";
+                        break;
                     default:
-                        text = document.createTextNode(rowdata[field][name]); 
+                        text = document.createTextNode(rowdata[field]); 
                 }
                 td.appendChild(text);
                 row.appendChild(td);
@@ -418,7 +443,7 @@ function get_businesses(callback) {
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
         var table = document.getElementById("persons_table");
-        replace_table(table, data, false, null, [ 'bill' ], selected_customer_id);
+        replace_table(table, data, true, function () {}, null , selected_customer_id);
         callback();
     });
 }

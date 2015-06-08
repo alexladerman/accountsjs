@@ -1,0 +1,105 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<dom-module id="toolbar-tabs">
+<style>
+  :host {
+    display: block;
+  }
+</style>
+    <!-- <template is="dom-repeat" items="{{items}}"> -->
+      <template>
+        <paper-tabs selected="0" class="bottom self-end x-scope paper-tabs-0" style="width: 300px;" role="tablist" tabindex="0">
+
+        <paper-icon-button icon="paper-tabs:chevron-left" class="hidden style-scope paper-tabs x-scope paper-icon-button-0" role="button" tabindex="0" aria-disabled="false">
+        <paper-ripple id="ink" class="circle style-scope paper-icon-button" center="">
+        <div id="background" class="style-scope paper-ripple"></div>
+        <div id="waves" class="style-scope paper-ripple"></div>
+      </paper-ripple>
+      <iron-icon id="icon" class="style-scope paper-icon-button x-scope iron-icon-0"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g class="style-scope iron-icon"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" class="style-scope iron-icon"></path></g></svg>
+      <iron-meta id="meta" type="iconset" class="style-scope iron-icon"></iron-meta>
+    </iron-icon>
+  </paper-icon-button>
+
+  <div id="tabsContainer" class="flex style-scope paper-tabs">
+
+    <div id="tabsContent" class="horizontal layout style-scope paper-tabs">
+
+      <paper-tab class="x-scope paper-tab-0 iron-selected" role="tab" aria-disabled="false" tabindex="0" aria-selected="true">
+
+      <div class="tab-content flex-auto center-center horizontal layout style-scope paper-tab">
+        ITEM ONE
+      </div>
+
+      <span>
+      </span><paper-ripple id="ink" initial-opacity="0.95" opacity-decay-velocity="0.98" class="style-scope paper-tab">
+      <div id="background" class="style-scope paper-ripple" style="opacity: 0;"></div>
+      <div id="waves" class="style-scope paper-ripple"></div>
+    </paper-ripple><span>
+  </span><template is="dom-if" class="style-scope paper-tab"></template>
+
+</paper-tab><paper-tab role="tab" aria-disabled="false" class="x-scope paper-tab-0" tabindex="-1">
+
+<div class="tab-content flex-auto center-center horizontal layout style-scope paper-tab">
+  ITEM TWO
+</div>
+
+<span>
+</span><paper-ripple id="ink" initial-opacity="0.95" opacity-decay-velocity="0.98" class="style-scope paper-tab">
+<div id="background" class="style-scope paper-ripple" style="opacity: 0;"></div>
+<div id="waves" class="style-scope paper-ripple"></div>
+</paper-ripple><span>
+</span><template is="dom-if" class="style-scope paper-tab"></template>
+
+</paper-tab>
+
+<div id="selectionBar" class="undefinedstyle-scope paper-tabs" style="-webkit-transform: translate3d(0%, 0px, 0px) scaleX(0.5); transform: translate3d(0%, 0px, 0px) scaleX(0.5);"></div>
+
+</div>
+
+</div>
+
+<paper-icon-button icon="paper-tabs:chevron-right" class="hidden style-scope paper-tabs x-scope paper-icon-button-0" role="button" tabindex="0" aria-disabled="false">
+<paper-ripple id="ink" class="circle style-scope paper-icon-button" center="">
+<div id="background" class="style-scope paper-ripple"></div>
+<div id="waves" class="style-scope paper-ripple"></div>
+</paper-ripple>
+<iron-icon id="icon" class="style-scope paper-icon-button x-scope iron-icon-0"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g class="style-scope iron-icon"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" class="style-scope iron-icon"></path></g></svg>
+<iron-meta id="meta" type="iconset" class="style-scope iron-icon"></iron-meta>
+</iron-icon>
+</paper-icon-button>
+
+</paper-tabs>
+</template>
+
+</dom-module>
+  <script>
+    (function () {
+      Polymer({
+        is: 'toolbar-tabs',
+        properties: {
+          items: {
+            type: Array,
+            notify: true,
+          }
+        },
+        ready: function() {
+        this.items = [
+            'Responsive Web App boilerplate',
+            'Iron Elements and Paper Elements',
+            'End-to-end Build Tooling (including Vulcanize)',
+            'Unit testing with Web Component Tester',
+            'Routing with Page.js',
+            'Offline support with the Platinum Service Worker Elements'
+            ];
+        }
+      });
+    })();
+  </script>

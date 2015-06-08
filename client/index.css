@@ -21,3 +21,13 @@ add_customer:after {
 }
 
 
+table{
+ height:400px;              // <-- Select the height of the table
+}
+tbody{
+  overflow-y: scroll;      
+  height: 300px;            //  <-- Select the height of the body
+  width: 100%;
+  position: absolute;
+}
+
