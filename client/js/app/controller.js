@@ -28,7 +28,7 @@ function formatMoney(value) {
 
 //printable column headers
 var dictionary = {
-    id: {text:  'ID', type: 'text'},    
+    id: {text:  'ID', type: 'text'},
     Account: {text:  'Account', type: 'text'},
     name: {text:  'Name', type: 'text'},
     tax_id: {text:  'Tax ID', type: 'text'},
@@ -65,14 +65,14 @@ document.getElementById('signin_button').onclick = function(e) {
                 ACCESS_TOKEN = data["access_token"];
                 var access_token_decoded = jwt_decode(ACCESS_TOKEN);
 
-                $.ajaxSetup( { 
+                $.ajaxSetup( {
                     crossDomain: true,
                     dataType: 'jsonp',
-                    headers: 
+                    headers:
                     {
                         accept: '*',
                         authorization: 'Bearer ' + ACCESS_TOKEN
-                    } 
+                    }
                 });
 
                 user_id = access_token_decoded["user_id"];
@@ -89,10 +89,10 @@ document.getElementById('signin_button').onclick = function(e) {
                     $('#signin_recover_password').show();
                 } else {
                     $('#signin_error').text(data['error']).show();
-                    $('#signin_recover_password').show();                    
+                    $('#signin_recover_password').show();
                 }
-            } else 
-                $('#signin_error').text("Unknown error").show();            
+            } else
+                $('#signin_error').text("Unknown error").show();
         })
         .fail(function() {
             $('#signin_error').text("Connection error").show();
@@ -206,7 +206,7 @@ function select_business(e) {
     var t = document.getElementById('selected_business');
     while (t.hasChildNodes()) {
         t.removeChild(t.lastChild);
-    }    
+    }
     t.appendChild(document.createTextNode(selected_business_name));
     var span = document.createElement('span');
     span.className = 'caret';
@@ -261,14 +261,86 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
         for (field in rowdata) {
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('td');
-                var text; 
+                var text;
                 switch (dictionary[field].type) {
                     case 'currency':
-                        text = document.createTextNode(formatMoney(rowdata[field])); 
+                        text = document.createTextNode(formatMoney(rowdata[field]));
                         td.className += " text-right";
                         break;
                     default:
-                        text = document.createTextNode(rowdata[field]); 
+                        text = document.createTextNode(rowdata[field]);
+                }
+                td.appendChild(text);
+                row.appendChild(td);
+            }
+        }
+        tbody.appendChild(row);
+        if (extra_fields != null) {
+            for (var i = 0; i < extra_fields.length; i++) {
+                var td = document.createElement('td');
+                row.appendChild(td);
+                append_extra_field(td, extra_fields[i], rowdata);
+            }
+        }
+        if (row_clickable)
+            row.onclick = row_onclick(row, rowdata);
+    }
+}
+
+function replace_scrolling_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
+    table.className = "table";
+    if (row_clickable)
+        table.className += " table-hover";
+
+    while (table.hasChildNodes()) {
+        table.removeChild(table.lastChild);
+    }
+    var thead = document.createElement('thead');
+    table.appendChild(thead);
+    thdata = data[0];
+    var thr = document.createElement('tr');
+    for (field in thdata) {
+        if (dictionary.hasOwnProperty(field)) {
+            var th = document.createElement('th');
+            th.appendChild(document.createTextNode(dictionary[field].text));
+            switch (dictionary[field].type) {
+                    case 'currency':
+                        th.className += " text-right";
+                        break;
+                }
+            thr.appendChild(th);
+        }
+    }
+    thead.appendChild(thr);
+    if (extra_fields != null) {
+        for (var i = 0; i < extra_fields.length; i++) {
+            console.log('append_table_field:' + extra_fields[i]);
+            var th = document.createElement('th');
+            thr.appendChild(th);
+            th.innerHTML = (dictionary.hasOwnProperty(extra_fields[i])) ? dictionary[extra_fields[i]] : extra_fields[i];
+        }
+    }
+
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+    for (key in data) {
+        var rowdata = data[key];
+        var row = document.createElement('tr');
+        if (rowdata['id'] == selected_id)
+            row.className += " active";
+        if (row_clickable)
+            row.className += " special";
+        for (field in rowdata) {
+            if (dictionary.hasOwnProperty(field)) {
+                var td = document.createElement('td');
+                var text;
+                switch (dictionary[field].type) {
+                    case 'currency':
+                        text = document.createTextNode(formatMoney(rowdata[field]));
+                        td.className += " text-right";
+                        break;
+                    default:
+                        text = document.createTextNode(rowdata[field]);
                 }
                 td.appendChild(text);
                 row.appendChild(td);
@@ -328,7 +400,7 @@ function append_extra_field(parent_element, field, rowdata) {
     }
 }
 
-//clicked on customer table row. row is clicked DOMElement, rowdata is corresponding row for JSON array 
+//clicked on customer table row. row is clicked DOMElement, rowdata is corresponding row for JSON array
 function business_row_onclick(row, rowdata) {
     return function() {
         var trs = row.parentNode.childNodes;

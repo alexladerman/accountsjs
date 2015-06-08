@@ -1,8 +1,8 @@
-
 function init() {
     stickyHeader = document.getElementById("sticky"), filterPanel = document.getElementById("filterPanel"), mainTable = document.getElementById("main-table"), document.getElementById("tab-portrait").addEventListener("click", toggleOrientation), document.getElementById("tab-landscape").addEventListener("click", toggleOrientation), document.addEventListener("keyup", keyupEventHandler), document.addEventListener("keydown", keydownEventHandler), document.getElementById("button-info").addEventListener("click", toggleDetailView), document.getElementById("button-close").addEventListener("click", toggleDetailView), unitCM = document.getElementById("unit-cm"), unitIN = document.getElementById("unit-in"), unitCM.addEventListener("click", toggleCMIN), unitIN.addEventListener("click", toggleCMIN);
     for (var e = filterPanel.getElementsByClassName("sort"), t = 0; t < e.length; t++) e[t].addEventListener("click", sortDevicesTable);
-    return initTableScroll(), initTooltips(), window.devicesData ? void populateData(window.devicesData) : void loadJSON(function(e) {
+    // return initTableScroll(), initTooltips(), window.devicesData ? void populateData(window.devicesData) : void loadJSON(function(e) {
+    return initTooltips(), window.devicesData ? void populateData(window.devicesData) : void loadJSON(function(e) {
         var t = JSON.parse(e);
         populateData(t)
     })
@@ -170,7 +170,7 @@ function createDeviceRow(e) {
         l = i.querySelector(".material-icons");
     l.className = "material-icons " + t, l.textContent = formFactorIconName[t], n.querySelector(".device").textContent = e.device, n.querySelector(".platform").textContent = e.platform;
     var s = n.querySelector(".screen-size");
-    s.
+    s.querySelector(".value-size").textContent = e.inscreend, s.querySelector(".value-width").textContent = e.inscreenh, s.querySelector(".value-height").textContent = e.inscreenw;
     var o = "in";
     document.getElementById("unit-in").classList.contains("selected") || (o = "cm"), changeUnitsInCell(s, o);
     var c = n.querySelector(".aspect-ratio"),

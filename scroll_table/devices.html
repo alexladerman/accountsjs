@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1.0, user-scalable=0">
+  <title>Device Metrics - Google Design</title>
+
+  <meta itemprop="name" content="Device metrics - Google Design">
+  <meta itemprop="description" content="A comprehensive design guide for sizing and resolutions across all devices.">
+  <meta itemprop="image" content="https://www.google.com/design/tool/devices/images/device-family-01.png">
+
+  <meta property="og:title" content="Device metrics - Google Design">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.google.com/design/tool/devices/images/device-family-01.png">
+  <meta property="og:description" content="A comprehensive design guide for sizing and resolutions across all devices.">
+  <meta property="og:url" content="https://www.google.com/design/tool/devices/">
+
+  <link href="//fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="devices.css">
+  <script type="text/javascript" src="devices_data.js"></script>
+</head>
+
+<body onload="init();">
+  <div id="header" style="height: 120px">
+    <div id="button-info"><i class="material-icons">info</i></div>
+    <div style="box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+        background: #00bea4;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 120px;
+        z-index: 1000">
+      <div style="padding-top: 0;
+          margin-bottom: 0;
+          line-height: 64px;
+          text-indent: 0">Device metrics</div>
+        <div id="filterPanel" class="scrollable">
+          <div class="table" id="titlerow">
+            <div class="tr"><div class="grid-wrapper"><div class="td sort type" name="formfactor">Type</div><div class="td sort device" name="device">Device</div><div class="td sort platform" name="platform" data-sort-direction="ascend">Platform</div><div class="td screen-size"><span class="sort" name="inscreend">Screen dimensions</span><span class="unit selected" id="unit-in">in</span><span class="unit" id="unit-cm">cm</span></div><div class="td aspect-ratio"><span class="sort" name="screenratio" tooltip="screenratio">Aspect Ratio</span></div><div class="td screen"><span class="sort width-40 align-right" name="dpscreenw" tooltip="dpscreenw">Width</span><span class="width-20 align-center opacity-54">×</span><span class="sort" name="dpscreenh">Height</span><span class="unit selected" id="unit-dp">dp</span></div><div class="td screen"><span class="sort width-40 align-right" name="pxscreenw">Width</span><span class="width-20 align-center opacity-54">×</span><span class="sort" name="dpscreenh">Height</span><span class="unit selected" id="unit-px">px</span></div><div class="td sort density" name="density">Density</div></div></div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-table" class="scrollable">
+    <div class="tr" id="device-row-template">
+      <div class="grid-wrapper">
+        <div class="td type"><div class="formfactor-icon-wrapper"><i class="material-icons"></i></div></div><div class="td device"></div><div class="td platform"></div><div class="td screen-size"><span class="value-size width-32 align-right"></span><span class="subtle unit"></span> <span class="value-height width-32 opacity40 align-right"></span><span class="opacity40 width-20 align-center">×</span><span class="value-width opacity40 align-right"></span><span class="subtle unit"></span></div><div class="td aspect-ratio"><span class="value-width width-32 align-right"></span><span class="width-16 align-center">:</span><span class="value-height width-32"></span></div><div class="td screen screen-dp"><span class="value-width width-40 align-right"></span><span class="width-20 align-center">×</span><span class="value-height"></span><span class="unit subtle">dp</span></div><div class="td screen screen-px"><span class="value-width width-40 align-right"></span><span class="width-20 align-center">×</span><span class="value-height"></span><span class="unit subtle">px</span>
+        </div><div class="td density"><span class="value-density width-32"></span><span class="value-bucket bucket"></span><span class="value-oversampling oversampling"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="info-panel" data-device-type="info">
+    <i id="button-close" class="material-icons">close</i>
+
+    <div class="shadow">
+      <div id="device-title">Information</div>
+      <div id="device-tabs">
+        <div id="tab-portrait" name="portrait" class="tab selected"><i class="material-icons">stay_current_portrait</i></div>
+        <div id="tab-landscape" name="landscape" class="tab"><i class="material-icons">stay_current_landscape</i></div>
+      </div>
+    </div>
+
+    <div class="scroller" id="info-panel-scroller">
+      <div id="device-preview">
+        <div id="grid" class="horizontal flexbox">
+          <div class="gutter four"></div><div class="column four"></div>
+          <div class="gutter four"></div><div class="column four"></div>
+          <div class="gutter four"></div><div class="column four"></div>
+          <div class="gutter four"></div><div class="column four"></div>
+          <div class="gutter four"></div><div class="column eight"></div>
+          <div class="gutter eight"></div><div class="column eight"></div>
+          <div class="gutter eight"></div><div class="column eight"></div>
+          <div class="gutter eight"></div><div class="column eight"></div>
+          <div class="gutter eight"></div><div class="column twelve"></div>
+          <div class="gutter twelve"></div><div class="column twelve"></div>
+          <div class="gutter twelve"></div><div class="column twelve"></div>
+          <div class="gutter twelve"></div><div class="column twelve"></div>
+          <div class="gutter twelve"></div>
+        </div>
+      </div>
+
+      <div id="content-intro">
+        <div class="group">
+          <div class="group-title">Material metrics</div>
+            <div class="text">Select a device to view detailed information, recommended material design measurements, and values for portrait and landscape orientations.</div>
+        </div>
+      </div>
+
+      <div class="content-device">
+        <div id="metrics" class="group">
+          <div class="group-title">Material metrics</div>
+          <div class="item" tooltip="toolbarunit">
+            <div class="value" id="value-toolbar"></div>
+            <div class="subtitle">Toolbar unit</div>
+          </div>
+          <div class="item" tooltip="uidepth">
+            <div class="value" id="value-ui-depth"></div>
+            <div class="subtitle">UI depth</div>
+          </div>
+          <div class="item" tooltip="columns">
+            <div class="value" id="value-columns"></div>
+            <div class="subtitle">Columns</div>
+          </div>
+          <div class="item" tooltip="gutter">
+            <div class="value" id="value-gutter"></div>
+            <div class="subtitle">Gutter width</div>
+          </div>
+
+          <div class="item" tooltip="sidebyside">
+            <div class="value" id="value-side-by-side"></div>
+            <div class="subtitle">Side by side views</div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Ideal touch size range</div>
+          <div class="item" tooltip="touchsize">
+            <div class="value"><span id="value-sm-touch"></span>—<span id="value-lg-touch"></span></div>
+            <div class="subtitle">7—9mm</div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Physical density</div>
+          <div class="item" tooltip="screenppi">
+            <div class="value" id="value-pxin"></div>
+            <div class="subtitle">px/in</div>
+          </div>
+          <div class="item" tooltip="screendpi">
+            <div class="value" id="value-dpin"></div>
+            <div class="subtitle">dp/in</div>
+          </div>
+          <div class="item" tooltip="viewdistance">
+            <div class="value" id="value-screen-dist"></div>
+            <div class="subtitle">Screen distance</div>
+          </div>
+          <div class="item" tooltip="degscreenw">
+            <div class="value" id="value-screen-width"></div>
+            <div class="subtitle">Angular width</div>
+          </div>
+          <div class="item" tooltip="screenppd">
+            <div class="value" id="value-screeh-ppd"></div>
+            <div class="subtitle">Angular density</div>
+          </div>
+          <div class="item" tooltip="screendpa">
+            <div class="value" id="value-screen-dpa"></div>
+            <div class="subtitle">Angular density</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="grid-wrapper">
+      <a href="https://www.google.com/" id="google-logo"></a>
+      <div class="links right">
+        <a href="https://www.google.com/">Google</a><span class="dot">·</span>
+        <a href="https://www.google.com/intl/en/about/">About</a><span class="dot">·</span>
+        <a href="https://www.google.com/intl/en/policies/">Privacy &amp; Terms</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="tooltip"></div>
+
+  <!-- if the svg is loaded when the animation occurs, there are weird rendering artifacts on Chrome -->
+  <div class="preload" style="display: none;">
+    <img src="images/device-mobile.svg" width="0" height="0">
+    <img src="images/device-desktop.svg" width="0" height="0">
+    <img src="images/device-tablet.svg" width="0" height="0">
+  </div>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51798601-5', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+</body>
+</html>

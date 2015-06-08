@@ -194,7 +194,7 @@ body.device #device-tabs {
     overflow-x: hidden
 }
 #header #sticky.stuck>.title {
-    font-size: 24px;
+    /*font-size: 24px;*/
     padding-top: 0;
     margin-bottom: 0;
     line-height: 64px;
@@ -344,10 +344,10 @@ div::-webkit-scrollbar {
 .td.density {
     width: 14%
 }
-.scrollable {
+/*.scrollable {
     overflow: scroll;
     -ms-overflow-style: none
-}
+}*/
 .unit {
     margin-left: 6px;
     font-weight: 700
