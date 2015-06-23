@@ -321,7 +321,6 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
             thr.appendChild(th);
         }
     }
-    table.appendChild(thr);
 
     if (extra_fields != null) {
         for (var i = 0; i < extra_fields.length; i++) {
@@ -332,6 +331,12 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
             th.innerHTML = (dictionary.hasOwnProperty(extra_fields[i])) ? dictionary[extra_fields[i]] : extra_fields[i];
         }
     }
+
+    table.appendChild(thr);
+
+    var spacerRow = thr.cloneNode(!0);
+    spacerRow.className = 'tr';
+    table.appendChild(spacerRow);
 
     for (key in data) {
         var trdata = data[key];
