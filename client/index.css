@@ -41,6 +41,7 @@ add_customer:after {
 
 body {
   margin: 0;
+  background-color: #f9f9f9;
 }
 
 .text-right {
@@ -55,12 +56,32 @@ body {
 .thead {
   position: fixed;
   background-color: #ffffff;
+  margin-bottom: 8px;
+  height: 56px;
+}
+
+.spacerRow {
+  margin-bottom: 8px;
+  height: 56px;
+  line-height: 56px;
 }
 
 .tr {
   white-space: nowrap;
+  padding-left: 15px;
+}
+
+.thrWrapper {
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  position: fixed;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+  background-color: #ffffff;
+  margin-bottom: 8px;
 }
 
 .table {
   padding-top: 100px;
+  font-family: "Roboto Mono", monospace;
 }

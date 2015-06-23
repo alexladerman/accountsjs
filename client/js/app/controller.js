@@ -332,10 +332,13 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
         }
     }
 
-    table.appendChild(thr);
+    var thrWrapper = document.createElement('div');
+    thrWrapper.className = 'thrWrapper';
+    table.appendChild(thrWrapper);
+    thrWrapper.appendChild(thr);
 
     var spacerRow = thr.cloneNode(!0);
-    spacerRow.className = 'tr';
+    spacerRow.className = 'tr spacerRow';
     table.appendChild(spacerRow);
 
     for (key in data) {
