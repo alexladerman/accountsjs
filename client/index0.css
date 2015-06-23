@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.td {
+    display: inline-block;
+    overflow: hidden;
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+}
+
+.thead {
+  /*width: 100%;*/
+  position: fixed;
+  background-color: #ffffff;
+}
+
+.tr {
+  white-space: nowrap;
+}
+
+.table {
+  /*margin-right: 20px;*/
+}

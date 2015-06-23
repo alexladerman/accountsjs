@@ -17,7 +17,7 @@ function recover_password(req, res) {
             email = params['email'];
 
             new_password = sjcl.codec.hex.fromBits(sjcl.random.randomWords(1, 6));
-            
+
             var salt = sjcl.random.randomWords(2, 6);
             // salt = sjcl.codec.hex.toBits('9047929a49fb5e59');
             var pwd = sjcl.misc.pbkdf2(new_password, salt, 100, 256);
@@ -28,14 +28,14 @@ function recover_password(req, res) {
             var query = 'UPDATE `user` SET `salt` = ' + server.mysql.escape(salt_hex) + ', `pwd` = ' + server.mysql.escape(pwd_hex);
                 query += ' WHERE email = ' + server.mysql.escape(email) + ';';
                 console.log(query);
-    
+
             server.db_connection.query(query, function(err, rows, fields) {
                 if (err) {
                     console.log(err);
                     respond_json(req, res, {"error": err});
                 } else {
                     var nodemailer = require('nodemailer');
-                     
+
                     var transporter = nodemailer.createTransport({
                         service: 'Gmail',
                         auth: {
@@ -43,15 +43,15 @@ function recover_password(req, res) {
                             pass: 'Schnapps77'
                         }
                     });
-                     
+
                     var mailOptions = {
-                        from: 'AccountsJS ✔ <atixacreg@gmail.com>', // sender address 
-                        to: 'alexladerman@gmail.com',//email, // list of receivers 
-                        subject: 'AccountsJS Password recovery', // Subject line 
-                        text: 'Your new temporary password is: ' + new_password, // plaintext body 
-                        //html: 'Your new temporary password is: ' + new_password // html body 
+                        from: 'AccountsJS ✔ <atixacreg@gmail.com>', // sender address
+                        to: 'alexladerman@gmail.com',//email, // list of receivers
+                        subject: 'AccountsJS Password recovery', // Subject line
+                        text: 'Your new temporary password is: ' + new_password, // plaintext body
+                        //html: 'Your new temporary password is: ' + new_password // html body
                     };
-                     
+
                     transporter.sendMail(mailOptions, function(err, info){
                         if (err) {
                             console.log(err);
@@ -91,7 +91,7 @@ function signin(req, res) {
                 server.db_connection.query(query, function(err, rows, fields) {
 
                     if (!rows.length) {
-                        console.log('no results'); 
+                        console.log('no results');
                         // respond_unauthorized(req, res);
                     } else {
                         var user = rows[0];
@@ -100,14 +100,14 @@ function signin(req, res) {
 
                         var pwd = sjcl.misc.pbkdf2(password, salt, 100, 256);
                         var pwd_hex = sjcl.codec.hex.fromBits(pwd);
-                        
+
                         //password check
                         if (user['pwd'] == pwd_hex) {
 
                             var token_options = {
                                 expiresInSeconds: 86400,
                                 subject: "user auth token",
-                                issuer: "accountsjs"  
+                                issuer: "accountsjs"
                             }
 
                             var token = jwt.sign(rows[0], AUTH_TOKEN_SECRET, token_options);
@@ -135,8 +135,8 @@ function get_token_decoded(req, res) {
           return jwt.verify(bearer_token, AUTH_TOKEN_SECRET);
         } catch(err) {
             respond_unauthorized(req, res);
-        } 
-    } 
+        }
+    }
 }
 
 function businesses(req, res) {
@@ -225,7 +225,7 @@ function persons(req, res) {
     switch (action) {
         default:
             var person_id = url.parse(req.url, true).query.person_id;
-            query = 'SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person WHERECLAUSE';
+            query = 'SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person UNION SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person UNION SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person UNION SELECT FLOOR(RAND() * 4010) + 1000 AS `Account`, `name`, `tax_id`, `address`, FLOOR(RAND() * 401000) + 100000 AS `Balance`, FLOOR(RAND() * 401000) + 100000 AS `TurnoverYTD` FROM person WHERECLAUSE';
             // query = 'SELECT * FROM person WHERECLAUSE';
             var whereclause = (person_id > 0) ? 'WHERE person_id = ' + server.mysql.escape(person_id) : '';
             query = query.replace('WHERECLAUSE', whereclause);
@@ -310,7 +310,7 @@ function periods(req, res) {
                     if (err) {
                         throw err;
                     }
-                    respond_json(req, res, null); 
+                    respond_json(req, res, null);
                 });
             }
             return;
@@ -323,7 +323,7 @@ function periods(req, res) {
                 if (err) {
                     throw err;
                 }
-                respond_json(req, res, null); 
+                respond_json(req, res, null);
             });
             return;
         case 'stop':
@@ -348,7 +348,7 @@ function periods(req, res) {
                                 if (err) {
                                     throw err;
                                 }
-                                respond_json(req, res, null); 
+                                respond_json(req, res, null);
                             });
                         }
                     }

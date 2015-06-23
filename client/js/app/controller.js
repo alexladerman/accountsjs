@@ -212,6 +212,7 @@ function select_business(e) {
     span.className = 'caret';
     t.appendChild(span);
     $('#selected_business_dropdown').show();
+    $('#navbar_links').show();
     $('#button_bar').show();
 }
 
@@ -287,21 +288,27 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
     }
 }
 
-function replace_scrolling_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
-    table.className = "table";
+function replace_scrolling_div_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
+    table.className = '';
     if (row_clickable)
-        table.className += " table-hover";
+        table.className += ' table-hover';
 
     while (table.hasChildNodes()) {
         table.removeChild(table.lastChild);
     }
-    var thead = document.createElement('thead');
+
+    var thead = document.createElement('div');
+    thead.className = 'table';
     table.appendChild(thead);
     thdata = data[0];
-    var thr = document.createElement('tr');
+    var th_grid_wrapper = document.createElement('div');
+    th_grid_wrapper.className = 'grid-wrapper';
+    var thr = document.createElement('div');
+    thr.className = 'tr row';
     for (field in thdata) {
         if (dictionary.hasOwnProperty(field)) {
-            var th = document.createElement('th');
+            var th = document.createElement('div');
+            th.className = 'td col-md-1';
             th.appendChild(document.createTextNode(dictionary[field].text));
             switch (dictionary[field].type) {
                     case 'currency':
@@ -311,51 +318,60 @@ function replace_scrolling_table(table, data, row_clickable, row_onclick, extra_
             thr.appendChild(th);
         }
     }
-    thead.appendChild(thr);
+    thead.appendChild(th_grid_wrapper);
+    th_grid_wrapper.appendChild(thr);
     if (extra_fields != null) {
         for (var i = 0; i < extra_fields.length; i++) {
             console.log('append_table_field:' + extra_fields[i]);
-            var th = document.createElement('th');
+            var th = document.createElement('div');
+            th.className = 'td col-md-1';
             thr.appendChild(th);
             th.innerHTML = (dictionary.hasOwnProperty(extra_fields[i])) ? dictionary[extra_fields[i]] : extra_fields[i];
         }
     }
 
-    var tbody = document.createElement('tbody');
+    var tbody = document.createElement('div');
+    tbody.className = 'table';
     table.appendChild(tbody);
     for (key in data) {
-        var rowdata = data[key];
-        var row = document.createElement('tr');
-        if (rowdata['id'] == selected_id)
-            row.className += " active";
+        var trdata = data[key];
+        var td_grid_wrapper = document.createElement('div');
+        td_grid_wrapper.className = 'grid-wrapper';
+        var tr = document.createElement('div');
+        tr.className = 'tr row';
+        if (trdata['id'] == selected_id)
+            tr.className += " active";
         if (row_clickable)
-            row.className += " special";
-        for (field in rowdata) {
+            tr.className += " special";
+        for (field in trdata) {
             if (dictionary.hasOwnProperty(field)) {
-                var td = document.createElement('td');
+                var td = document.createElement('div');
+                td.className = 'td col-md-1';
                 var text;
                 switch (dictionary[field].type) {
                     case 'currency':
-                        text = document.createTextNode(formatMoney(rowdata[field]));
+                        text = document.createTextNode(formatMoney(trdata[field]));
                         td.className += " text-right";
                         break;
                     default:
-                        text = document.createTextNode(rowdata[field]);
+                        text = document.createTextNode(trdata[field]);
                 }
                 td.appendChild(text);
-                row.appendChild(td);
+                tr.appendChild(td);
             }
         }
-        tbody.appendChild(row);
+        tbody.appendChild(td_grid_wrapper);
+        td_grid_wrapper.appendChild(tr);
         if (extra_fields != null) {
             for (var i = 0; i < extra_fields.length; i++) {
-                var td = document.createElement('td');
-                row.appendChild(td);
-                append_extra_field(td, extra_fields[i], rowdata);
+                var td = document.createElement('div');
+                td.className = 'td col-md-1';
+                tr.appendChild(td);
+                append_extra_field(td, extra_fields[i], trdata);
             }
         }
         if (row_clickable)
-            row.onclick = row_onclick(row, rowdata);
+            tr.onclick = row_onclick(tr, trdata);
     }
 }
 
@@ -515,12 +531,12 @@ function get_businesses(callback) {
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
         var table = document.getElementById("persons_table");
-        replace_table(table, data, true, function () {}, null , selected_customer_id);
+        replace_scrolling_div_table(table, data, true, function () {}, null , selected_customer_id);
         callback();
     });
 }
 
-document.getElementById('customers_btn').onclick = function(e) {
+document.getElementById('customers_navbar_link').onclick = function(e) {
     e.stopPropagation();
     get_persons(function () { $('#persons_container').show() });
 };

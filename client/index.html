@@ -4,9 +4,10 @@
    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'> -->
    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
-   <link href="lib/bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- <link href="lib/bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
    <link href="index.css" rel="stylesheet">
    <link href="lib/signin.css" rel="stylesheet">
+   <link href="devices.css" rel="stylesheet">
 </head>
 <body>
    <!-- Invoice Modal -->
@@ -48,6 +49,7 @@
       </div>
    </div>
    <!-- Header -->
+   <div id="header">
    <nav class="navbar navbar-default" id="banner" role="banner">
       <div class="container-fluid">
          <div class="navbar-header">
@@ -58,7 +60,15 @@
        </div>
 
        <div class="collapse navbar-collapse hidden" >
-         <ul class="nav navbar-nav navbar-right">
+         <ul id="navbar_links" class="collapse nav navbar-nav navbar-right">
+           <li><a href="#">BILLING</a></li>
+           <li class="active" id="customers_navbar_link"><a href="#">CUSTOMERS</a></li>
+           <li><a href="#">SUPPLIERS</a></li>
+           <li><a href="#">JOBS</a></li>
+           <li><a href="#">PRODUCTS</a></li>
+           <li><a href="#">ACCOUNTING</a></li>
+           <li><a href="#">TAXES</a></li>
+
             <li class="collapse dropdown" id="selected_business_dropdown">
                <a id="selected_business" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
                <ul class="dropdown-menu" id="business_dropdown" role="menu">
@@ -66,7 +76,7 @@
                   <li class="divider"></li>
                   <li><a href="#">Add business</a></li> -->
                </ul>
-            <li><a href="#" class="navbar-link" id="navbar_user_link"></a></li>
+            <!-- <li class="collapse"><a href="#" class="navbar-link" id="navbar_user_link"></a></li> -->
             </li>
          </ul>
       </div>
@@ -75,51 +85,64 @@
 
 <nav class="collapse navbar navbar-default" id="button_bar" role="toolbar">
    <div class="container-fluid">
-      <div class="navbar-header">
-         <a href="../" class="navbar-brand"></a>
-      </div>
 
-      <form class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+     <div class="row">
+        <div class="col-md-2">
+          <div class="navbar-form" style="padding-left: 0px">
+            <div class="btn-group">
+               <button type="button" class="btn btn-info" aria-expanded="false">
+                  New</span>
+               </button>
+            </div>
+
+          </div>
         </div>
-        <button type="submit" class="btn btn-default">Find</button>
-      </form>
-
-      <div class="navbar-form navbar-left" >
-         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-               Action <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-               <li><a href="#">Action</a></li>
-               <li><a href="#">Another action</a></li>
-               <li><a href="#">Something else here</a></li>
-               <li class="divider"></li>
-               <li><a href="#">Separated link</a></li>
-            </ul>
-         </div>
-         <div class="btn-group">
-            <button id="customers_btn" type="button" class="btn btn-default" aria-expanded="false">
-               Customers</span>
-            </button>
-         </div>
+        <div class="col-md-7">
+          <div class="navbar-form">
+          <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                 Select <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                 <li><a href="#">All</a></li>
+                 <li><a href="#">None</a></li>
+                 <li><a href="#">Marked</a></li>
+                 <li class="divider"></li>
+                 <li><a href="#">Separated link</a></li>
+              </ul>
+           </div>
+           <div class="btn-group">
+              <button type="button" class="btn btn-default" aria-expanded="false">
+                 Delete</span>
+              </button>
+           </div>
+           <div class="btn-group">
+              <button type="button" class="btn btn-default" aria-expanded="false">
+                 Ledger cards</span>
+              </button>
+           </div>
+           <div class="btn-group">
+              <button type="button" class="btn btn-default" aria-expanded="false">
+                 Activity</span>
+              </button>
+           </div>
+        </div>
       </div>
+        <div class="col-md-3">
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Find</button>
+          </form>
+        </div>
+     </div>
+
    </div>
 </nav>
-
-
-<div id="persons_container" class="collapse container-fluid">
-   <div class="row">
-      <div class="col-md-2">
-      </div>
-      <div class="col-md-8">
-         <table id="persons_table" class="table table-condensed"></table>
-      </div>
-      <div class="col-md-2">
-      </div>
-   </div>
 </div>
+
+<div id="persons_table"></div>
 
 <div class="container-fluid" id="signin_container">
    <form class="form-signin">
