@@ -9,12 +9,9 @@ body {
 .td {
     display: inline-block;
     overflow: hidden;
-    /*margin-left: 20px;
-    margin-right: 20px;*/
 }
 
 .thead {
-  /*width: 100%;*/
   position: fixed;
   background-color: #ffffff;
 }
@@ -24,5 +21,4 @@ body {
 }
 
 .table {
-  /*margin-right: 20px;*/
 }

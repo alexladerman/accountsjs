@@ -289,7 +289,8 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
 }
 
 function replace_scrolling_div_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
-    table.className = '';
+
+    table.className = 'table';
     if (row_clickable)
         table.className += ' table-hover';
 
@@ -297,18 +298,20 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
         table.removeChild(table.lastChild);
     }
 
-    var thead = document.createElement('div');
-    thead.className = 'table';
-    table.appendChild(thead);
     thdata = data[0];
-    var th_grid_wrapper = document.createElement('div');
-    th_grid_wrapper.className = 'grid-wrapper';
+
+    var availWidth = screen.availWidth;
+    var numColumns = count_keys(thdata);
+
+    var columnWidth = (availWidth/2)/numColumns;
+
     var thr = document.createElement('div');
-    thr.className = 'tr row';
+    thr.className = 'tr thead';
     for (field in thdata) {
         if (dictionary.hasOwnProperty(field)) {
             var th = document.createElement('div');
-            th.className = 'td col-md-1';
+            th.style.width = columnWidth + "px";
+            th.className = 'td';
             th.appendChild(document.createTextNode(dictionary[field].text));
             switch (dictionary[field].type) {
                     case 'currency':
@@ -318,27 +321,22 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
             thr.appendChild(th);
         }
     }
-    thead.appendChild(th_grid_wrapper);
-    th_grid_wrapper.appendChild(thr);
+    table.appendChild(thr);
+
     if (extra_fields != null) {
         for (var i = 0; i < extra_fields.length; i++) {
             console.log('append_table_field:' + extra_fields[i]);
             var th = document.createElement('div');
-            th.className = 'td col-md-1';
+            th.className = 'td';
             thr.appendChild(th);
             th.innerHTML = (dictionary.hasOwnProperty(extra_fields[i])) ? dictionary[extra_fields[i]] : extra_fields[i];
         }
     }
 
-    var tbody = document.createElement('div');
-    tbody.className = 'table';
-    table.appendChild(tbody);
     for (key in data) {
         var trdata = data[key];
-        var td_grid_wrapper = document.createElement('div');
-        td_grid_wrapper.className = 'grid-wrapper';
         var tr = document.createElement('div');
-        tr.className = 'tr row';
+        tr.className = 'tr';
         if (trdata['id'] == selected_id)
             tr.className += " active";
         if (row_clickable)
@@ -346,7 +344,8 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
         for (field in trdata) {
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('div');
-                td.className = 'td col-md-1';
+                td.style.width = columnWidth + "px";
+                td.className = 'td';
                 var text;
                 switch (dictionary[field].type) {
                     case 'currency':
@@ -360,12 +359,11 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
                 tr.appendChild(td);
             }
         }
-        tbody.appendChild(td_grid_wrapper);
-        td_grid_wrapper.appendChild(tr);
+        table.appendChild(tr);
         if (extra_fields != null) {
             for (var i = 0; i < extra_fields.length; i++) {
                 var td = document.createElement('div');
-                td.className = 'td col-md-1';
+                td.className = 'td';
                 tr.appendChild(td);
                 append_extra_field(td, extra_fields[i], trdata);
             }
@@ -625,6 +623,29 @@ function repopulate_form(form_id, json) {
                 $el.val(val);
         }
     });
+}
+
+function count_keys(obj) {
+
+    if (obj.__count__ !== undefined) { // Old FF
+        return obj.__count__;
+    }
+
+    if (Object.keys) { // ES5
+        return Object.keys(obj).length;
+    }
+
+    // Everything else:
+
+    var c = 0, p;
+    for (p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            c += 1;
+        }
+    }
+
+    return c;
+
 }
 
 //get_customers(); //draw customer table on load

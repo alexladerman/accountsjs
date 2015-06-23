@@ -286,7 +286,6 @@ function append_extra_field(parent_element, field, rowdata) {
 }
 
 
-
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
         var table = document.getElementById("persons_table");
