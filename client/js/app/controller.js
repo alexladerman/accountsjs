@@ -353,7 +353,7 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('div');
                 td.style.width = columnWidth + "px";
-                td.className = 'td';
+                td.className = 'td tbody-td';
                 var text;
                 switch (dictionary[field].type) {
                     case 'currency':
