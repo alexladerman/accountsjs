@@ -1,7 +1,6 @@
-var connection = require(__dirname + '/connection.js');
+'use strict';
 
-var tableName;
-var tableID;
+var dbConnection = require('./connection.js');
 
 function Data(tableName, tableID) {
     this.tableName = tableName;
@@ -9,123 +8,87 @@ function Data(tableName, tableID) {
 }
 
 
-Data.prototype.Create = function(record, callback) {
-    var query = 'INSERT INTO ' + this.tableName + '(';
+Data.prototype.Create = function(record) {
+    var sql = 'INSERT INTO ' + this.tableName + '(';
 
-    var isFirst = true;
-    var fields = '';
-    var values = '';
+    var keys = [];
+    var values = [];
 
     for (var key in record) {
-        if (key != this.tableID) {
-            if (!isFirst) {
-                fields += ',';
-                values += ',';
-            }
-            else {
-                isFirst = false;
-            }
-
-            fields += key;
-            values += connection.escape(record[key]);
+        if (key !== this.tableID) {
+            keys.push(key);
+            values.push(record[key]);
         }
     }
 
-    query += fields + ') VALUES (' + values + ')';
-
-    console.log(query);
-
-    connection.query(query, function (err, result) {
-        if (callback) {
-            callback(result.insertId);
-        }
+    sql += keys.map(give('??')).join() + ') VALUES (' + values.map(give('?')).join() + ')';
+    return dbConnection.query(sql, keys.concat(values)).then(function (result) {
+        return result.insertId;
     });
+
+    function give (value) {
+        return function () {
+            return value;
+        };
+    }
 };
 
 
-Data.prototype.Read = function(recordID, callback) {
-    var query = 'SELECT * FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ' +
-        connection.escape(recordID);
+Data.prototype.Read = function(recordID) {
+    var sql = 'SELECT * FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ?';
 
-    connection.query(query, function (err, results) {
-        if (results && results.length == 1) {
-            callback(results[0]);
+    return dbConnection.query(sql, recordID).then(function (results) {
+        if (results && results.length === 1) {
+            return (results[0]);
         }
         else {
-            callback(null);
+            return null;
         }
     });
 };
 
 
-Data.prototype.Update = function(record, callback) {
-    var query = 'UPDATE ' + this.tableName + ' SET ';
+Data.prototype.Update = function(record) {
+    var sql = 'UPDATE ' + this.tableName + ' SET ';
 
-    var isFirst = true;
+    var parameters = [];
+    var queryItems = [];
 
     for (var key in record) {
-        if (key != this.tableID) {
-            if (!isFirst) {
-                query += ',';
-            }
-            else {
-                isFirst = false;
-            }
-
-            query += key + ' = ' + connection.escape(record[key]);
+        if (key !== this.tableID) {
+            queryItems.push('?? = ?');
+            parameters.push(key, record[key]);
         }
     }
 
-    query = query + ' WHERE ' + this.tableID + ' = ' + record[this.tableID];
+    sql += queryItems.join() + ' WHERE ' + this.tableID + ' = ' + record[this.tableID];
 
-    connection.query(query, function (err, result) {
-        if (callback) {
-            callback(result);
-        }
+    return dbConnection.query(sql, parameters);
+};
+
+
+Data.prototype.Delete = function(recordID) {
+    var sql = 'DELETE FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ?';
+
+    return dbConnection.query(sql, recordID).then(function (result) {
+        return result.affectedRows;
     });
 };
 
 
-Data.prototype.Delete = function(recordID, callback) {
-    var query = 'DELETE FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ' + connection.escape(recordID);
+Data.prototype.Exists = function(recordID) {
+    var sql = 'SELECT COUNT(*) count FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ?';
 
-    connection.query(query, function (err, result) {
-        if (callback) {
-            callback(result.affectedRows);
-        }
+    return dbConnection.query(sql, recordID).then(function (result) {
+        return result[0].count >= 1;
     });
 };
 
 
-Data.prototype.Exists = function(recordID, callback) {
-    var query = 'SELECT COUNT(*) count FROM ' + this.tableName + ' WHERE ' + this.tableID + ' = ' + recordID;
+Data.prototype.ListAll = function() {
+    var sql = 'SELECT * FROM ' + this.tableName;
 
-    connection.query(query, function (err, result) {
-        if (callback) {
-            callback(result[0].count >= 1);
-        }
-    });
+    return dbConnection.query(sql);
 };
-
-
-Data.prototype.ListAll = function(callback) {
-    var query = 'SELECT * FROM ' + this.tableName;
-
-    connection.query(query, function (err, results) {
-        if (callback) {
-            callback(results);
-        }
-    });
-};
-
-
-Data.prototype.GetSQL = function(query, callback) {
-    connection.query(query, function (err, result) {
-        if (callback) {
-            callback(result);
-        }
-    });
-};
-
 
 module.exports = Data;

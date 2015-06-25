@@ -1,20 +1,16 @@
-var mysql = require('mysql');
-var config = require(__dirname + '/../config.js').config;
+'use strict';
 
-var connection = mysql.createConnection(config.mysql);
+var mysqlPromise = require('mysql-promise'),
+    db = mysqlPromise(),
+    config = require('config');
+
+db.configure(config.mysql);
 
 
-setInterval(keepAlive, 60 * 60 * 1000);
-
-function keepAlive() {
-    connection.query('select 1', [], function(err, result) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
-        console.log('Successful keepalive.');
-    });
-}
-
-module.exports = connection;
+module.exports = {
+    query: function (query, parameterValues) {
+        return db.query.apply(db, arguments).then(function (rowsAndInfo) {
+            return rowsAndInfo[0];
+        });
+    }
+};

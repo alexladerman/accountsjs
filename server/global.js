@@ -3,6 +3,8 @@ querystring = require("querystring");
 url = require("url");
 jwt = require("jsonwebtoken");
 sjcl = require("sjcl");
+data = require('./data');
+
 
 AUTH_TOKEN_SECRET = 'something unmemorable';
 
