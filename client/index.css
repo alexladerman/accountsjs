@@ -1,14 +1,20 @@
+* {
+  border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+}
+
 #banner {
   margin-bottom: 0;
-  border: 0;
-  background-color: #ffffff;
-  border-color: transparent;
+  /*border: 1;*/
+  /*background-color: #ffffff;*/
+  /*border-color: transparent;*/
 }
 
 #button_bar {
   border: 0;
+  /*border-top: 0;*/
   background-color: #ffffff;
-  border-color: #e7e7e7;
+  /*border-color: #e7e7e7;*/
   margin: 0;
 }
 
@@ -48,7 +54,12 @@ body {
   text-align: right;
 }
 
+.mono {
+  font-family: "Roboto Mono", monospace;
+}
+
 .td {
+    /*border-bottom: 1px solid #e7e7e7;*/
     display: inline-block;
     overflow: hidden;
 }
@@ -57,13 +68,13 @@ body {
   position: fixed;
   background-color: #ffffff;
   margin-bottom: 8px;
-  height: 56px;
+  height: 50px;
 }
 
 .spacerRow {
   margin-bottom: 8px;
-  height: 56px;
-  line-height: 56px;
+  height: 50px;
+  line-height: 50px;
 }
 
 .tr {
@@ -73,15 +84,15 @@ body {
 
 .thrWrapper {
   width: 100%;
-  height: 56px;
-  line-height: 56px;
+  height: 50px;
+  line-height: 50px;
   position: fixed;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+  /*box-shadow: 0 0 2px rgba(0, 0, 0, .2);*/
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
   background-color: #ffffff;
   margin-bottom: 8px;
 }
 
 .table {
   padding-top: 100px;
-  font-family: "Roboto Mono", monospace;
 }

@@ -358,7 +358,7 @@ function replace_scrolling_div_table(table, data, row_clickable, row_onclick, ex
                 switch (dictionary[field].type) {
                     case 'currency':
                         text = document.createTextNode(formatMoney(trdata[field]));
-                        td.className += " text-right";
+                        td.className += " text-right mono";
                         break;
                     default:
                         text = document.createTextNode(trdata[field]);
