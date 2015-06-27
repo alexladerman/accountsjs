@@ -3,7 +3,7 @@
 var config = {
     // 'port': 7474,
     'mysql': {
-        multipleStatements : true,
+        // multipleStatements : true,
         host : 'localhost',
         user : 'accounts',
         database : 'accounts',

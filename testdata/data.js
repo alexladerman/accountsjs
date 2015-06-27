@@ -91,8 +91,4 @@ Data.prototype.ListAll = function() {
     return dbConnection.query(sql);
 };
 
-Data.prototype.GetSQL = function(query) {
-    dbConnection.query(query);
-};
-
 module.exports = Data;
