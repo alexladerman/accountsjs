@@ -5,6 +5,9 @@
 <div id="element3" style="display:inline-block; background-color: cyan; padding-left: 25px; width: 100px; height: 30px;"></div>
 <div id="element4" style="display:inline-block; background-color: cyan; padding-left: 25px; width: 100px; height: 30px;"></div>
 <div id="element5" style="display:inline-block; background-color: cyan; padding-left: 25px; width: 100px; height: 30px;"></div>
+<h3>Regular Example</h3>
+<p>getDimensions() has been called <span id="calls">0</span> times</p>
+<p>The current page size is <span id="width"></span>px by <span id="height"></span>px.</p>
 </body>
 <script type="text/javascript">
 
@@ -19,6 +22,41 @@ var element5 = document.getElementById('element5');
 element3.addEventListener('click', function () { alert('3'); });
 //element4.onclick(function () { alert('4'); });
 //(function onElementClick() { alert('5'); }(element5));
+
+alert(resize.resize);
+
+var w = document.querySelector("#width"),
+        h = document.querySelector("#height"),
+    c = document.querySelector("#calls"),
+
+    delay = 250, // delay between calls
+    throttled = false, // are we currently throttled?
+    calls = 0;
+
+// window.resize callback function
+function getWindowDimensions() {
+  w.innerHTML = window.innerWidth;
+  h.innerHTML = window.innerHeight;
+  calls += 1;
+  c.innerHTML = calls;
+}
+
+// window.resize event listener
+window.addEventListener('resize', function() {
+    // only run if we're not throttled
+  if (!throttled) {
+    // actual callback action
+    getDimensions();
+    // we're throttled!
+    throttled = true;
+    // set a timeout to un-throttle
+    setTimeout(function() {
+      throttled = false;
+    }, delay);
+  }
+});
+
+getDimensions();
 
 </script>
 </html>

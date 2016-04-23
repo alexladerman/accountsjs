@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.accountsjs.mysqldump-script-accounts</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/alex/Google\ Drive/Dev/accountsjs/server/sql/mysqldump-script.sh</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>3600</integer>
+</dict>
+</plist>
+
+<!--
+sudo cp com.accountsjs.mysqldump-script-accounts.plist /Library/LaunchDaemons
+sudo launchctl load -w /Library/LaunchDaemons/com.accountsjs.mysqldump-script-accounts.plist
+sudo launchctl list
+sudo launchctl unload -w /Library/LaunchDaemons/com.accountsjs.mysqldump-script-accounts.plist
+sudo rm /Library/LaunchDaemons/com.accountsjs.mysqldump-script-accounts.plist
+-->

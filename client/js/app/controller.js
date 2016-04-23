@@ -1,7 +1,10 @@
+
 var ws_base_url = 'http://localhost:1337/'; //url of node.js web server, relative to user browser
 var ACCESS_TOKEN = '';
 var user_id = 0;
 var user_email = '';
+var view_stack = []; //toggle elementID visible in leader-main-container
+var current_view = null;
 
 var selected_customer_id = 0;
 var selected_business_id = 0;
@@ -79,7 +82,11 @@ document.getElementById('signin_button').onclick = function(e) {
                 user_email = access_token_decoded["email"];
 
                 $('#navbar_user_link').text(user_email);
-                $('#signin_container').toggleClass("hidden");
+                $('#signin_container').hide();
+                setDimensions();
+
+                current_view = document.getElementById('home-container');
+                viewInContainer(current_view);
 
                 get_businesses();
             }
@@ -188,7 +195,7 @@ function replace_business_dropdown(data) {
         a.setAttribute('href', '#');
         a.onclick = function(e) {
             e.stopPropagation();
-            $('#businesses_container').show();
+            viewInContainer(document.getElementById('businesses_container'));
             document.getElementById('new_business_btn').click();
         };
         var text = document.createTextNode('Add business');
@@ -258,7 +265,7 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
         if (rowdata['id'] == selected_id)
             row.className += " active";
         if (row_clickable)
-            row.className += " special";
+            row.className += " pointer";
         for (field in rowdata) {
             if (dictionary.hasOwnProperty(field)) {
                 var td = document.createElement('td');
@@ -285,99 +292,6 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
         }
         if (row_clickable)
             row.onclick = row_onclick(row, rowdata);
-    }
-}
-
-function replace_scrolling_div_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
-
-    table.className = 'table';
-    if (row_clickable)
-        table.className += ' table-hover';
-
-    while (table.hasChildNodes()) {
-        table.removeChild(table.lastChild);
-    }
-
-    thdata = data[0];
-
-    var availWidth = screen.availWidth;
-    var numColumns = count_keys(thdata);
-
-    var columnWidth = (availWidth/2)/numColumns;
-
-    var thr = document.createElement('div');
-    thr.className = 'tr thead';
-    for (field in thdata) {
-        if (dictionary.hasOwnProperty(field)) {
-            var th = document.createElement('div');
-            th.style.width = columnWidth + "px";
-            th.className = 'td';
-            th.appendChild(document.createTextNode(dictionary[field].text));
-            switch (dictionary[field].type) {
-                    case 'currency':
-                        th.className += " text-right";
-                        break;
-                }
-            thr.appendChild(th);
-        }
-    }
-
-    if (extra_fields != null) {
-        for (var i = 0; i < extra_fields.length; i++) {
-            console.log('append_table_field:' + extra_fields[i]);
-            var th = document.createElement('div');
-            th.className = 'td';
-            thr.appendChild(th);
-            th.innerHTML = (dictionary.hasOwnProperty(extra_fields[i])) ? dictionary[extra_fields[i]] : extra_fields[i];
-        }
-    }
-
-    var thrWrapper = document.createElement('div');
-    thrWrapper.className = 'thrWrapper';
-    table.appendChild(thrWrapper);
-    thrWrapper.appendChild(thr);
-
-    var spacerRow = thr.cloneNode(!0);
-    spacerRow.className = 'tr spacerRow';
-    table.appendChild(spacerRow);
-
-    for (key in data) {
-        var trdata = data[key];
-        var tr = document.createElement('div');
-        tr.className = 'tr';
-        if (trdata['id'] == selected_id)
-            tr.className += " active";
-        if (row_clickable)
-            tr.className += " special";
-        for (field in trdata) {
-            if (dictionary.hasOwnProperty(field)) {
-                var td = document.createElement('div');
-                td.style.width = columnWidth + "px";
-                td.className = 'td tbody-td';
-                var text;
-                switch (dictionary[field].type) {
-                    case 'currency':
-                        text = document.createTextNode(formatMoney(trdata[field]));
-                        td.className += " text-right mono";
-                        break;
-                    default:
-                        text = document.createTextNode(trdata[field]);
-                }
-                td.appendChild(text);
-                tr.appendChild(td);
-            }
-        }
-        table.appendChild(tr);
-        if (extra_fields != null) {
-            for (var i = 0; i < extra_fields.length; i++) {
-                var td = document.createElement('div');
-                td.className = 'td';
-                tr.appendChild(td);
-                append_extra_field(td, extra_fields[i], trdata);
-            }
-        }
-        if (row_clickable)
-            tr.onclick = row_onclick(tr, trdata);
     }
 }
 
@@ -536,15 +450,16 @@ function get_businesses(callback) {
 
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
-        var table = document.getElementById("persons_table");
-        replace_scrolling_div_table(table, data, true, function () {}, null , selected_customer_id);
+        var table = document.getElementById("persons_container");
+        replace_table(table, data, true, function () {}, null , selected_customer_id);
+
         callback();
     });
 }
 
 document.getElementById('customers_navbar_link').onclick = function(e) {
     e.stopPropagation();
-    get_persons(function () { $('#persons_container').show() });
+    get_persons(function () { viewInContainer(document.getElementById('persons_container')) });
 };
 
 
@@ -577,43 +492,43 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
     console.log(url);
     $.getJSON(url, params, function(data) {
         get_businesses();
+        viewInContainer(view_stack.pop);
     });
 };
 document.getElementById('cancel_new_business_btn').onclick = document.getElementById('new_business_btn').onclick;
 
 //inserts new customer
-document.getElementById('new_customer_btn').onclick = function(e) {
-    var url = ws_base_url + 'customers';
-
-    var params = {
-    action: 'new',
-    customer_name: document.getElementById('input_new_customer_name').value,
-    customer_email: document.getElementById('input_new_customer_email').value,
-    customer_hourly_rate: document.getElementById('input_new_customer_hourly_rate').value };
-
-    document.getElementById('new_customer_form').reset();
-    console.log(url);
-    $.getJSON(url, params, function(data) {
-        get_customers();
-    });
-};
-
+// document.getElementById('new_customer_btn').onclick = function(e) {
+//     var url = ws_base_url + 'customers';
+//
+//     var params = {
+//     action: 'new',
+//     customer_name: document.getElementById('input_new_customer_name').value,
+//     customer_email: document.getElementById('input_new_customer_email').value,
+//     customer_hourly_rate: document.getElementById('input_new_customer_hourly_rate').value };
+//
+//     document.getElementById('new_customer_form').reset();
+//     console.log(url);
+//     $.getJSON(url, params, function(data) {
+//         get_customers();
+//     });
+// };
 
 //inserts new project
-document.getElementById('new_project_btn').onclick = function(e) {
-    var url = ws_base_url + 'projects';
-
-    var params = {
-    action: 'new',
-    project_name: document.getElementById('input_new_project_name').value,
-    customer_id: document.getElementById('input_new_project_customer_id').value };
-
-    document.getElementById('new_project_form').reset();
-    console.log(url);
-    $.getJSON(url, params, function(data) {
-        get_projects(params['customer_id']);
-    });
-};
+// document.getElementById('new_project_btn').onclick = function(e) {
+//     var url = ws_base_url + 'projects';
+//
+//     var params = {
+//     action: 'new',
+//     project_name: document.getElementById('input_new_project_name').value,
+//     customer_id: document.getElementById('input_new_project_customer_id').value };
+//
+//     document.getElementById('new_project_form').reset();
+//     console.log(url);
+//     $.getJSON(url, params, function(data) {
+//         get_projects(params['customer_id']);
+//     });
+// };
 
 function repopulate_form(form_id, json) {
     $.each(json, function(name, val){
@@ -634,26 +549,27 @@ function repopulate_form(form_id, json) {
 }
 
 function count_keys(obj) {
-
-    if (obj.__count__ !== undefined) { // Old FF
+    if (obj.__count__ !== undefined) // Old FF
         return obj.__count__;
-    }
 
-    if (Object.keys) { // ES5
+    if (Object.keys) // ES5
         return Object.keys(obj).length;
-    }
 
     // Everything else:
-
     var c = 0, p;
     for (p in obj) {
         if (obj.hasOwnProperty(p)) {
             c += 1;
         }
     }
-
     return c;
-
 }
 
-//get_customers(); //draw customer table on load
+function viewInContainer(element) {
+  if (current_view.id != view_stack[length - 1])
+      view_stack.push(current_view.id);
+  var jQelement = $('#' + element.id);
+  jQelement.siblings().hide();
+  jQelement.show();
+  current_view = element;
+}

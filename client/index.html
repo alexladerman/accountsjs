@@ -1,292 +1,191 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
-   <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'> -->
-   <!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
-   <link href="lib/bower_components/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="index.css" rel="stylesheet">
-   <link href="lib/signin.css" rel="stylesheet">
-   <!-- <link href="devices.css" rel="stylesheet"> -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+
+  <link href="lib/bower_components/bootstrap-standard/css/bootstrap.min.css" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+  <link href="lib/signin.css" rel="stylesheet">
 </head>
-<body>
-   <!-- Invoice Modal -->
-   <div class="modal fade" id="invoice_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-               <div class="row">
-                  <div class="col-md-6">
-                     <h2 class="modal-title" id="myModalLabel">
-                        Invoice<br> <br>
-                     </h2>
-                     <br>
-                     <h5 style="font-weight: bold">Some Customer Ltd.</h5>
-                     <h6>
-                        75 Someroad Rd. <br>P05TC04E Sometown<br>t: 555-654321<br>TaxID: 12345687
-                     </h6>
+<body class="HolyGrail">
 
-                  </div>
-                  <div class="col-md-6">
-                     <h3 style="text-align: right; font-weight: bold;" class="text-info">Joe Bloggs Freelancing</h3>
-                     <h6 style="text-align: right">
-                        55 Somestreet St. <br>P05TC04E Somecity <br>jbloggsstudio@somedomain.com <br>t: 555-123456
-                     </h6>
-                     <br> <br>
-                     <h5 style="text-align: right">Invoice No: 324&nbsp;&nbsp;&nbsp;Date: 2014-06-08</h5>
-                  </div>
-               </div>
-            </div>
-            <div class="modal-body">
-               <table id="invoice_table"></table>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary" id="issue_invoice_btn">Issue</button>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Header -->
-   <div id="header">
-   <nav class="navbar navbar-default" id="banner" role="banner">
-      <div class="container-fluid">
-         <div class="navbar-header">
-<!--             <a class="navbar-brand" href="#">
-             <img alt="Brand" src="...">
-            </a> -->
-          <a href="../" class="navbar-brand">AccountsJS</a>
-       </div>
+  <header id="header" class="HolyGrail-header">
+    <nav class="navbar navbar-inverse" id="banner" role="banner">
+      <a href="../" class="navbar-brand">AccountsJS</a>
+      <ul id="navbar_links" class="collapse nav navbar-nav navbar-right">
+        <li><a href="#">BILLING</a></li>
+        <li class="active" id="customers_navbar_link"><a href="#">CUSTOMERS</a></li>
+        <li><a href="#">SUPPLIERS</a></li>
+        <li><a href="#">JOBS</a></li>
+        <li><a href="#">PRODUCTS</a></li>
+        <li><a href="#">ACCOUNTING</a></li>
+        <li><a href="#">TAXES</a></li>
 
-       <div class="collapse navbar-collapse hidden" >
-         <ul id="navbar_links" class="collapse nav navbar-nav navbar-right">
-           <li><a href="#">BILLING</a></li>
-           <li class="active" id="customers_navbar_link"><a href="#">CUSTOMERS</a></li>
-           <li><a href="#">SUPPLIERS</a></li>
-           <li><a href="#">JOBS</a></li>
-           <li><a href="#">PRODUCTS</a></li>
-           <li><a href="#">ACCOUNTING</a></li>
-           <li><a href="#">TAXES</a></li>
+        <li class="collapse dropdown" id="selected_business_dropdown">
+          <a id="selected_business" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
+          <ul class="dropdown-menu" id="business_dropdown" role="menu">
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-            <li class="collapse dropdown" id="selected_business_dropdown">
-               <a id="selected_business" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></a>
-               <ul class="dropdown-menu" id="business_dropdown" role="menu">
-<!--                   <li class="item"><a href="#">Business 1</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Add business</a></li> -->
-               </ul>
-            <!-- <li class="collapse"><a href="#" class="navbar-link" id="navbar_user_link"></a></li> -->
-            </li>
-         </ul>
-      </div>
-   </div>
-</nav>
+    <nav class="collapse navbar navbar-default" id="button_bar" role="toolbar">
+      <a href="../" class="navbar-brand">Customers</a>
 
-<nav class="collapse navbar navbar-default" id="button_bar" role="toolbar">
-   <div class="container-fluid">
-
-     <div class="row">
-        <div class="col-md-2">
-          <div class="navbar-form" style="padding-left: 0px">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <div class="navbar-form">
             <div class="btn-group">
-               <button type="button" class="btn btn-info" aria-expanded="false">
-                  New</span>
-               </button>
+              <button type="button" class="btn btn-info" aria-expanded="false">
+                New</span>
+              </button>
             </div>
 
           </div>
-        </div>
-        <div class="col-md-7">
+        </li>
+
+        <li>
           <div class="navbar-form">
-          <div class="btn-group">
+            <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                 Select <span class="caret"></span>
+                Select <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                 <li><a href="#">All</a></li>
-                 <li><a href="#">None</a></li>
-                 <li><a href="#">Marked</a></li>
-                 <li class="divider"></li>
-                 <li><a href="#">Separated link</a></li>
+                <li><a href="#">All</a></li>
+                <li><a href="#">None</a></li>
+                <li><a href="#">Marked</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
               </ul>
-           </div>
-           <div class="btn-group">
+            </div>
+            <div class="btn-group">
               <button type="button" class="btn btn-default" aria-expanded="false">
-                 Delete</span>
+                Delete</span>
               </button>
-           </div>
-           <div class="btn-group">
+            </div>
+            <div class="btn-group">
               <button type="button" class="btn btn-default" aria-expanded="false">
-                 Ledger cards</span>
+                Ledger cards</span>
               </button>
-           </div>
-           <div class="btn-group">
+            </div>
+            <div class="btn-group">
               <button type="button" class="btn btn-default" aria-expanded="false">
-                 Activity</span>
+                Activity</span>
               </button>
-           </div>
-        </div>
-      </div>
-        <div class="col-md-3">
-          <form class="navbar-form navbar-right" role="search">
+            </div>
+          </div>
+        </li>
+        <li>
+          <form class="navbar-form" role="search">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-default">Find</button>
           </form>
-        </div>
-     </div>
+        </li>
 
-   </div>
-</nav>
-</div>
+      </ul>
+    </nav>
 
-<div id="persons_table"></div>
+  </header>
 
-<div class="container-fluid" id="signin_container">
-   <form class="form-signin">
-      <br>
-      <br>
-      <br>
-      <label for="signin_email" class="sr-only">Email address</label>
-      <input type="email" id="signin_email" class="form-control" placeholder="Email address" required="" autofocus="">
-      <label for="signin_password" class="sr-only">Password</label>
-      <input type="password" id="signin_password" class="form-control" placeholder="Password" required="">
-      <button class="btn btn-lg btn-info btn-block" type="button" id="signin_button">Sign in</button>
-      <br>
-      <div class="text-danger" role="alert" style="display: none" id="signin_error"></div>
-      <br>
-      <br>
-      <a href='#' style="display: none" id="signin_recover_password">Recover password?</a>
-   </form>
-</div>
+  <div class="HolyGrail-leader">
+    <aside class="collapse HolyGrail-leader-first">This is the leader first area.</aside>
+    <main class="HolyGrail-leader-main">
+      <div id="leader-main-container">
+        <table id="persons_container" style="display: none"></table>
+        <div id="home-container" style="display: none">This is the home page.</div>
+        <div id="businesses_container" style="display: none" class="container-fluid">
+          <div class="row">
+            <div class="col-md-3"></div>
 
-<div id="businesses_container" class="collapse container-fluid">
-
-   <div class="row">
-      <div class="col-md-3"></div>
-
-      <div class="col-md-6">
-         <div class="container-fluid">
-            <!-- Businesses Panel -->
-            <div class="panel panel-default">
-               <div class="panel-heading clearfix">
-                  <span>
-                     <h3 class="panel-title pull-left" style="padding-top:7.5px">New businesses</h3>
-                     <label class="sr-only" for="new_business_btn">Add</label>
-                     <button type="button" class="btn btn-default pull-right" id="new_business_btn">
+            <div class="col-md-6">
+              <div class="container-fluid">
+                <!-- Businesses Panel -->
+                <div class="panel panel-default">
+                  <div class="panel-heading clearfix">
+                    <span>
+                      <h3 class="panel-title pull-left" style="padding-top:7.5px">New businesses</h3>
+                      <label class="sr-only" for="new_business_btn">Add</label>
+                      <button type="button" class="btn btn-default pull-right" id="new_business_btn">
                         <span class="glyphicon glyphicon-plus" id="new_business_btn_icon" aria-hidden="true"></span>
-                     </span>
+                      </span>
+                    </div>
+                    <div class="panel-body collapse" id="new_business_panel">
+                      <form id="new_business_form">
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_name">Name</label>
+                          <input type="text" class="form-control" name="name" id="input_new_business_name" required placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_tax_id">Tax ID</label>
+                          <input type="text" class="form-control" name="tax_id" placeholder="Tax ID">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_address">Address</label>
+                          <input type="text" class="form-control" name="address" id="input_new_business_address" placeholder="Address">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_email">Email</label>
+                          <input type="email" class="form-control" name="email" id="input_new_business_email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_telephone">Telephone</label>
+                          <input type="text" class="form-control" name="telephone" id="input_new_business_telephone" placeholder="Telephone">
+                        </div>
+                        <div class="form-group">
+                          <label class="sr-only" for="input_new_business_tax_country">Tax Country</label>
+                          <input type="text" class="form-control" name="tax_country" id="input_new_business_tax_country" placeholder="Tax Country">
+                        </div>
+                      </form>
+                      <button type="button" class="btn btn-default" id="cancel_new_business_btn">Cancel</button>
+                      <button type="button" class="btn btn-primary pull-right" id="save_new_business_btn">Save</button>
+                    </div>
+                    <div class="">
+                      <table id="businesses_table"></table>
+                    </div>
                   </div>
-                  <div class="panel-body collapse" id="new_business_panel">
-                     <form id="new_business_form">
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_name">Name</label>
-                           <input type="text" class="form-control" name="name" id="input_new_business_name" required placeholder="Name">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_tax_id">Tax ID</label>
-                           <input type="text" class="form-control" name="tax_id" placeholder="Tax ID">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_address">Address</label>
-                           <input type="text" class="form-control" name="address" id="input_new_business_address" placeholder="Address">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_email">Email</label>
-                           <input type="email" class="form-control" name="email" id="input_new_business_email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_telephone">Telephone</label>
-                           <input type="text" class="form-control" name="telephone" id="input_new_business_telephone" placeholder="Telephone">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_business_tax_country">Tax Country</label>
-                           <input type="text" class="form-control" name="tax_country" id="input_new_business_tax_country" placeholder="Tax Country">
-                        </div>
-                     </form>
-                     <button type="button" class="btn btn-default" id="cancel_new_business_btn">Cancel</button>
-                     <button type="button" class="btn btn-primary pull-right" id="save_new_business_btn">Save</button>
-                  </div>
-                  <div class="">
-                     <table id="businesses_table"></table>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-md-3"></div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
 
+            </div>
+          </div>
       </div>
-   </div>
-
-
-   <div id="container" class="container-fluid hidden">
-      <div class="row">
-         <div class="col-md-6">
-
-            <div id="customers_container" class="container-fluid hidden">
-               <!-- New Customer Panel -->
-               <div class="panel panel-info">
-                  <div class="panel-heading">
-                     <h3 class="panel-title">New Customer</h3>
-                  </div>
-                  <div class="panel-body">
-                     <form class="form-inline" id="new_customer_form" role="form">
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_customer_name">Name</label> <input type="text" class="form-control" id="input_new_customer_name" placeholder="Name">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_customer_email">Email address</label> <input type="email" class="form-control" id="input_new_customer_email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                           <label class="sr-only" for="input_new_customer_hourly_rate">Hourly Rate</label><input type="number" min="0" max="9999" step="0.01" size="4" class="form-control" id="input_new_customer_hourly_rate" placeholder="Hourly Rate">
-                        </div>
-                        <button type="button" class="btn btn-primary" id="new_customer_btn">Add</button>
-                     </form>
-                  </div>
-               </div>
-               <!-- Customers Panel -->
-               <div class="panel panel-info">
-                  <div class="panel-heading">
-                     <h3 class="panel-title">Customers</h3>
-                  </div>
-                  <table id="master_table"></table>
-               </div>
-            </div>
-         </div>
-         <div class="col-md-6">
-            <!-- New Project Panel -->
-            <div class="panel panel-warning hidden" id="detail_new_panel">
-               <div class="panel-heading">
-                  <h3 class="panel-title">New Project</h3>
-               </div>
-               <div class="panel-body">
-                  <form class="form-inline" id="new_project_form" role="form">
-                     <div class="form-group">
-                        <label class="sr-only" for="input_new_project_name">Project Name</label><input type="text" class="form-control" id="input_new_project_name" placeholder="Project Name">
-                     </div>
-                     <input type="hidden" id="input_new_project_customer_id">
-                     <button type="button" class="btn btn-primary" id="new_project_btn">Add</button>
-                  </form>
-               </div>
-            </div>
-            <!-- Projects Panel -->
-            <div class="panel panel-warning hidden" id="detail_panel">
-               <div class="panel-heading">
-                  <h3 class="panel-title">Projects</h3>
-               </div>
-               <table id="detail_table"></table>
-            </div>
-         </div>
+      <div id="signin_container" class="container-fluid">
+        <form class="form-signin">
+          <br>
+          <br>
+          <br>
+          <label for="signin_email" class="sr-only">Email address</label>
+          <input type="email" id="signin_email" class="form-control" placeholder="Email address" required="" autofocus="">
+          <label for="signin_password" class="sr-only">Password</label>
+          <input type="password" id="signin_password" class="form-control" placeholder="Password" required="">
+          <button class="btn btn-lg btn-info btn-block" type="button" id="signin_button">Sign in</button>
+          <br>
+          <div class="text-danger" role="alert" style="display: none" id="signin_error"></div>
+          <br>
+          <br>
+          <a href='#' style="display: none" id="signin_recover_password">Recover password?</a>
+        </form>
       </div>
-   </div>
-   <script src="lib/bower_components/jquery/dist/jquery.js"></script>
-   <script src="lib/bower_components/bootstrap/js/bootstrap.js"></script>
-   <script src="lib/bower_components/jwt-decode/build/jwt-decode.min.js"></script>
-   <script src="lib/bower_components/jquery.serializeJSON/jquery.serializejson.js"></script>
-   <script src="lib/bower_components/jquery-ui/ui/effect.js"></script>
-   <script src="lib/accounting.js"></script>
-   <script data-main="js/app.js" src="js/require.js"></script>
-</body>
-</html>
+      </main>
+      <aside class="collapse HolyGrail-leader-last">This is the leader last area.</aside>
+    </div>
+
+    <footer id="footer" class="HolyGrail-footer">
+      This is the footer.
+    </footer>
+
+    <script src="lib/bower_components/jquery/dist/jquery.js"></script>
+    <script src="lib/bower_components/bootstrap-standard/js/bootstrap.js"></script>
+    <script src="lib/bower_components/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="lib/bower_components/jquery.serializeJSON/jquery.serializejson.js"></script>
+    <script src="lib/bower_components/jquery-ui/ui/effect.js"></script>
+    <script src="lib/accounting.js"></script>
+    <script data-main="js/app.js" src="js/require.js"></script>
+  </body>
+  </html>
