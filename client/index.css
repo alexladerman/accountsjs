@@ -9,11 +9,11 @@
   padding-right: 8px;
 }
 
-#banner>.navbar-brand, #button_bar>.navbar-brand {
+.navbar-brand {
   padding-left: 0;
 }
 
-#button_bar {
+.button-bar {
   padding-left: 8px;
   padding-right: 8px;
   margin-bottom: 8px;
@@ -31,8 +31,8 @@
   color: lightblue;
 }
 
-#businesses_container {
-  margin-top: 40px;
+.panel-body {
+  padding: 8px;
 }
 
 add_customer:after {
@@ -60,6 +60,11 @@ tr.pointer {
 
 #leader-main-container {
   overflow-y: scroll;
+}
+
+.page-header {
+  font-weight: normal;
+  color: #777;
 }
 
 /*Holy Grail*/

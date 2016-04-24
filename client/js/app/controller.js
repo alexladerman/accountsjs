@@ -170,8 +170,7 @@ function replace_business_dropdown(data) {
     }
 
     if (data.length == 0) {
-        $('#businesses_container').show();
-        document.getElementById('new_business_btn').click();
+      viewInContainer(document.getElementById('businesses-container'));
     } else {
         for (i in data) {
             var rowdata = data[i];
@@ -195,8 +194,7 @@ function replace_business_dropdown(data) {
         a.setAttribute('href', '#');
         a.onclick = function(e) {
             e.stopPropagation();
-            viewInContainer(document.getElementById('businesses_container'));
-            document.getElementById('new_business_btn').click();
+            viewInContainer(document.getElementById('businesses-container'));
         };
         var text = document.createTextNode('Add business');
         a.appendChild(text);
@@ -450,7 +448,7 @@ function get_businesses(callback) {
 
 function get_persons(callback) {
     $.getJSON(ws_base_url + "persons", function(data) {
-        var table = document.getElementById("persons_container");
+        var table = document.getElementById("customers_table");
         replace_table(table, data, true, function () {}, null , selected_customer_id);
 
         callback();
@@ -459,9 +457,13 @@ function get_persons(callback) {
 
 document.getElementById('customers_navbar_link').onclick = function(e) {
     e.stopPropagation();
-    get_persons(function () { viewInContainer(document.getElementById('persons_container')) });
+    get_persons(function () { viewInContainer(document.getElementById('customers-container')) });
 };
 
+document.getElementById('customer_new_btn').onclick = function(e) {
+    e.stopPropagation();
+    get_persons(function () { viewInContainer(document.getElementById('customer-container')) });
+};
 
 //produces projects table
 function get_projects(customer_id) {
@@ -474,20 +476,11 @@ function get_projects(customer_id) {
 
 //inserts new business
 // document.getElementById('new_business_form').validator();
-document.getElementById('new_business_btn').onclick = function(e) {
-    e.stopPropagation();
-    $('#new_business_panel').toggle(100);
-    $('#new_business_btn_icon').toggleClass('glyphicon-plus').toggleClass('glyphicon-minus');
-    document.getElementById('new_business_form').reset();
-};
-
 document.getElementById('save_new_business_btn').onclick = function(e) {
     var url = ws_base_url + 'businesses';
 
     var params = { action: "new" };
     $.extend(params, $('#new_business_form').serializeJSON());
-
-    document.getElementById('new_business_btn').onclick(e);
 
     console.log(url);
     $.getJSON(url, params, function(data) {
@@ -495,7 +488,6 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
         viewInContainer(view_stack.pop);
     });
 };
-document.getElementById('cancel_new_business_btn').onclick = document.getElementById('new_business_btn').onclick;
 
 //inserts new customer
 // document.getElementById('new_customer_btn').onclick = function(e) {
