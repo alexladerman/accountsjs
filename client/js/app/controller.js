@@ -462,8 +462,14 @@ document.getElementById('customers_navbar_link').onclick = function(e) {
 
 document.getElementById('customer_new_btn').onclick = function(e) {
     e.stopPropagation();
-    get_persons(function () { viewInContainer(document.getElementById('customer-container')) });
+    viewInContainer(document.getElementById('customer-container'));
 };
+
+document.getElementById('sale_new_btn').onclick = function(e) {
+    e.stopPropagation();
+    viewInContainer(document.getElementById('sale-container'));
+};
+
 
 //produces projects table
 function get_projects(customer_id) {

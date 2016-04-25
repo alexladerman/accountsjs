@@ -3,6 +3,10 @@
   -moz-border-radius: 0 !important;
 }
 
+textarea {
+  resize: none;
+}
+
 #banner {
   margin: 0 0 0 0;
   padding-left: 8px;
@@ -42,6 +46,24 @@ add_customer:after {
 body {
   background-color: #ffffff;
   overflow: hidden;
+}
+
+.sale-table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse:collapse;
+  border:1px solid #ccc;
+}
+
+.sale-table th, .sale-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border:1px solid #ccc;
+}
+
+.sale-table input {
+  border: 0;
 }
 
 /*Tables*/
