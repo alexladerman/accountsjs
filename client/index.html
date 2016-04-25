@@ -5,6 +5,8 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto:300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
   <link href="lib/bower_components/bootstrap-standard/css/bootstrap.min.css" rel="stylesheet">
   <link href="index.css" rel="stylesheet">
@@ -140,7 +142,7 @@
           <div id="customer-form-container" class="panel-body">
             <!-- Insert stats panel (Balance, TurnoverYTD, etc) -->
             <form id="customer_form" class="form-horizontal">
-              <div class="col-sm-8" style="padding-left: 0;">
+              <div class="col-sm-8 left-container">
                 <div class="form-group">
                   <label for="input_customer_account" class="col-sm-1 control-label">Account</label>
                   <div class="col-sm-2"><input type="text" class="form-control" name="accounts" placeholder="Account"></div>
@@ -211,7 +213,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-4" style="padding-right: 0">
+              <div class="col-sm-4 right-container">
                 <div class="panel panel-default">
                   <div class="panel-heading">Income</div>
                   <div class="panel-body">
@@ -279,77 +281,48 @@
             </ul>
           </nav>
           <div id="sale-form-container" class="panel-body">
-            <form id="sale_form" class="form-horizontal">
-              <div class="col-sm-8" style="">
+            <form id="sale_form">
+              <div class="col-sm-8 left-container" >
+                <div class="panel panel-default">
+                  <div class="panel-heading">Customer</div>
+                  <div class="panel-body">
+                    <h3 class="col-sm-12">Mr. John Doe</h3>
+                    <h6 class="col-sm-6">Main Street<br>12345 Big City</h6><h6 class="col-sm-3">Invoice Nr:</h6><h6 class="col-sm-3 text-right">1234</h6>
+                    <h6 class="col-sm-12">Tax ID: 123456789</h6>
+                  </div>
+                </div>
                 <div class="form-group">
                   <table class="sale-table">
                     <thead>
                       <tr>
                         <th style="width: 12%"><input type="text" class="form-control" readonly value="ID/SKU"></th>
                         <th style="width: 40%"><input type="text" class="form-control" readonly value="Description"></th>
-                        <th style="width: 8%"><input type="text" class="form-control" readonly value="Qty"></th>
-                        <th style="width: 16%"><input type="text" class="form-control" readonly value="Price"></th>
-                        <th style="width: 8%"><input type="text" class="form-control" readonly value="Dsc."></th>
-                        <th style="width: 16%"><input type="text" class="form-control" readonly value="Total"></th>
+                        <th style="width: 8%" ><input type="text" class="form-control text-right" readonly value="Qty"></th>
+                        <th style="width: 16%"><input type="text" class="form-control text-right" readonly value="Price"></th>
+                        <th style="width: 8%" ><input type="text" class="form-control text-right" readonly value="Dsc."></th>
+                        <th style="width: 16%"><input type="text" class="form-control text-right" readonly value="Total"></th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
+                        <td><input type="text" class="form-control" name="ID/SKU" placeholder="ID/SKU"></td>
+                        <td><input type="text" class="form-control" name="Description" placeholder="Description"></td>
+                        <td><input type="text" class="form-control text-right" name="Qty" placeholder="Qty"></td>
+                        <td><input type="text" class="form-control text-right" name="Price" placeholder="Price"></td>
+                        <td><input type="text" class="form-control text-right" name="Dsc." placeholder="Dsc."></td>
+                        <td><input type="text" class="form-control text-right" name="Total" placeholder="Total"></td>
                       </tr>
-                      <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
-                      </tr>
-                      <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
-                      </tr>
-                      <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
-                      </tr>
-                      <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
-                      </tr>
-                      <tr>
-                        <th><input type="text" class="form-control" placeholder="ID/SKU"></th>
-                        <th><input type="text" class="form-control" placeholder="Description"></th>
-                        <th><input type="text" class="form-control" placeholder="Qty"></th>
-                        <th><input type="text" class="form-control" placeholder="Price"></th>
-                        <th><input type="text" class="form-control" placeholder="Dsc."></th>
-                        <th><input type="text" class="form-control" placeholder="Total"></th>
-                      </tr>
-
                     </tbody>
                     <tfoot>
+                      <tr>
+                        <td colspan="5"><input tabindex="-1" style="background-color: transparent" type="text" class="form-control text-right" readonly value="Total"></td>
+                        <td style="border:1px solid #ccc;"><input tabindex="-1" type="text" class="form-control text-right" readonly name="Total"></td>
+                      </tr>
                     </tfoot>
                   </table>
                 </div>
               </div>
-              <div class="col-sm-4" style="padding-right: 0">
+              <div class="col-sm-4 right-container">
                 <div class="panel panel-default">
                   <div class="panel-heading">Income</div>
                   <div class="panel-body">

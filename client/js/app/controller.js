@@ -470,6 +470,14 @@ document.getElementById('sale_new_btn').onclick = function(e) {
     viewInContainer(document.getElementById('sale-container'));
 };
 
+$('.sale-table input').change(function(e) {
+  //function recalculate_line(e.target)
+  var line = e.target.parentNode.parentNode;
+  var qty = line.querySelector('[name="Qty"]').value;
+  var price = line.querySelector('[name="Price"]').value;
+  var discount = line.querySelector('[name="Dsc."]').value;
+  line.querySelector('[name="Total"]').value = qty*price-qty*price/100*discount;
+});
 
 //produces projects table
 function get_projects(customer_id) {
