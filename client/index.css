@@ -1,6 +1,7 @@
 * { border-radius: 0 !important; -moz-border-radius: 0 !important; }
-body { font-family: "Source Sans Pro"; background-color: #ffffff; overflow: hidden; }
+body { font-family: 'Droid Sans'; background-color: #ffffff; overflow: hidden; }
 textarea { resize: none; }
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 #banner { margin: 0 0 0 0; padding-left: 8px; padding-right: 8px; }
 .navbar-brand { padding-left: 0; }
 .button-bar { padding-left: 8px; padding-right: 8px; margin-bottom: 8px; }

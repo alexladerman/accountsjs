@@ -17,6 +17,8 @@
     "jquery-ui": "~1.11.4",
     "jwt-decode": "~1.1.0",
     "polymer": "Polymer/polymer#^1.0.0",
-    "bootstrap-formhelpers": "bootstrap-form-helpers#2.3.0"
+    "bootstrap-formhelpers": "bootstrap-form-helpers#2.3.0",
+    "jquery.maskedinput": "^1.4.1",
+    "autoNumeric": "^1.9.43"
   }
 }

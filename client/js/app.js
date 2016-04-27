@@ -15,6 +15,12 @@ requirejs.config({
 requirejs(
     [
     'resize',
+    'keyboard',
+    'dictionary',
+    'config',
+    'cookies',
+    'utils',
+    'input_masks',
     'app/controller'
     ]
     // ,

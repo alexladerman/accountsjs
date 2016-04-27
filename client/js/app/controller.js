@@ -10,47 +10,6 @@ var selected_customer_id = 0;
 var selected_business_id = 0;
 var selected_business_name = 'Add business';
 
-accounting.settings = {
-    currency: {
-        symbol : "€",   // default currency symbol is '$'
-        format: "%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
-        decimal : ".",  // decimal point separator
-        thousand: ",",  // thousands separator
-        precision : 2   // decimal places
-    },
-    number: {
-        precision : 0,  // default precision on numbers is 0
-        thousand: ",",
-        decimal : "."
-    }
-}
-
-function formatMoney(value) {
-    return accounting.formatMoney(value/100); // €4.999,99
-}
-
-//printable column headers
-var dictionary = {
-    id: {text:  'ID', type: 'text'},
-    Account: {text:  'Account', type: 'text'},
-    name: {text:  'Name', type: 'text'},
-    tax_id: {text:  'Tax ID', type: 'text'},
-    email: {text:  'Email', type: 'text'},
-    address: {text:  'Address', type: 'text'},
-    hourly_rate: {text:  'Hourly Rate', type: 'text'},
-    billable_time: {text:  'Time Spent', type: 'text'},
-    billable_amount: {text:  'Amount Due', type: 'text'},
-    bill: {text:  '', type: 'text'},
-    start_stop_btn: {text:  '', type: 'text'},
-    project_id: {text:  'Project ID', type: 'text'},
-    start: {text:  'Start', type: 'text'},
-    stop: {text:  'Stop', type: 'text'},
-    billed: {text:  'Billed', type: 'text'},
-    role: {text:  'Role', type: 'text'},
-    Balance: {text:  'Balance', type: 'currency'},
-    TurnoverYTD: {text:  'TurnoverYTD', type: 'currency'}
-};
-
 //signin
 document.getElementById('signin_button').onclick = function(e) {
     e.stopPropagation();
@@ -470,14 +429,68 @@ document.getElementById('sale_new_btn').onclick = function(e) {
     viewInContainer(document.getElementById('sale-container'));
 };
 
-$('.sale-table input').change(function(e) {
-  //function recalculate_line(e.target)
+//Using .on() you can define your function once, and it will execute for any dynamically added elements.
+//
+// for example
+//
+// $('#staticDiv').on('click', 'yourSelector', function() {
+//   //do something
+// });
+$('.sale-table tbody input:not([readonly])').change(function(e) {
   var line = e.target.parentNode.parentNode;
-  var qty = line.querySelector('[name="Qty"]').value;
-  var price = line.querySelector('[name="Price"]').value;
-  var discount = line.querySelector('[name="Dsc."]').value;
-  line.querySelector('[name="Total"]').value = qty*price-qty*price/100*discount;
+  var qty = line.querySelector('[name="Qty"]').value || 0;
+  var price = line.querySelector('[name="Price"]').value || 0;
+  var discount = line.querySelector('[name="Dsc."]').value || 0;
+  var line_total = 0;
+  line_total = qty*price-qty*price/100*discount;
+  line.querySelector('[name="Total"]').value = line_total.toFixed(currency_radix);
+  recalculate_sale_grand_total();
 });
+
+function recalculate_sale_grand_total() {
+  var sale_grand_total = document.querySelector('#sale_grand_total');
+  var lines = sale_grand_total.parentNode.parentNode.parentNode.parentNode.querySelector('tbody'); //sale-table tbody
+  var line_totals = lines.querySelectorAll('[name="Total"]');
+  var grand_total = 0;
+  for (var i = 0; i < line_totals.length; i++) {
+    var line_total = line_totals[i].value || 0;
+    grand_total += parseFloat(line_total);
+  }
+  lines.parentNode.querySelector('#sale_grand_total').value = grand_total.toFixed(currency_radix);
+}
+
+//press Enter anywhere on line or tab on last input to commit and move to next line, which is to be created if it does not exist
+$('.sale-table tbody input').keyup(function (e) {
+  if (e.keyCode == keyboard.ENTER) {
+    sale_commit_line(e);
+    var newline = e.target.parentNode.parentNode.nextElementSibling;
+    if (newline != null)
+      newline.firstElementChild.firstElementChild.focus();
+  }
+});
+
+$('.sale-table tbody input[name="Total"]').keyup(function (e) { if (e.keyCode == keyboard.TAB) sale_commit_line(e) });
+$('.sale-table tbody input').keyup(function (e) {
+  // delete line: Ctrl-D instead of DELETE and BACKSPACE which can be used to edit text
+  if ((e.ctrlKey && e.keyCode == keyboard.d) ){
+    var line = e.target.parentNode.parentNode;
+    if (!(line === line.parentNode.firstElementChild && line === line.parentNode.lastElementChild)) {
+      line.remove();
+      recalculate_sale_grand_total();
+    }
+  }
+});
+
+
+function sale_commit_line(e) {
+  var line = e.target.parentNode.parentNode;
+  // add line if commiting last line with some data
+  if (line === line.parentNode.lastElementChild && $('input:not([readonly])', line).filter(function(){ return this.value }).length) {
+    var newline = $(line).clone(true).find(":input").val("").end();
+    newline.appendTo($(line.parentNode));
+    reset_input_masks_on_clone(newline);
+  }
+}
 
 //produces projects table
 function get_projects(customer_id) {
