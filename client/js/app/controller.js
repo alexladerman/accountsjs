@@ -438,19 +438,19 @@ document.getElementById('sale_new_btn').onclick = function(e) {
 // });
 $('.sale-table tbody input:not([readonly])').change(function(e) {
   var line = e.target.parentNode.parentNode;
-  var qty = line.querySelector('[name="Qty"]').value || 0;
-  var price = line.querySelector('[name="Price"]').value || 0;
-  var discount = line.querySelector('[name="Dsc."]').value || 0;
+  var qty = line.querySelector('[name="quantity"]').value || 0;
+  var price = line.querySelector('[name="price"]').value || 0;
+  var discount = line.querySelector('[name="discount"]').value || 0;
   var line_total = 0;
   line_total = qty*price-qty*price/100*discount;
-  line.querySelector('[name="Total"]').value = line_total.toFixed(currency_radix);
+  line.querySelector('[name="total"]').value = line_total.toFixed(currency_radix);
   recalculate_sale_grand_total();
 });
 
 function recalculate_sale_grand_total() {
   var sale_grand_total = document.querySelector('#sale_grand_total');
   var lines = sale_grand_total.parentNode.parentNode.parentNode.parentNode.querySelector('tbody'); //sale-table tbody
-  var line_totals = lines.querySelectorAll('[name="Total"]');
+  var line_totals = lines.querySelectorAll('[name="total"]');
   var grand_total = 0;
   for (var i = 0; i < line_totals.length; i++) {
     var line_total = line_totals[i].value || 0;
@@ -469,7 +469,7 @@ $('.sale-table tbody input').keyup(function (e) {
   }
 });
 
-$('.sale-table tbody input[name="Total"]').keyup(function (e) { if (e.keyCode == keyboard.TAB) sale_commit_line(e) });
+$('.sale-table tbody input[name="total"]').keyup(function (e) { if (e.keyCode == keyboard.TAB) sale_commit_line(e) });
 $('.sale-table tbody input').keyup(function (e) {
   // delete line: Ctrl-D instead of DELETE and BACKSPACE which can be used to edit text
   if ((e.ctrlKey && e.keyCode == keyboard.d) ){
@@ -515,6 +515,36 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
         viewInContainer(view_stack.pop);
     });
 };
+
+document.getElementById('save_sale_btn').onclick = function(e) {
+    // var url = ws_base_url + 'businesses';
+
+    console.log('save_sale_btn.onclick');
+    //
+    // var params = { action: "new" };
+    var form = document.getElementById('sale_form');
+    var trs = form.querySelector('tbody');
+
+    var data = {
+      customer_id: querySelector('#sale_form_customer_id'),
+      customer_name: querySelector('#sale_form_customer_name'),
+      customer_address: querySelector('#sale_form_customer_address'),
+      customer_tax_id: querySelector('#sale_form_customer_tax_id'),
+      customer_tax_country: querySelector('#sale_form_customer_tax_country'),
+      customer_tax_country: querySelector('#sale_form_supply_tax_country'),
+      date: querySelector('#sale_form_date'),
+      number: form.querySelector('#sale_form_numer'),
+      lines: serialize_table(trs, 'input', 'name', 'value'),
+      grand_total: form.querySelector('#sale_form_grand_total')
+    }
+
+    function get_businesses(callback) {
+        $.getJSON(ws_base_url + "sale_save", function(data) {
+        });
+    }
+
+};
+
 
 //inserts new customer
 // document.getElementById('new_customer_btn').onclick = function(e) {

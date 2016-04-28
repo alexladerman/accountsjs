@@ -5,15 +5,15 @@ requesthandlers = require("./requesthandlers");
 
 var handle = {};
 
-handle["/"] = requesthandlers.index;
+handle["/"] = require('./requesthandlers/index');
 handle["/signup"] = require('./requesthandlers/signup');
-handle["/signin"] = requesthandlers.signin;
-handle["/recover_password"] = requesthandlers.recover_password;
-handle["/customers"] = requesthandlers.customers;
-handle["/projects"] = requesthandlers.projects;
-handle["/periods"] = requesthandlers.periods;
-handle["/persons"] = requesthandlers.persons;
-handle["/businesses"] = requesthandlers.businesses;
+handle["/signin"] = require('./requesthandlers/signin');
+handle["/recover_password"] = require('./requesthandler/srecover_password');
+handle["/customers"] = require('./requesthandler/scustomers');
+handle["/projects"] = require('./requesthandlers/projects');
+handle["/periods"] = require('./requesthandlers/periods');
+handle["/persons"] = require('./requesthandlers/persons');
+handle["/businesses"] = require('./requesthandlers/businesses');
 
 //if not exists create and populate database
 server.db_connection = server.mysql.createConnection({

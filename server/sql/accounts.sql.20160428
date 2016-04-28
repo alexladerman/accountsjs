@@ -1,0 +1,150 @@
+-- MySQL dump 10.13  Distrib 5.7.12, for osx10.11 (x86_64)
+--
+-- Host: localhost    Database: accounts
+-- ------------------------------------------------------
+-- Server version	5.7.12
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `business`
+--
+
+DROP TABLE IF EXISTS `business`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `business` (
+  `business_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ref` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`business_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `business`
+--
+
+LOCK TABLES `business` WRITE;
+/*!40000 ALTER TABLE `business` DISABLE KEYS */;
+INSERT INTO `business` VALUES (1,'1','Apple Inc.','active','2016-04-22 16:17:47','2016-04-22 16:17:47'),(2,'2','Microsoft Corporation','active','2016-04-22 16:17:47','2016-04-22 16:17:47'),(3,'3','Google Inc.','active','2016-04-22 16:17:47','2016-04-22 16:17:47');
+/*!40000 ALTER TABLE `business` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `person`
+--
+
+DROP TABLE IF EXISTS `person`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `person` (
+  `business_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ref` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `tax_id` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `telephone` varchar(255) DEFAULT NULL,
+  `passport` varchar(255) DEFAULT NULL,
+  `date_birth` date DEFAULT NULL,
+  `nationality` varchar(255) DEFAULT NULL,
+  `language` varchar(255) DEFAULT NULL,
+  `tax_country` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`business_id`,`person_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `person`
+--
+
+LOCK TABLES `person` WRITE;
+/*!40000 ALTER TABLE `person` DISABLE KEYS */;
+INSERT INTO `person` VALUES (1,1,'1','Steve Jobs','111111111','2066 Crist Dr. in Los Altos, California, United States','steve@apple.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(1,2,'2','Steve Wozniak','11112222','2066 Crist Dr. in Los Altos, California, United States','woz@apple.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(2,1,'1','Bill Gates','33331111','115 California St. NE, Albuquerque, New Mexico, United States','bill@microsoft.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(2,2,'2','Paul Allen','33332222','115 California St. NE, Albuquerque, New Mexico, United States','paul@microsoft.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(2,3,'3','Marc McDonald','33333333','115 California St. NE, Albuquerque, New Mexico, United States','mark@microsoft.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(3,1,'1','Sergey Brin','22221111','Santa Margarita Ave., Menlo Park, California, United States','sergey@google.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42'),(3,2,'2','Larry Page','22222222','Santa Margarita Ave., Menlo Park, California, United States','larry@google.com','+1 12345678','','0000-00-00','','','','2016-04-22 16:17:42','2016-04-22 16:17:42');
+/*!40000 ALTER TABLE `person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `business_id` int(11) NOT NULL,
+  `role` varchar(255) DEFAULT 'default',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `user_id` (`user_id`,`business_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,1,1,'admin','2016-04-22 16:17:37','2016-04-22 16:17:37'),(2,2,1,'default','2016-04-22 16:17:37','2016-04-22 16:17:37'),(3,3,2,'admin','2016-04-22 16:17:37','2016-04-22 16:17:37'),(4,4,2,'default','2016-04-22 16:17:37','2016-04-22 16:17:37'),(5,5,2,'default','2016-04-22 16:17:37','2016-04-22 16:17:37'),(6,6,3,'admin','2016-04-22 16:17:37','2016-04-22 16:17:37'),(7,7,3,'default','2016-04-22 16:17:37','2016-04-22 16:17:37');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `salt` char(16) DEFAULT NULL,
+  `pwd` char(64) DEFAULT NULL,
+  `language` varchar(255) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'steve@apple.com','340ff253d182d5be','d3f5f60af57bebd472f7b56af6975f1613b0124f58dec0a1bc9a87dd6fbf52e7','en','2016-04-22 16:17:31','2016-04-22 16:18:40'),(2,'woz@apple.com','','password','en','2016-04-22 16:17:31','2016-04-22 16:17:31'),(3,'bill@microsoft.com','','','en','2016-04-22 16:17:31','2016-04-22 16:17:31'),(4,'paul@microsoft.com','','','en','2016-04-22 16:17:31','2016-04-22 16:17:31'),(5,'mark@microsoft.com','','','en','2016-04-22 16:17:31','2016-04-22 16:17:31'),(6,'sergey@google.com','','','en','2016-04-22 16:17:31','2016-04-22 16:17:31'),(7,'larry@google.com','','','en','2016-04-22 16:17:31','2016-04-22 16:17:31');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-04-28 18:45:58
