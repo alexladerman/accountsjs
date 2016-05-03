@@ -15,9 +15,9 @@ module.exports = function (req, res) {
         var email = params['email'];
         var password = params['password'];
 
-        var query = 'SELECT user_id, email, salt, pwd FROM user WHERE email = ' + server.mysql.escape(email) + ';';
+        var query = 'SELECT user_id, email, salt, pwd FROM user WHERE email = ' + mysql.escape(email) + ';';
         console.log(query);
-        server.db_connection.query(query, function(err, rows, fields) {
+        connection.query(query, function(err, rows, fields) {
 
           if (!rows.length) {
             console.log('no results');

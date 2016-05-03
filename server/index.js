@@ -1,7 +1,4 @@
-server = require("./server");
-router = require("./router");
 require("./global");
-require("./permission");
 
 var handle = {};
 
@@ -16,14 +13,12 @@ handle["/persons"] = require('./requesthandlers/persons');
 handle["/business"] = require('./requesthandlers/business');
 handle["/invoice"] = require('./requesthandlers/invoice');
 
+app = http.createServer(function(request, response) {
+      var pathname = url.parse(request.url).pathname;
+      console.log("Request for " + pathname + " received.");
+      route(pathname, handle, request, response);
+  }
+);
 
-//if not exists create and populate database
-server.db_connection = server.mysql.createConnection({
-    multipleStatements : true,
-    host : 'localhost',
-    user : 'accounts',
-    database : 'accounts',
-    password : '332k3nkd8'
-});
-
-server.start(router.route, handle, server.io, server.fs);
+app.listen(1337);
+console.log("Server has started.");

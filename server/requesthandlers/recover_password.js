@@ -23,11 +23,11 @@ module.exports = function (req, res) {
       var salt_hex = sjcl.codec.hex.fromBits(salt);
       var pwd_hex = sjcl.codec.hex.fromBits(pwd);
 
-      var query = 'UPDATE `user` SET `salt` = ' + server.mysql.escape(salt_hex) + ', `pwd` = ' + server.mysql.escape(pwd_hex);
-      query += ' WHERE email = ' + server.mysql.escape(email) + ';';
+      var query = 'UPDATE `user` SET `salt` = ' + mysql.escape(salt_hex) + ', `pwd` = ' + mysql.escape(pwd_hex);
+      query += ' WHERE email = ' + mysql.escape(email) + ';';
       console.log(query);
 
-      server.db_connection.query(query, function(err, rows, fields) {
+      connection.query(query, function(err, rows, fields) {
         if (err) {
           console.log(err);
           respond_json(req, res, {"error": err});

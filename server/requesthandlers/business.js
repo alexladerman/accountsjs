@@ -12,9 +12,9 @@ module.exports = function (req, res) {
         var business_id;
         var person_id;
         query = 'INSERT INTO `business` (`name`) VALUES (';
-        query += server.mysql.escape(params.name) + ')';
+        query += mysql.escape(params.name) + ')';
         console.log(query);
-        server.db_connection.query(query, function(err, rows, fields) {
+        connection.query(query, function(err, rows, fields) {
           if (err) {
             console.log(err);
             throw err;
@@ -22,35 +22,35 @@ module.exports = function (req, res) {
           business_id = rows.insertId;
           if (business_id) {
             var query = 'INSERT INTO `role` (`business_id`, `user_id`, `role`) VALUES (';
-            query += server.mysql.escape(business_id) + ',';
-            query += server.mysql.escape(user_id) + ',';
-            query += server.mysql.escape('admin') + ')';
+            query += mysql.escape(business_id) + ',';
+            query += mysql.escape(user_id) + ',';
+            query += mysql.escape('admin') + ')';
             console.log(query);
-            server.db_connection.query(query, function(err, rows, fields) {
+            connection.query(query, function(err, rows, fields) {
               if (err) {
                 console.log(err);
                 throw err;
               }
               var query = 'INSERT INTO `person` (`business_id`, `name`, `tax_id`, `address`, `email`, `telephone`, `tax_country`) VALUES (';
-              query += server.mysql.escape(business_id) + ',';
-              query += server.mysql.escape(params.name) + ',';
-              query += server.mysql.escape(params.tax_id) + ',';
-              query += server.mysql.escape(params.address) + ',';
-              query += server.mysql.escape(params.email) + ',';
-              query += server.mysql.escape(params.telephone) + ',';
-              query += server.mysql.escape(params.tax_country) + ')';
+              query += mysql.escape(business_id) + ',';
+              query += mysql.escape(params.name) + ',';
+              query += mysql.escape(params.tax_id) + ',';
+              query += mysql.escape(params.address) + ',';
+              query += mysql.escape(params.email) + ',';
+              query += mysql.escape(params.telephone) + ',';
+              query += mysql.escape(params.tax_country) + ')';
               console.log(query);
-              server.db_connection.query(query, function(err, rows, fields) {
+              connection.query(query, function(err, rows, fields) {
                 if (err) {
                   console.log(err);
                   throw err;
                 }
                 person_id = rows.insertId;
                 if (person_id) {
-                  var query = 'UPDATE `person` SET `ref` = ' + server.mysql.escape(person_id);
-                  query += ' WHERE business_id = ' + server.mysql.escape(business_id) + ' AND person_id = ' + server.mysql.escape(person_id);
+                  var query = 'UPDATE `person` SET `ref` = ' + mysql.escape(person_id);
+                  query += ' WHERE business_id = ' + mysql.escape(business_id) + ' AND person_id = ' + mysql.escape(person_id);
                   console.log(query);
-                  server.db_connection.query(query, function(err, rows, fields) {
+                  connection.query(query, function(err, rows, fields) {
                     if (err) {
                       console.log(err);
                       throw err;
@@ -65,8 +65,10 @@ module.exports = function (req, res) {
         return;
         default:
         query = 'SELECT b.business_id id, name, role FROM business b JOIN role r ON b.business_id = r.business_id WHERECLAUSE';
-        var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + server.mysql.escape(user_id) : '';
+        var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + mysql.escape(user_id) : '';
         query = query.replace('WHERECLAUSE', whereclause);
+
+        InvoiceData.ListAll(function(r) {console.log(r)});
       }
       execute_json_query(query, req, res);
     }
