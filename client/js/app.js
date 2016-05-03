@@ -7,7 +7,7 @@ requirejs.config({
     //never includes a ".js" extension since
     //the paths config could be for a directory.
     paths: {
-        app: '../app'
+        controller: '../controller'
     }
 });
 
@@ -21,8 +21,11 @@ requirejs(
     'cookies',
     'utils',
     'input_masks',
-    'app/sale',
-    'app/controller'
+    'controller/signin',
+    'controller/business',
+    'controller/customer',
+    'controller/sale',
+    'controller/global'
     ]
     // ,
     // function (resize, controller) {

@@ -1,6 +1,7 @@
 server = require("./server");
 router = require("./router");
 require("./global");
+require("./permission");
 
 var handle = {};
 
@@ -8,11 +9,11 @@ var handle = {};
 handle["/signup"] = require('./requesthandlers/signup');
 handle["/signin"] = require('./requesthandlers/signin');
 handle["/recover_password"] = require('./requesthandlers/recover_password');
-handle["/customers"] = require('./requesthandlers/customers');
-handle["/projects"] = require('./requesthandlers/projects');
-handle["/periods"] = require('./requesthandlers/periods');
+// handle["/customer"] = require('./requesthandlers/customer');
+// handle["/projects"] = require('./requesthandlers/projects');
+// handle["/periods"] = require('./requesthandlers/periods');
 handle["/persons"] = require('./requesthandlers/persons');
-handle["/businesses"] = require('./requesthandlers/businesses');
+handle["/business"] = require('./requesthandlers/business');
 handle["/invoice"] = require('./requesthandlers/invoice');
 
 

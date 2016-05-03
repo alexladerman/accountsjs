@@ -28,7 +28,7 @@ document.getElementById('save_sale_btn').onclick = function(e) {
 
     var params = {
       action: "new",
-      business_id: form.querySelector(selected_business_id),
+      business_id: selected_business_id,
       buyer_id: form.querySelector('#sale_form_customer_id').value,
       buyer_name: form.querySelector('#sale_form_customer_name').value,
       buyer_address: form.querySelector('#sale_form_customer_address').value,
