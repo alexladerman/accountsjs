@@ -64,11 +64,9 @@ module.exports = function (req, res) {
         });
         return;
         default:
-        query = 'SELECT b.business_id id, name, role FROM business b JOIN role r ON b.business_id = r.business_id WHERECLAUSE';
-        var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + mysql.escape(user_id) : '';
-        query = query.replace('WHERECLAUSE', whereclause);
-
-        InvoiceData.ListAll(function(r) {console.log(r)});
+          query = 'SELECT b.business_id id, name, role FROM business b JOIN role r ON b.business_id = r.business_id WHERECLAUSE';
+          var whereclause = (user_id > 0) ? ' WHERE r.user_id = ' + mysql.escape(user_id) : '';
+          query = query.replace('WHERECLAUSE', whereclause);
       }
       execute_json_query(query, req, res);
     }

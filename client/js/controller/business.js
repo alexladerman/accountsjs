@@ -78,8 +78,6 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
     var params = { action: "new" };
     $.extend(params, $('#new_business_form').serializeJSON());
 
-    console.log(params);
-    console.log(url);
     $.getJSON(url, params, function(data) {
         get_businesses();
         viewInContainer(view_stack.pop);

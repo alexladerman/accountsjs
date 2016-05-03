@@ -10,14 +10,12 @@ function bill(rowdata) { // customer rowdata
 
     $.getJSON(ws_base_url + 'projects', params, function(data) {
         var table = document.getElementById("invoice_table");
-        console.log(data);
         var billable_rows = new Array();
         for (var i = 0; i < data.length; i++) {
             if (data[i]['billable_amount'] != null) {
                 billable_rows.push(data[i]);
             }
         }
-        console.log(billable_rows);
         replace_table(table, billable_rows, false /* not show periods */, null, null, null);
 
         var tbody = table.getElementsByTagName('tbody')[0];

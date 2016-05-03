@@ -1,11 +1,9 @@
 module.exports = function (req, res) {
   var params = url.parse(req.url, true).query;
   var token_decoded = get_token_decoded(req, res);
-  console.log(token_decoded);
   if (token_decoded) {
     var user_id = token_decoded['user_id'];
     if (user_id > 0) {
-      console.log(params);
       var action = params.action;
       var query = '';
       switch (action) {
@@ -38,7 +36,6 @@ module.exports = function (req, res) {
           query += mysql.escape(params.delivery_country) + ',';
           query += mysql.escape(params.due_date);
           query += ')';
-          console.log(query);
           break;
         case 'last_serial_number':
           var query = 'SELECT max(ifnull(serial_number, 0)) as last_serial_number FROM invoice ?';

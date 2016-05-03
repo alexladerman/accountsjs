@@ -12,6 +12,8 @@ mysql = require('mysql');
 
 config = {
     multipleStatements : true,
+    // debug: ['ComQueryPacket', 'RowDataPacket'],
+    debug: ['ComQueryPacket'],
     host : 'localhost',
     user : 'accounts',
     database : 'accounts',
@@ -21,19 +23,14 @@ config = {
 connection = mysql.createConnection(config);
 
 //Data
-var data = require('data-mysql');
-UserData = new data('user', 'user_id');
-BusinessData = new data('business', 'business_id');
-PersonData = new data('person', 'person_id');
-InvoiceData = new data('invoice', 'invoice_id');
-InvoiceLineData = new data('invoice_line', 'invoice_line_id');
+InvoiceData = require('./data/invoice');
 
 //if not exists create and populate database
 
 AUTH_TOKEN_SECRET = 'something unmemorable';
 
 route = function(pathname, handle, request, response) {
-  console.log("About to route a request for " + pathname);
+  console.log("Routing to " + pathname);
 
   if (typeof handle[pathname] === 'function') {
     handle[pathname](request, response);
@@ -73,7 +70,6 @@ validate_email = function(email) {
 
 //queries the database and outputs rows as JSON
 execute_json_query = function(query, req, res) {
-    console.log(query);
     connection.query(query, function(err, rows, fields) {
         if (err) {
             throw err;
@@ -84,8 +80,6 @@ execute_json_query = function(query, req, res) {
 
 get_token_decoded = function(req, res) {
   var bearer_token = '';
-  console.log(req.headers);
-  console.log(req.headers.authorization);
   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
     bearer_token = req.headers.authorization.split(' ')[1];
     try {
@@ -98,7 +92,6 @@ get_token_decoded = function(req, res) {
 
 hasPermission = function(user_id, business_id/*, permission*/) {
   var query = 'SELECT count() FROM role WHERE user = ' + mysql.escape(user_id) + ' AND business_id = ' + mysql.escape(customer_id) + ';';
-  console.log(query);
 
   return connection.query(query, function (err, result) {
         return result[0].count >= 1;

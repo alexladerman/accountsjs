@@ -9,13 +9,13 @@ handle["/recover_password"] = require('./requesthandlers/recover_password');
 // handle["/customer"] = require('./requesthandlers/customer');
 // handle["/projects"] = require('./requesthandlers/projects');
 // handle["/periods"] = require('./requesthandlers/periods');
-handle["/persons"] = require('./requesthandlers/persons');
+handle["/person"] = require('./requesthandlers/person');
 handle["/business"] = require('./requesthandlers/business');
 handle["/invoice"] = require('./requesthandlers/invoice');
 
 app = http.createServer(function(request, response) {
       var pathname = url.parse(request.url).pathname;
-      console.log("Request for " + pathname + " received.");
+      console.log("Request for " + pathname);
       route(pathname, handle, request, response);
   }
 );

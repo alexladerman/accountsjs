@@ -12,7 +12,6 @@ document.getElementById('sale_new_btn').onclick = function(e) {
 
     $.getJSON(url, params, function(data) {
         var last_serial_number = data[0]['last_serial_number'];
-        console.log(last_serial_number);
         $('#sale_form_number').val(last_serial_number + 1);
         viewInContainer(document.getElementById('sale-container'));
     });
@@ -21,9 +20,6 @@ document.getElementById('sale_new_btn').onclick = function(e) {
 document.getElementById('save_sale_btn').onclick = function(e) {
     var url = ws_base_url + 'invoice';
 
-    console.log('save_sale_btn.onclick');
-    //
-    // var params = { action: "new" };
     var form = document.getElementById('sale_form');
 
     var params = {
@@ -43,10 +39,7 @@ document.getElementById('save_sale_btn').onclick = function(e) {
       grand_total: form.querySelector('#sale_form_grand_total').value
     }
 
-    console.log(url);
-
     $.getJSON(url, params, function(data) {
-
     });
 
 };
