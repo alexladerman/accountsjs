@@ -424,74 +424,6 @@ document.getElementById('customer_new_btn').onclick = function(e) {
     viewInContainer(document.getElementById('customer-container'));
 };
 
-document.getElementById('sale_new_btn').onclick = function(e) {
-    e.stopPropagation();
-    viewInContainer(document.getElementById('sale-container'));
-};
-
-//Using .on() you can define your function once, and it will execute for any dynamically added elements.
-//
-// for example
-//
-// $('#staticDiv').on('click', 'yourSelector', function() {
-//   //do something
-// });
-$('.sale-table tbody input:not([readonly])').change(function(e) {
-  var line = e.target.parentNode.parentNode;
-  var qty = line.querySelector('[name="quantity"]').value || 0;
-  var price = line.querySelector('[name="price"]').value || 0;
-  var discount = line.querySelector('[name="discount"]').value || 0;
-  var line_total = 0;
-  line_total = qty*price-qty*price/100*discount;
-  line.querySelector('[name="total"]').value = line_total.toFixed(currency_radix);
-  recalculate_sale_grand_total();
-});
-
-function recalculate_sale_grand_total() {
-  var sale_grand_total = document.querySelector('#sale_grand_total');
-  var lines = sale_grand_total.parentNode.parentNode.parentNode.parentNode.querySelector('tbody'); //sale-table tbody
-  var line_totals = lines.querySelectorAll('[name="total"]');
-  var grand_total = 0;
-  for (var i = 0; i < line_totals.length; i++) {
-    var line_total = line_totals[i].value || 0;
-    grand_total += parseFloat(line_total);
-  }
-  lines.parentNode.querySelector('#sale_grand_total').value = grand_total.toFixed(currency_radix);
-}
-
-//press Enter anywhere on line or tab on last input to commit and move to next line, which is to be created if it does not exist
-$('.sale-table tbody input').keyup(function (e) {
-  if (e.keyCode == keyboard.ENTER) {
-    sale_commit_line(e);
-    var newline = e.target.parentNode.parentNode.nextElementSibling;
-    if (newline != null)
-      newline.firstElementChild.firstElementChild.focus();
-  }
-});
-
-$('.sale-table tbody input[name="total"]').keyup(function (e) { if (e.keyCode == keyboard.TAB) sale_commit_line(e) });
-$('.sale-table tbody input').keyup(function (e) {
-  // delete line: Ctrl-D instead of DELETE and BACKSPACE which can be used to edit text
-  if ((e.ctrlKey && e.keyCode == keyboard.d) ){
-    var line = e.target.parentNode.parentNode;
-    if (!(line === line.parentNode.firstElementChild && line === line.parentNode.lastElementChild)) {
-      line.remove();
-      recalculate_sale_grand_total();
-    }
-  }
-});
-
-
-function sale_commit_line(e) {
-  var line = e.target.parentNode.parentNode;
-  // add line if commiting last line with some data
-  if (line === line.parentNode.lastElementChild && $('input:not([readonly])', line).filter(function(){ return this.value }).length) {
-    var newline = $(line).clone(true).find(":input").val("").end();
-    newline.appendTo($(line.parentNode));
-    reset_input_masks_on_clone(newline);
-  }
-}
-
 //produces projects table
 function get_projects(customer_id) {
     $.getJSON(ws_base_url + "projects?customer_id=" + customer_id, function(data) {
@@ -509,40 +441,12 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
     var params = { action: "new" };
     $.extend(params, $('#new_business_form').serializeJSON());
 
+    console.log(params);
     console.log(url);
     $.getJSON(url, params, function(data) {
         get_businesses();
         viewInContainer(view_stack.pop);
     });
-};
-
-document.getElementById('save_sale_btn').onclick = function(e) {
-    // var url = ws_base_url + 'businesses';
-
-    console.log('save_sale_btn.onclick');
-    //
-    // var params = { action: "new" };
-    var form = document.getElementById('sale_form');
-    var trs = form.querySelector('tbody');
-
-    var data = {
-      customer_id: querySelector('#sale_form_customer_id'),
-      customer_name: querySelector('#sale_form_customer_name'),
-      customer_address: querySelector('#sale_form_customer_address'),
-      customer_tax_id: querySelector('#sale_form_customer_tax_id'),
-      customer_tax_country: querySelector('#sale_form_customer_tax_country'),
-      customer_tax_country: querySelector('#sale_form_supply_tax_country'),
-      date: querySelector('#sale_form_date'),
-      number: form.querySelector('#sale_form_numer'),
-      lines: serialize_table(trs, 'input', 'name', 'value'),
-      grand_total: form.querySelector('#sale_form_grand_total')
-    }
-
-    function get_businesses(callback) {
-        $.getJSON(ws_base_url + "sale_save", function(data) {
-        });
-    }
-
 };
 
 

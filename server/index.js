@@ -1,19 +1,20 @@
 server = require("./server");
 router = require("./router");
 require("./global");
-requesthandlers = require("./requesthandlers");
 
 var handle = {};
 
-handle["/"] = require('./requesthandlers/index');
+// handle["/"] = require('./requesthandlers/index');
 handle["/signup"] = require('./requesthandlers/signup');
 handle["/signin"] = require('./requesthandlers/signin');
-handle["/recover_password"] = require('./requesthandler/srecover_password');
-handle["/customers"] = require('./requesthandler/scustomers');
+handle["/recover_password"] = require('./requesthandlers/recover_password');
+handle["/customers"] = require('./requesthandlers/customers');
 handle["/projects"] = require('./requesthandlers/projects');
 handle["/periods"] = require('./requesthandlers/periods');
 handle["/persons"] = require('./requesthandlers/persons');
 handle["/businesses"] = require('./requesthandlers/businesses');
+handle["/invoice"] = require('./requesthandlers/invoice');
+
 
 //if not exists create and populate database
 server.db_connection = server.mysql.createConnection({

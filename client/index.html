@@ -318,7 +318,8 @@
                 <div class="col-sm-6 form-horizontal right-container">
                   <div class="form-group">
                     <label for="sale_form_number" class="col-sm-4 control-label">Number</label>
-                    <div class="col-sm-8"><input type="text" class="form-control text-right input_date" id="sale_form_number" placeholder="123456"></div>
+                    <div class="col-sm-4"><input value="I" type="text" class="form-control text-right" id="sale_form_prefix" placeholder="I"></div>
+                    <div class="col-sm-4"><input type="text" class="form-control text-right input_number" id="sale_form_number" placeholder="123456"></div>
                   </div>
                   <div class="form-group">
                     <label for="sale_form_date" class="col-sm-4 control-label">Date</label>
@@ -364,7 +365,7 @@
                       <tr>
                         <td><input type="text" class="form-control" name="sku" placeholder="ID/SKU"></td>
                         <td><input type="text" class="form-control" name="description" placeholder="Description"></td>
-                        <td><input type="text" class="form-control text-right integer" name="quantity" placeholder="Qty"></td>
+                        <td><input type="text" class="form-control text-right integer" name="qty" placeholder="Qty"></td>
                         <td><input type="text" class="form-control text-right decimal" name="price" placeholder="Price"></td>
                         <td><input type="text" class="form-control text-right integer" name="discount" placeholder="Dsc. %"></td>
                         <td><input type="text" class="form-control text-right decimal" name="total" readonly placeholder="0"></td>

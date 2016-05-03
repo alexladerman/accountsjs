@@ -4,7 +4,7 @@ url = require("url");
 jwt = require("jsonwebtoken");
 sjcl = require("sjcl");
 data = require('./data');
-
+permissions = require('./permissions');
 
 AUTH_TOKEN_SECRET = 'something unmemorable';
 
@@ -48,4 +48,18 @@ execute_json_query = function (query, req, res) {
         }
         respond_json(req, res, rows);
     });
+}
+
+get_token_decoded = function (req, res) {
+  var bearer_token = '';
+  console.log(req.headers);
+  console.log(req.headers.authorization);
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    bearer_token = req.headers.authorization.split(' ')[1];
+    try {
+      return jwt.verify(bearer_token, AUTH_TOKEN_SECRET);
+    } catch(err) {
+      respond_unauthorized(req, res);
+    }
+  }
 }

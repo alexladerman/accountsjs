@@ -21,6 +21,7 @@ requirejs(
     'cookies',
     'utils',
     'input_masks',
+    'app/sale',
     'app/controller'
     ]
     // ,
