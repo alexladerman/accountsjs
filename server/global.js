@@ -2,6 +2,7 @@ exec = require("child_process").exec;
 querystring = require("querystring");
 url = require("url");
 jwt = require("jsonwebtoken");
+bodyparser = require("body-parser").json;
 sjcl = require("sjcl");
 http = require("http");
 url = require("url");
@@ -23,24 +24,24 @@ config = {
 connection = mysql.createConnection(config);
 
 //Data
+PersonData = require('./data/person');
 InvoiceData = require('./data/invoice');
 
 //if not exists create and populate database
 
 AUTH_TOKEN_SECRET = 'something unmemorable';
 
-route = function(pathname, handle, request, response) {
-  console.log("Routing to " + pathname);
-
-  if (typeof handle[pathname] === 'function') {
-    handle[pathname](request, response);
+route = function(pathname, handle, req, res) {
+  if (typeof handle[pathname] === 'function' ) {
+    console.log("Routing to " + pathname);
+    handle[pathname](req, res);
   } else {
     console.log("No request handler found for " + pathname);
-    response.writeHead(404, {
+    res.writeHead(404, {
       "Content-Type": "text/html" });
-      response.write("404 Not found");
-      response.end();
-    }
+      res.write("404 Not found");
+      res.end();
+  }
 }
 
 res_header = function(req) {

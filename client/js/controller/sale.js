@@ -2,6 +2,7 @@ function get_last_sale_number(business_id) {
 }
 
 document.getElementById('sale_new_btn').onclick = function(e) {
+    console.log('sale_new_btn.onclick')
     e.stopPropagation();
     var url = ws_base_url + 'invoice';
 
@@ -13,35 +14,39 @@ document.getElementById('sale_new_btn').onclick = function(e) {
     $.getJSON(url, params, function(data) {
         var last_serial_number = data[0]['last_serial_number'];
         $('#sale_form_number').val(last_serial_number + 1);
+        $('#sale_form_date').val(today());
         viewInContainer(document.getElementById('sale-container'));
     });
 };
 
 document.getElementById('save_sale_btn').onclick = function(e) {
-    var url = ws_base_url + 'invoice';
+    e.stopPropagation();
+
+    console.log('save_sale_btn.onclick')
 
     var form = document.getElementById('sale_form');
 
-    var params = {
-      action: "new",
+    var data = {
       business_id: selected_business_id,
-      buyer_id: form.querySelector('#sale_form_customer_id').value,
+      buyer_id: parseInt(form.querySelector('#sale_form_customer_id').value),
       buyer_name: form.querySelector('#sale_form_customer_name').value,
       buyer_address: form.querySelector('#sale_form_customer_address').value,
       buyer_tax_id: form.querySelector('#sale_form_customer_tax_id').value,
       // bfh country selector seems to overwrite input ids, disable fields for now
       // customer_tax_country: form.querySelector('#sale_form_customer_tax_country').value,
       // supply_tax_country: form.querySelector('#sale_form_supply_tax_country').value,
-      date: form.querySelector('#sale_form_date').value,
+      recognized_date: form.querySelector('#sale_form_date').value,
       prefix: form.querySelector('#sale_form_prefix').value,
-      serial_number: form.querySelector('#sale_form_number').value,
+      serial_number: parseInt(form.querySelector('#sale_form_number').value),
       lines: serialize_table(form.querySelector('tbody'), 'input', 'name', 'value'),
-      grand_total: form.querySelector('#sale_form_grand_total').value
     }
 
-    $.getJSON(url, params, function(data) {
-    });
+    console.log(data);
 
+    var url = ws_base_url + 'invoice' + '?' + $.param({ action: "new" });
+
+    $.post(url, JSON.stringify(data))
+        .done(function(data) { console.log(data)});
 };
 
 $('.sale-table tbody input:not([readonly])').change(function(e) {

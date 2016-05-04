@@ -9,7 +9,7 @@ document.getElementById('signin_button').onclick = function(e) {
         password: document.getElementById('signin_password').value
     };
 
-    $.post(ws_base_url + "signin", params)
+    $.post(ws_base_url + "signin", JSON.stringify(params))
         .done(function(data) {
             if (data["access_token"]) {
                 ACCESS_TOKEN = data["access_token"];
@@ -17,7 +17,7 @@ document.getElementById('signin_button').onclick = function(e) {
 
                 $.ajaxSetup( {
                     crossDomain: true,
-                    dataType: 'jsonp',
+                    dataType: 'json', //refers to server response, not to data sent in request
                     headers:
                     {
                         accept: '*',

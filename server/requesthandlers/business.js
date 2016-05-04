@@ -71,8 +71,7 @@ module.exports = function (req, res) {
       execute_json_query(query, req, res);
     }
   } else {
-    console.log('respond_unauthorized');
-    // respond_unauthorized(req, res);
-    respond_json(req, res, {error: "respnauthorized"});
+    console.log('token false else');
+    respond_json(req, res, {error: "respond_unauthorized"});
   }
 }
