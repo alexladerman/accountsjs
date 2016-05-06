@@ -4,6 +4,8 @@ function get_last_sale_number(business_id) {
 document.getElementById('sale_new_btn').onclick = function(e) {
     console.log('sale_new_btn.onclick')
     e.stopPropagation();
+    var form = document.getElementById('sale_form');
+    form.reset();
     var url = ws_base_url + 'invoice';
 
     var params = {
@@ -21,13 +23,13 @@ document.getElementById('sale_new_btn').onclick = function(e) {
 
 document.getElementById('save_sale_btn').onclick = function(e) {
     e.stopPropagation();
-
     console.log('save_sale_btn.onclick')
 
     var form = document.getElementById('sale_form');
 
     var data = {
       business_id: selected_business_id,
+      invoice_id: parseInt(form.querySelector('#sale_form_invoice_id').value),
       buyer_id: parseInt(form.querySelector('#sale_form_customer_id').value),
       buyer_name: form.querySelector('#sale_form_customer_name').value,
       buyer_address: form.querySelector('#sale_form_customer_address').value,
@@ -43,11 +45,20 @@ document.getElementById('save_sale_btn').onclick = function(e) {
 
     console.log(data);
 
-    var url = ws_base_url + 'invoice' + '?' + $.param({ action: "new" });
+    var url = ws_base_url + 'invoice' + '?' + $.param({ action: "save" });
 
     $.post(url, JSON.stringify(data))
-        .done(function(data) { console.log(data)});
+        .done(function(data) {
+          console.log(data)
+          if (data.invoice_id)
+            form.querySelector('#sale_form_invoice_id').value = data.invoice_id;
+        });
 };
+
+document.getElementById('cancel_sale_btn').onclick = function(e) {
+    e.stopPropagation();
+    document.getElementById('sale_new_btn').onclick(e);
+}
 
 $('.sale-table tbody input:not([readonly])').change(function(e) {
   var line = e.target.parentNode.parentNode;
@@ -55,7 +66,8 @@ $('.sale-table tbody input:not([readonly])').change(function(e) {
   var price = line.querySelector('[name="price"]').value || 0;
   var discount = line.querySelector('[name="discount"]').value || 0;
   var line_total = 0;
-  line_total = qty*price-qty*price/100*discount;
+  line_total = (qty*price).toFixed(currency_radix);
+  line_total = line_total-(line_total/100*discount).toFixed(currency_radix);
   line.querySelector('[name="total"]').value = line_total.toFixed(currency_radix);
   recalculate_sale_grand_total();
 });

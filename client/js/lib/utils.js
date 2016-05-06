@@ -5,8 +5,20 @@ if (typeof String.prototype.startsWith != 'function') {
   };
 }
 
-function formatMoney(value) {
-    return accounting.formatMoney(value/100); // €4.999,99
+function intToMoney(value) {
+    return value/(10^currency_radix).toFixed(currency_radix); // to decimal for display
+}
+
+function moneyToInt(value) {
+    return parseInt(value*(10^currency_radix)); // to integer for storage in db
+}
+
+function intToDecimal(value) {
+    return value/(10^decimal_radix).toFixed(decimal_radix); // to decimal for display
+}
+
+function decimalToInt(value) {
+    return parseInt(value*(10^decimal_radix)); // to integer for storage in db
 }
 
 function round(value, radix){
@@ -57,8 +69,12 @@ var serialize_table = function (tr_container, element_selector, fieldname_select
       for (var j = 0; j < elements.length; j++) {
         var fieldname = elements[j][fieldname_selector];
         var value = elements[j][value_selector];
-        if ($(elements[j]).hasClass('decimal') || $(elements[j]).hasClass('integer'))
+        if ($(elements[j]).hasClass('integer'))
           value = parseFloat(value) || 0;
+        else if ($(elements[j]).hasClass('decimal'))
+          value = decimalToInt(parseFloat(value) || 0);
+        else if ($(elements[j]).hasClass('currency'))
+          value = moneyToInt(parseFloat(value) || 0);
         else
           value = value || "";
         row[fieldname || make_random_id()] = value;

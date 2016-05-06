@@ -26,6 +26,7 @@ connection = mysql.createConnection(config);
 //Data
 PersonData = require('./data/person');
 InvoiceData = require('./data/invoice');
+InvoiceLineData = require('./data/invoice_line');
 
 //if not exists create and populate database
 
