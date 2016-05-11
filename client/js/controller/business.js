@@ -54,7 +54,6 @@ function replace_business_dropdown(data) {
     }
 }
 
-//renders table from JSON array
 function replace_entry_form_account_select(data) {
 
     var select = document.getElementById('entry_form_account_select');
@@ -75,7 +74,6 @@ function replace_entry_form_account_select(data) {
     }
 }
 
-
 function select_business(e) {
     if (e) {
         selected_business_id = parseInt(this.attributes.business_id.value);
@@ -85,8 +83,13 @@ function select_business(e) {
     $.getJSON(ws_base_url + "account", { business_id: selected_business_id }, function(data) {
       selected_business_accounts = data;
       selected_business_postable_accounts = filter_postable_accounts(selected_business_accounts);
-      replace_entry_form_account_select(selected_business_postable_accounts);
-      $('.entry-table tbody select[name="account_select"]').change();
+
+      // replace_entry_form_account_select(selected_business_postable_accounts);
+
+      var account_select = $('#entry_form input[name="account_select"');
+      account_select.typeahead(account_typeahead_options, account_typeahead_dataset());
+      account_select.bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
+
       var t = document.getElementById('selected_business');
       while (t.hasChildNodes()) {
           t.removeChild(t.lastChild);

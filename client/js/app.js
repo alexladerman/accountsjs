@@ -14,6 +14,7 @@ requirejs.config({
 // Start the main app logic.
 requirejs(
     [
+      'controller/global',
     'resize',
     'keyboard',
     'dictionary',
@@ -21,14 +22,14 @@ requirejs(
     'cookies',
     'utils',
     'input_masks',
+    'typeahead',
     'controller/signin',
     'controller/business',
     'controller/entries',
     'controller/customers',
     'controller/customer',
     'controller/sale',
-    'controller/entry',
-    'controller/global'
+    'controller/entry'
     ]
     // ,
     // function (resize, controller) {
