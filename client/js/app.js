@@ -23,8 +23,11 @@ requirejs(
     'input_masks',
     'controller/signin',
     'controller/business',
+    'controller/entries',
+    'controller/customers',
     'controller/customer',
     'controller/sale',
+    'controller/entry',
     'controller/global'
     ]
     // ,

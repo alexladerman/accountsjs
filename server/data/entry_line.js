@@ -1,7 +1,7 @@
 var Data = require('data-mysql');
 
-var InvoiceLine = new Data('invoice_line', 'invoice_line_id');
-module.exports = InvoiceLine;
+var EntryLine = new Data('entry_line', 'entry_line_id');
+module.exports = EntryLine;
 
 module.exports.CreateBulk = function (arr, callback) {
   var bulk_query = '';
@@ -48,16 +48,40 @@ module.exports.CreateBulk = function (arr, callback) {
 
 }
 
-module.exports.ListByBusiness = function (invoice_id, callback) {
+module.exports.ListByBusiness = function (business_id, callback) {
     var query = 'SELECT * FROM ' + this.tableName;
-    query += ' WHERE invoice_id = ?';
+    query += ' WHERE business_id = ?';
 
-    connection.query(query, invoice_id, function (err, results) {
+    connection.query(query, business_id, function (err, results) {
         if (callback) {
             callback(results);
         }
     });
 }
+
+module.exports.ListByBusinessAndEntry = function (business_id, entry_id, callback) {
+    var query = 'SELECT * FROM ' + this.tableName;
+    query += ' WHERE business_id = ?';
+    query += ' AND entry_id = ?';
+
+    connection.query(query, [business_id, entry_id], function (err, results) {
+        if (callback) {
+            callback(results);
+        }
+    });
+}
+
+Data.prototype.DeleteByEntry = function(business_id, entry_id, callback) {
+    var query = 'DELETE FROM ' + this.tableName;
+    query += ' WHERE business_id = ?';
+    query += ' AND entry_id = ?';
+
+    connection.query(query, [business_id, entry_id], function (err, result) {
+        if (callback) {
+            callback(result.affectedRows);
+        }
+    });
+};
 
 Data.prototype.DeleteByInvoice = function(invoice_id, callback) {
     var query = 'DELETE FROM ' + this.tableName + ' WHERE ' + 'invoice_id' + ' = ' + connection.escape(invoice_id);

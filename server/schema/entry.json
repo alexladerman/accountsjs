@@ -1,0 +1,15 @@
+{
+	"business_id": 1,
+	"entry_id": 22,
+	"entry_date": 22,
+	"invoice_id": 22,
+	"lines": [{
+		"account_id": 100,
+		"description": "Initial capital",
+		"amount": 10000
+	}, {
+		"account_id": 570,
+		"description": "Initial capital",
+		"amount": 10000
+	}]
+}

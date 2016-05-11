@@ -24,7 +24,9 @@ config = {
 connection = mysql.createConnection(config);
 
 //Data
+AccountData = require('./data/account');
 PersonData = require('./data/person');
+EntryLineData = require('./data/entry_line');
 InvoiceData = require('./data/invoice');
 InvoiceLineData = require('./data/invoice_line');
 

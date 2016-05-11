@@ -6,19 +6,19 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 function intToMoney(value) {
-    return value/(10^currency_radix).toFixed(currency_radix); // to decimal for display
+    return value/(Math.pow(10,currency_radix)).toFixed(currency_radix); // to decimal for display
 }
 
 function moneyToInt(value) {
-    return parseInt(value*(10^currency_radix)); // to integer for storage in db
+    return parseInt(value*(Math.pow(10,currency_radix))); // to integer for storage in db
 }
 
 function intToDecimal(value) {
-    return value/(10^decimal_radix).toFixed(decimal_radix); // to decimal for display
+    return value/(Math.pow(10,currency_radix)).toFixed(decimal_radix); // to decimal for display
 }
 
 function decimalToInt(value) {
-    return parseInt(value*(10^decimal_radix)); // to integer for storage in db
+    return parseInt(value*(Math.pow(10,currency_radix))); // to integer for storage in db
 }
 
 function round(value, radix){

@@ -1,33 +1,19 @@
-function get_customers(callback) {
-  $.getJSON(ws_base_url + "person", { business_id: selected_business_id }, function(data) {
-    var table = document.getElementById("customers_table");
-    replace_table(table, data, true, function () {}, null , selected_customer_id);
-    callback();
-  });
-}
-document.getElementById('customers_navbar_link').onclick = function(e) {
-  e.stopPropagation();
-  get_customers(function () { viewInContainer(document.getElementById('customers-container')) });
-};
+document.getElementById('sale_new_btn').onclick = function(e) {
+    console.log('sale_new_btn.onclick')
+    e.stopPropagation();
+    var form = document.getElementById('sale_form');
+    form.reset();
+    var url = ws_base_url + 'invoice';
 
-document.getElementById('customer_new_btn').onclick = function(e) {
-  e.stopPropagation();
-  viewInContainer(document.getElementById('customer-container'));
-};
-
-//clicked on customer table row. row is clicked DOMElement, rowdata is corresponding row for JSON array
-function business_row_onclick(row, rowdata) {
-  return function() {
-    var trs = row.parentNode.childNodes;
-    for (var i = 0; i < trs.length; i++) {
-      trs[i].className = trs[i].className.replace(" success", "");
+    var params = {
+      action: 'last_serial_number',
+      business_id: selected_business_id
     }
-    row.className += " success";
-    selected_customer_id = rowdata['id'];
-    var detail_panel = document.getElementById("detail_panel");
-    detail_panel.className = detail_panel.className.replace("hidden", "");
-    var detail_new_panel = document.getElementById("detail_new_panel");
-    detail_new_panel.className = detail_new_panel.className.replace("hidden", "");
-    get_projects(rowdata['id']); // customer rowdata
-  };
-}
+
+    $.getJSON(url, params, function(data) {
+        var last_serial_number = data[0]['last_serial_number'];
+        $('#sale_form_number').val(last_serial_number + 1);
+        $('#sale_form_date').val(today());
+        viewInContainer(document.getElementById('sale-container'));
+    });
+};

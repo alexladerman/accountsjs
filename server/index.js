@@ -6,11 +6,10 @@ var handle = {};
 handle["/signup"] = require('./requesthandlers/signup');
 handle["/signin"] = require('./requesthandlers/signin');
 handle["/recover_password"] = require('./requesthandlers/recover_password');
-// handle["/customer"] = require('./requesthandlers/customer');
-// handle["/projects"] = require('./requesthandlers/projects');
-// handle["/periods"] = require('./requesthandlers/periods');
-handle["/person"] = require('./requesthandlers/person');
 handle["/business"] = require('./requesthandlers/business');
+handle["/account"] = require('./requesthandlers/account');
+handle["/entry"] = require('./requesthandlers/entry');
+handle["/person"] = require('./requesthandlers/person');
 handle["/invoice"] = require('./requesthandlers/invoice');
 
 app = http.createServer(function(req, res) {

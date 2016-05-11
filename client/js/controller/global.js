@@ -9,6 +9,8 @@ var current_view = null;
 var selected_customer_id = 0;
 var selected_business_id = 0;
 var selected_business_name = 'Add business';
+var selected_business_accounts = [{business_id: null, account_id: null, account: null, name: null}];
+var selected_business_postable_accounts = [{business_id: null, account_id: null, account: null, name: null}];
 
 //utility
 function get_param(return_this, url) {

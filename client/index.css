@@ -16,8 +16,16 @@ add_customer:after { content: "Add Customer"; }
 .sale-table thead th, .sale-table tbody td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border:1px solid #ccc; }
 .sale-table tfoot td { background-color: transparent; border:0; }
 .sale-table tfoot input { outline: -webkit-focus-ring-color auto 0px !important; -webkit-appearance:none; -webkit-box-shadow: none; }
-.sale-table tfoot td [name=Total]{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sale-table tfoot td [name="Grand Total"]{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sale-table input { border: 0; width: 100%}
+.entry-table { table-layout: fixed; width: 100%; border-collapse: collapse; border:0; }
+.entry-table thead th, .entry-table tbody td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border:1px solid #ccc; }
+.entry-table td.account { overflow: visible }
+.entry-table tfoot td { background-color: transparent; border:0; }
+.entry-table tfoot input { outline: -webkit-focus-ring-color auto 0px !important; -webkit-appearance:none; -webkit-box-shadow: none; }
+.entry-table tfoot td [name="balance_debit"], [name="balance_credit"] { color: red; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.entry-table input, .entry-table select { border: 0; width: 100% }
+
 .no-focus:focus {
   outline: none;
 }
