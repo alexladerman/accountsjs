@@ -104,12 +104,12 @@ function recalculate_balance() {
 }
 
 //press Enter anywhere on line or tab on last input to commit and move to next line, which is to be created if it does not exist
-$('.entry-table tbody input').keyup(function (e) {
+$('.entry-table tbody input:not([name="account_select"])').keyup(function (e) {
   if (e.keyCode == keyboard.ENTER) {
     entry_commit_line(e);
     var newline = e.target.parentNode.parentNode.nextElementSibling;
     if (newline != null)
-      newline.firstElementChild.firstElementChild.focus();
+      newline.querySelector('input:not([readonly]').focus();
   }
 });
 
@@ -136,7 +136,7 @@ function entry_commit_line(e) {
     $('input[name="credit"]', newline).val(debit);
     newline.appendTo($(line.parentNode));
     reset_input_masks_on_clone(newline);
-    reset_typeahead_on_clone(newline);
+    reset_typeahead_on_clone(newline, line);
     recalculate_line_total(newline[0]);
     recalculate_balance();
   }

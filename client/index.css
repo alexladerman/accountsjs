@@ -29,6 +29,8 @@ add_customer:after { content: "Add Customer"; }
 .entry-table .typeahead-td .tt-suggestion { padding:6px 12px }
 .entry-table .typeahead-td .tt-highlight { color:#000 }
 .entry-table .typeahead-td .tt-cursor { background-color: #b3d8fd }
+#entries_table thead th, tbody td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 
 .no-focus:focus {
   outline: none;

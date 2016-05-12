@@ -7,7 +7,8 @@ var config = {
         host : 'localhost',
         user : 'accounts',
         database : 'accounts',
-        password : '332k3nkd8'
+        password : '332k3nkd8',
+        timezone: "+0000",
     },
 };
 

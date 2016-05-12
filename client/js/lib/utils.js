@@ -26,6 +26,10 @@ function round(value, radix){
         return Math.round(value / radix) * radix;
 }
 
+function dateFormat(date) {
+  return date.substring(0,date.indexOf('T'));
+}
+
 function today() {
 	var today = new Date();
 	var dd = today.getDate();
@@ -37,6 +41,7 @@ function today() {
 		mm ='0' + mm;
 	return yyyy + '-' + mm + '-' + dd;
 }
+
 
 function Stack()
 {

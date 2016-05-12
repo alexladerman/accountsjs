@@ -39,14 +39,8 @@ account_typeahead_dataset = function() { return {
     notFound: function (context) {
       console.log('notFound');
       return '<div class="tt-suggestion"><a href=#>New...</a></div>';
-      // return 'New...';
     }
   }
-}}
-
-account_typeahead_new = function() { return {
-  name: 'new',
-  source: function (query, callback) { callback(['add new item'])}
 }}
 
 var on_account_typeahead_change = function(e, selected_account) {
@@ -54,8 +48,16 @@ var on_account_typeahead_change = function(e, selected_account) {
   line.querySelector('[name="account_id"]').value = selected_account.account_id;
 }
 
-var reset_typeahead_on_clone = function(newline) {
+var reset_typeahead_on_clone = function(newline, line) {
+  $('input[name="account_select"]', line).each(function(){
+    console.log('destroy');
+    $(this).typeahead('destroy');
+    $(this).typeahead(account_typeahead_options, account_typeahead_dataset());
+    $(this).bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
+  });
+
   $('input[name="account_select"]', newline).each(function(){
+    console.log('destroy');
     $(this).typeahead('destroy');
     $(this).typeahead(account_typeahead_options, account_typeahead_dataset());
     $(this).bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);

@@ -49,8 +49,9 @@ module.exports.CreateBulk = function (arr, callback) {
 }
 
 module.exports.ListByBusiness = function (business_id, callback) {
-    var query = 'SELECT * FROM ' + this.tableName;
-    query += ' WHERE business_id = ?';
+    var query = 'SELECT entry_id, entry_date, account.account_id, account.account, account.name as account_name, description, amount FROM ' + this.tableName;
+    query += ' JOIN account ON account.account_id = ' + this.tableName + '.account_id';
+    query += ' WHERE ' + this.tableName + '.business_id = ?';
 
     connection.query(query, business_id, function (err, results) {
         if (callback) {
@@ -61,7 +62,8 @@ module.exports.ListByBusiness = function (business_id, callback) {
 
 module.exports.ListByBusinessAndEntry = function (business_id, entry_id, callback) {
     var query = 'SELECT * FROM ' + this.tableName;
-    query += ' WHERE business_id = ?';
+    query += ' JOIN account ON account.account_id = ' + this.tableName + '.account_id';
+    query += ' WHERE ' + this.tableName + '.business_id = ?';
     query += ' AND entry_id = ?';
 
     connection.query(query, [business_id, entry_id], function (err, results) {

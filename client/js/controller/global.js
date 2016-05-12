@@ -32,7 +32,7 @@ function get_previous_sibling(element) {
     return p;
 }
 
-function replace_table(table, data, row_clickable, row_onclick, extra_fields, selected_id) {
+function replace_table(dictionary, table, data, row_clickable, row_onclick, extra_fields, selected_id) {
     table.className = "table";
     if (row_clickable)
         table.className += " table-hover";
@@ -47,10 +47,13 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
     for (field in thdata) {
         if (dictionary.hasOwnProperty(field)) {
             var th = document.createElement('th');
+            th.style = dictionary[field].style;
             th.appendChild(document.createTextNode(dictionary[field].text));
             switch (dictionary[field].type) {
                     case 'currency':
                         th.className += " text-right";
+                        break;
+                    case 'date':
                         break;
                 }
             thr.appendChild(th);
@@ -81,8 +84,11 @@ function replace_table(table, data, row_clickable, row_onclick, extra_fields, se
                 var text;
                 switch (dictionary[field].type) {
                     case 'currency':
-                        text = document.createTextNode(formatMoney(rowdata[field]));
+                        text = document.createTextNode(intToMoney(rowdata[field]));
                         td.className += " text-right";
+                        break;
+                    case 'date':
+                        text = document.createTextNode(dateFormat(rowdata[field]));
                         break;
                     default:
                         text = document.createTextNode(rowdata[field]);

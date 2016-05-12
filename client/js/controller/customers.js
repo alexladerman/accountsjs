@@ -1,7 +1,7 @@
 function get_customers(callback) {
   $.getJSON(ws_base_url + "person", { business_id: selected_business_id }, function(data) {
     var table = document.getElementById("customers_table");
-    replace_table(table, data, true, function () {}, null , selected_customer_id);
+    replace_table(dictionary.customers_table, table, data, true, function () {}, null , selected_customer_id);
     callback();
   });
 }

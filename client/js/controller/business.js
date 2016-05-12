@@ -86,7 +86,7 @@ function select_business(e) {
 
       // replace_entry_form_account_select(selected_business_postable_accounts);
 
-      var account_select = $('#entry_form input[name="account_select"');
+      var account_select = $('#entry_form input[name="account_select"]');
       account_select.typeahead(account_typeahead_options, account_typeahead_dataset());
       account_select.bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
 

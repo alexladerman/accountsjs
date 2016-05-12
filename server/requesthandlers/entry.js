@@ -40,7 +40,7 @@ module.exports = function (req, res) {
       break;
 
       default:
-      respond_json(req, res, {error: "default"});
+      EntryLineData.ListByBusiness(params.business_id, function(results) { respond_json(req, res, results) });
     }
   }
 }
