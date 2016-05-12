@@ -61,7 +61,3 @@ var reset_typeahead_on_clone = function(newline) {
     $(this).bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
   });
 }
-
-$('.typeahead').bind('typeahead:autocomplete typeahead:select',  function(e, chosen_item) {
-  e.target.parentNode.querySelector('[name="sibling_hidden_field_to_capture_item_id"]').value = chosen_item.item_id;
-})
