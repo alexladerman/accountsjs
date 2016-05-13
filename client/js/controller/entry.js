@@ -52,27 +52,32 @@ function load_entry_form(entry_id) {
 
 
       //populate the table with loaded data
-      var i = 0;
-      do {
+      for (var i = 0; i < data.length; i++) {
+        console.log('populate: ' + i);
         var line_data = data[i];
         line_data.account_select = line_data.account;
         line.setAttribute('data-source', JSON.stringify(line_data));
         deserialize_row(line_data, line, 'input', 'name', 'value');
-        var newline = $(line).clone(true);
-        newline.appendTo($(line.parentNode));
-        reset_input_masks(newline);
+        if (data.length > 0 && i < data.length - 1) {
+          var newline = $(line).clone(true);
+          newline.appendTo($(line.parentNode));
+          newline = newline[0];
+          reset_input_masks(newline);
+          account_typeahead_reset(newline);
+        }
+        reset_input_masks(line);
         account_typeahead_reset(line);
-        account_typeahead_reset(newline);
-        recalculate_line_total(line[0]);
-        recalculate_line_total(newline[0]);
+        recalculate_line_total(line);
+        if (data.length > 0 && i < data.length - 1)
+          recalculate_line_total(newline);
         recalculate_balance();
         line = newline;
-        i++;
-      } while (i < data.length)
+      }
 
+      recalculate_balance();
       viewInContainer(document.getElementById('entry-container'));
   });
-};
+}
 
 document.getElementById('save_entry_btn').onclick = function(e) {
     e.stopPropagation();
