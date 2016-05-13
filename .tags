@@ -4,6 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+get_accounts	client/js/controller/accounts.js	/^function get_accounts(callback) {$/;"	f
 get_businesses	client/js/controller/business.js	/^function get_businesses(callback) {$/;"	f
 a.onclick	client/js/controller/business.js	/^        a.setAttribute('href', '#');$/;"	f
 replace_business_dropdown	client/js/controller/business.js	/^function replace_business_dropdown(data) {$/;"	f
@@ -23,6 +24,11 @@ document.getElementById	client/js/controller/entries.js	/^}$/;"	f
 document.getElementById.params.action	client/js/controller/entry.js	/^    var params = {$/;"	p
 document.getElementById.params.business_id	client/js/controller/entry.js	/^      action: 'last_entry_id',$/;"	p
 document.getElementById	client/js/controller/entry.js	/^$/;"	f
+reset_entry_form	client/js/controller/entry.js	/^function reset_entry_form(){$/;"	f
+load_entry_form.params.action	client/js/controller/entry.js	/^  var params = {$/;"	p
+load_entry_form.params.business_id	client/js/controller/entry.js	/^    action: 'get',$/;"	p
+load_entry_form.params.entry_id	client/js/controller/entry.js	/^    business_id: selected_business_id,$/;"	p
+load_entry_form	client/js/controller/entry.js	/^function load_entry_form(entry_id) {$/;"	f
 document.getElementById.data.business_id	client/js/controller/entry.js	/^    var data = {$/;"	p
 document.getElementById.data.entry_id	client/js/controller/entry.js	/^      business_id: selected_business_id,$/;"	p
 recalculate_line_total	client/js/controller/entry.js	/^function recalculate_line_total(line) {$/;"	f
@@ -48,6 +54,7 @@ append_extra_field	client/js/controller/global.js	/^function append_extra_field(
 repopulate_form	client/js/controller/global.js	/^function repopulate_form(form_id, json) {$/;"	f
 count_keys	client/js/controller/global.js	/^function count_keys(obj) {$/;"	f
 viewInContainer	client/js/controller/global.js	/^function viewInContainer(element) {$/;"	f
+get_ledger	client/js/controller/ledger.js	/^function get_ledger(account_id, callback) {$/;"	f
 bill.params.customer_id	client/js/controller/old/bill.js	/^    var params = {$/;"	p
 document.getElementById	client/js/controller/old/bill.js	/^        customer_id: rowdata['id'] };$/;"	f
 bill	client/js/controller/old/bill.js	/^function bill(rowdata) { \/\/ customer rowdata$/;"	f
@@ -76,7 +83,7 @@ accounting.settings.currency	client/js/lib/config.js	/^accounting.settings = {$/
 cookie_write	client/js/lib/cookies.js	/^function cookie_write(name,value,days) {$/;"	f
 cookie_read	client/js/lib/cookies.js	/^function cookie_read(name) {$/;"	f
 cookie_delete	client/js/lib/cookies.js	/^function cookie_delete(name) {$/;"	f
-dictionary.entries_table	client/js/lib/dictionary.js	/^var dictionary = {$/;"	p
+dictionary.accounts_table	client/js/lib/dictionary.js	/^var dictionary = {$/;"	p
 input_currency_options.mDec	client/js/lib/input_masks.js	/^var input_currency_options = {mDec: currency_radix, aSep: '', aDec: decimal_separator};$/;"	p
 input_currency_options.aSep	client/js/lib/input_masks.js	/^var input_currency_options = {mDec: currency_radix, aSep: '', aDec: decimal_separator};$/;"	p
 input_currency_options.aDec	client/js/lib/input_masks.js	/^var input_currency_options = {mDec: currency_radix, aSep: '', aDec: decimal_separator};$/;"	p
@@ -88,7 +95,7 @@ input_integer_options.aSep	client/js/lib/input_masks.js	/^var input_integer_opti
 input_integer_options.aDec	client/js/lib/input_masks.js	/^var input_integer_options = {mDec: 0, aSep: '', aDec: decimal_separator};$/;"	p
 init_input_masks	client/js/lib/input_masks.js	/^var init_input_masks = function(elem) {$/;"	f
 update_input_masks	client/js/lib/input_masks.js	/^var update_input_masks = function(elem) {$/;"	f
-reset_input_masks_on_clone	client/js/lib/input_masks.js	/^var reset_input_masks_on_clone = function(newline) {$/;"	f
+reset_input_masks	client/js/lib/input_masks.js	/^var reset_input_masks = function(line) {$/;"	f
 keyboard.ENTER	client/js/lib/keyboard.js	/^var keyboard = {$/;"	p
 keyboard.TAB	client/js/lib/keyboard.js	/^  ENTER: 13,$/;"	p
 keyboard.DELETE	client/js/lib/keyboard.js	/^  TAB: 9,$/;"	p
@@ -104,7 +111,7 @@ account_typeahead_options.highlight	client/js/lib/typeahead.js	/^  hint: true,$/
 account_typeahead_options.minLength	client/js/lib/typeahead.js	/^  highlight: true,$/;"	p
 account_typeahead_dataset	client/js/lib/typeahead.js	/^}$/;"	f
 on_account_typeahead_change	client/js/lib/typeahead.js	/^var on_account_typeahead_change = function(e, selected_account) {$/;"	f
-reset_typeahead_on_clone	client/js/lib/typeahead.js	/^var reset_typeahead_on_clone = function(newline, line) {$/;"	f
+account_typeahead_reset	client/js/lib/typeahead.js	/^var account_typeahead_reset = function(newline) {$/;"	f
 String	client/js/lib/utils.js	/^if (typeof String.prototype.startsWith != 'function') {$/;"	c
 String.startsWith	client/js/lib/utils.js	/^  String.prototype.startsWith = function (str){$/;"	m
 intToMoney	client/js/lib/utils.js	/^function intToMoney(value) {$/;"	f
@@ -118,6 +125,7 @@ Stack.pop	client/js/lib/utils.js	/^ this.pop=function(){$/;"	m
 Stack.push	client/js/lib/utils.js	/^ this.push=function(item){$/;"	m
 Stack	client/js/lib/utils.js	/^function Stack()$/;"	c
 serialize_table	client/js/lib/utils.js	/^var serialize_table = function (tr_container, element_selector, fieldname_selector, value_selector){$/;"	f
+deserialize_row	client/js/lib/utils.js	/^var deserialize_row = function (data, line, element_selector, fieldname_selector, value_selector){$/;"	f
 isFalsyObject	client/js/lib/utils.js	/^var isFalsyObject = function(object) {$/;"	f
 make_random_id	client/js/lib/utils.js	/^function make_random_id()$/;"	f
 requirejs	client/js/require.js	/^var requirejs,require,define;$/;"	v
@@ -257,9 +265,11 @@ sjcl.C	client/lib/sjcl.js	/^function C(a,b){var c,d=sjcl.random.z[a],e=[];for(c 
 config.mysql	server/config/default.js	/^var config = {$/;"	p
 Data	server/data/account.js	/^var Data = require('data-mysql');$/;"	v
 module.exports.ListByBusiness	server/data/account.js	/^module.exports = Account;$/;"	f
+module.exports.ListByBusinessAndAccountWithBalance	server/data/account.js	/^}$/;"	f
 Data	server/data/entry_line.js	/^var Data = require('data-mysql');$/;"	v
 module.exports.CreateBulk	server/data/entry_line.js	/^module.exports = EntryLine;$/;"	f
 module.exports.ListByBusiness	server/data/entry_line.js	/^}$/;"	f
+module.exports.ListByBusinessAndAccount	server/data/entry_line.js	/^}$/;"	f
 module.exports.ListByBusinessAndEntry	server/data/entry_line.js	/^}$/;"	f
 Data	server/data/entry_line.js	/^}$/;"	c
 Data.DeleteByEntry	server/data/entry_line.js	/^Data.prototype.DeleteByEntry = function(business_id, entry_id, callback) {$/;"	m

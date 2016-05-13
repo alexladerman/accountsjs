@@ -48,14 +48,7 @@ var on_account_typeahead_change = function(e, selected_account) {
   line.querySelector('[name="account_id"]').value = selected_account.account_id;
 }
 
-var reset_typeahead_on_clone = function(newline, line) {
-  $('input[name="account_select"]', line).each(function(){
-    console.log('destroy');
-    $(this).typeahead('destroy');
-    $(this).typeahead(account_typeahead_options, account_typeahead_dataset());
-    $(this).bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
-  });
-
+var account_typeahead_reset = function(newline) {
   $('input[name="account_select"]', newline).each(function(){
     console.log('destroy');
     $(this).typeahead('destroy');

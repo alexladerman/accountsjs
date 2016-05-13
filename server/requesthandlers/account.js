@@ -42,9 +42,13 @@ module.exports = function (req, res) {
       //   });
       // }
       // return; //shuts down parallel execution path after asynchronous call
+      case 'list_accounts_with_balance':
+      AccountData.ListByBusinessAndAccountWithBalance(params.business_id, function(results) { respond_json(req, res, results) });
+      return;
 
       default:
       AccountData.ListByBusiness(params.business_id, function(results) { respond_json(req, res, results) });
+      return;
     }
   }
 }

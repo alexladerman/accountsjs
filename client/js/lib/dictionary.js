@@ -1,12 +1,30 @@
 //printable column headers
 var dictionary = {
+
+    accounts_table: {
+      account: {text:  'Account', type: 'text', style:"width:10%"},
+      name: {text:  'Name', type: 'text', style:"width:60%"},
+      type: {text:  'Type', type: 'text', style:"width:10%"},
+      balance: {text:  'Balance', type: 'currency', style:"width:20%"}
+    },
+
     entries_table: {
-      entry_id: {text:  'Entry', type: 'text'},
-      entry_date: {text:  'Date', type: 'date'},
-      account: {text:  'Account', type: 'text'},
-      account_name: {text:  'Account Name', type: 'text', style:"width:5%"},
+      entry_id: {text:  'Entry', type: 'text', style:"width:10%"},
+      entry_date: {text:  'Date', type: 'date', style:"width:10%"},
+      account: {text:  'Account', type: 'text', style:"width:10%"},
+      account_name: {text:  'Account Name', type: 'text', style:"width:20%"},
       description: {text:  'Description', type: 'text'},
-      amount: {text:  'Amount', type: 'currency'},
+      amount: {text:  'Amount', type: 'currency', style:"width:20%"},
+    },
+
+    ledger_table: {
+      entry_id: {text:  'Entry', type: 'text', style:"width:10%"},
+      invoice: {text:  'Entry', type: 'text', style:"width:10%"},
+      entry_date: {text:  'Date', type: 'date', style:"width:10%"},
+      description: {text:  'Description', type: 'text'},
+      debit: {text:  'Debit', type: 'currency', style:"width:20%"},
+      credit: {text:  'Credit', type: 'currency', style:"width:20%"},
+      // amount: {text:  'Amount', type: 'currency', style:"width:20%"},
     },
 
     customers_table: {

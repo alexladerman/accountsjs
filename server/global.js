@@ -58,6 +58,7 @@ res_header = function(req) {
 respond_json = function(req, res, json) {
     var headers = res_header(req);
     res.writeHead(200, headers);
+    console.log(JSON.stringify(json, null, 2));
     res.write(JSON.stringify(json));
     res.end();
 }

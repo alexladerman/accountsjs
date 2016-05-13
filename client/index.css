@@ -8,6 +8,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 #navbar_links { font-size: 10px; }
 #navbar_links>li.active>a { background-color: inherit; }
 #selected_business { color: lightblue; }
+table { table-layout: fixed }
 .panel-body { padding: 8px; }
 .right-container { padding-right: 0; }
 .left-container { padding-left: 0; padding-right: 0; }

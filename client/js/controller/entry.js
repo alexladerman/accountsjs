@@ -3,8 +3,8 @@
 document.getElementById('entry_new_btn').onclick = function(e) {
     console.log('entry_new_btn.onclick')
     e.stopPropagation();
-    var form = document.getElementById('entry_form');
-    form.reset();
+
+    reset_entry_form();
 
     var params = {
       action: 'last_entry_id',
@@ -17,6 +17,61 @@ document.getElementById('entry_new_btn').onclick = function(e) {
         $('#entry_form_date').val(today());
         viewInContainer(document.getElementById('entry-container'));
     });
+};
+
+function reset_entry_form(){
+  var form = document.getElementById('entry_form');
+  form.reset();
+
+  var tbody = form.querySelector('#entry_form_table tbody');
+  while (tbody.children.length > 1) {
+      tbody.removeChild(tbody.lastChild);
+  }
+  reset_input_masks(tbody.lastChild);
+  account_typeahead_reset($(tbody.lastChild));
+}
+
+function load_entry_form(entry_id) {
+
+  var form = document.getElementById('entry_form');
+  var tbody = form.querySelector('#entry_form_table tbody');
+
+  var line = tbody.querySelector('tr');
+
+  var params = {
+    action: 'get',
+    business_id: selected_business_id,
+    entry_id: entry_id
+  }
+
+  $.getJSON(ws_base_url + 'entry', params, function(data) {
+      console.log('loaded entry');
+      console.log(data);
+      $('#entry_form_entry_id').val(data[0].entry_id);
+      $('#entry_form_date').val(dateFormat(data[0].entry_date));
+
+
+      //populate the table with loaded data
+      var i = 0;
+      do {
+        var line_data = data[i];
+        line_data.account_select = line_data.account;
+        line.setAttribute('data-source', JSON.stringify(line_data));
+        deserialize_row(line_data, line, 'input', 'name', 'value');
+        var newline = $(line).clone(true);
+        newline.appendTo($(line.parentNode));
+        reset_input_masks(newline);
+        account_typeahead_reset(line);
+        account_typeahead_reset(newline);
+        recalculate_line_total(line[0]);
+        recalculate_line_total(newline[0]);
+        recalculate_balance();
+        line = newline;
+        i++;
+      } while (i < data.length)
+
+      viewInContainer(document.getElementById('entry-container'));
+  });
 };
 
 document.getElementById('save_entry_btn').onclick = function(e) {
@@ -135,8 +190,9 @@ function entry_commit_line(e) {
     $('input[name="debit"]', newline).val(credit);
     $('input[name="credit"]', newline).val(debit);
     newline.appendTo($(line.parentNode));
-    reset_input_masks_on_clone(newline);
-    reset_typeahead_on_clone(newline, line);
+    reset_input_masks(newline);
+    account_typeahead_reset(line);
+    account_typeahead_reset(newline);
     recalculate_line_total(newline[0]);
     recalculate_balance();
   }

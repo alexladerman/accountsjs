@@ -6,7 +6,7 @@ if (typeof String.prototype.startsWith != 'function') {
 }
 
 function intToMoney(value) {
-    return value/(Math.pow(10,currency_radix)).toFixed(currency_radix); // to decimal for display
+    return (value/(Math.pow(10,currency_radix))).toFixed(currency_radix); // to decimal for display
 }
 
 function moneyToInt(value) {
@@ -14,7 +14,7 @@ function moneyToInt(value) {
 }
 
 function intToDecimal(value) {
-    return value/(Math.pow(10,currency_radix)).toFixed(decimal_radix); // to decimal for display
+    return (value/(Math.pow(10,currency_radix))).toFixed(decimal_radix); // to decimal for display
 }
 
 function decimalToInt(value) {
@@ -88,6 +88,33 @@ var serialize_table = function (tr_container, element_selector, fieldname_select
         rows.push(row);
   }
   return rows;
+}
+
+var deserialize_row = function (data, line, element_selector, fieldname_selector, value_selector){
+      var elements = line.querySelectorAll(element_selector);
+      for (var j = 0; j < elements.length; j++) {
+        var fieldname = elements[j][fieldname_selector];
+        var value = elements[j][value_selector];
+        if ($(elements[j]).hasClass('integer')) {
+          var val = parseInt(data[fieldname]) || 0;
+          val = parseInt(val) ? val : '';
+          $(elements[j]).val(val);
+        }
+        else if ($(elements[j]).hasClass('decimal')) {
+          var val = intToDecimal(parseInt(data[fieldname]) || 0);
+          val = parseFloat(val) ? val : '';
+          $(elements[j]).val(val);
+        }
+        else if ($(elements[j]).hasClass('currency')) {
+          var val = intToMoney(parseInt(data[fieldname]) || 0);
+          val = parseFloat(val) ? val : '';
+          $(elements[j]).val(val);
+        }
+        else if ($(elements[j]).hasClass('typeahead'))
+          $(elements[j]).typeahead('val', data[fieldname] || "");
+        else
+          $(elements[j]).val(data[fieldname] || "");
+      }
 }
 
 var isFalsyObject = function(object) {

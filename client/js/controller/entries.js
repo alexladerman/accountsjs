@@ -9,6 +9,13 @@ function get_entries(callback) {
 document.getElementById('accounting_navbar_link').onclick = function(e) {
   e.stopPropagation();
   get_entries(function() {
-    viewInContainer(document.getElementById('entries-container'))
+    viewInContainer(document.getElementById('entries-container'));
+  });
+};
+
+document.getElementById('entries_accounts_btn').onclick = function(e) {
+  e.stopPropagation();
+  get_accounts(function() {
+    viewInContainer(document.getElementById('accounts-container'));
   });
 };

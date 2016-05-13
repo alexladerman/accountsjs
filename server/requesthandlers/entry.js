@@ -2,6 +2,7 @@ module.exports = function (req, res) {
   var params = url.parse(req.url, true).query;
   var token_decoded = get_token_decoded(req, res);
   console.log(token_decoded);
+  console.log('params: ' + JSON.stringify(params, null, 2));
   var user_id = token_decoded['user_id'];
   if (user_id > 0) {
     var action = params.action;
@@ -37,10 +38,19 @@ module.exports = function (req, res) {
       //whereclause += ' AND prefix = ' + mysql.escape(prefix);
       query = query.replace('?', whereclause);
       execute_json_query(query, req, res);
-      break;
+      return;
+
+      case 'get':
+      EntryLineData.ListByBusinessAndEntry(params.business_id, params.entry_id, function(results) { respond_json(req, res, results) });
+      return;
+
+      case 'list_by_account':
+      EntryLineData.ListByBusinessAndAccount(params.business_id, params.account_id, function(results) { respond_json(req, res, results) });
+      return;
 
       default:
       EntryLineData.ListByBusiness(params.business_id, function(results) { respond_json(req, res, results) });
+      return;
     }
   }
 }

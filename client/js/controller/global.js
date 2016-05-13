@@ -74,6 +74,7 @@ function replace_table(dictionary, table, data, row_clickable, row_onclick, extr
     for (key in data) {
         var rowdata = data[key];
         var row = document.createElement('tr');
+        row.setAttribute('data-source', JSON.stringify(rowdata));
         if (rowdata['id'] == selected_id)
             row.className += " active";
         if (row_clickable)
@@ -84,7 +85,9 @@ function replace_table(dictionary, table, data, row_clickable, row_onclick, extr
                 var text;
                 switch (dictionary[field].type) {
                     case 'currency':
-                        text = document.createTextNode(intToMoney(rowdata[field]));
+                        var val = intToMoney(rowdata[field])
+                        val = parseFloat(val) ? val : '';
+                        text = document.createTextNode(val);
                         td.className += " text-right";
                         break;
                     case 'date':
@@ -106,7 +109,7 @@ function replace_table(dictionary, table, data, row_clickable, row_onclick, extr
             }
         }
         if (row_clickable)
-            row.onclick = row_onclick(row, rowdata);
+            row.onclick = row_onclick;
     }
 }
 

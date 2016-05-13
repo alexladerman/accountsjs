@@ -89,6 +89,6 @@ function sale_commit_line(e) {
   if (line === line.parentNode.lastElementChild && $('input:not([readonly])', line).filter(function(){ return this.value }).length) {
     var newline = $(line).clone(true).find(":input").val("").end();
     newline.appendTo($(line.parentNode));
-    reset_input_masks_on_clone(newline);
+    reset_input_masks(newline);
   }
 }
