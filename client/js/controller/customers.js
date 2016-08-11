@@ -6,11 +6,6 @@ function get_customers(callback) {
   });
 }
 
-document.getElementById('customers_navbar_link').onclick = function(e) {
-  e.stopPropagation();
-  get_customers(function () { viewInContainer(document.getElementById('customers-container')) });
-};
-
 document.getElementById('customer_new_btn').onclick = function(e) {
   e.stopPropagation();
   viewInContainer(document.getElementById('customer-container'));

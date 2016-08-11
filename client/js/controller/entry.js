@@ -1,23 +1,15 @@
-
-
-document.getElementById('entry_new_btn').onclick = function(e) {
-    console.log('entry_new_btn.onclick')
-    e.stopPropagation();
-
-    reset_entry_form();
-
-    var params = {
-      action: 'last_entry_id',
-      business_id: selected_business_id
-    }
-
-    $.getJSON(ws_base_url + 'entry', params, function(data) {
-        var last_entry_id = data[0]['last_entry_id'];
-        $('#entry_form_entry_id').val(last_entry_id + 1);
-        $('#entry_form_date').val(today());
-        viewInContainer(document.getElementById('entry-container'));
-    });
+document.getElementById('entry_entries_btn').onclick = function(e) {
+  e.stopPropagation();
+  get_entries(function() {
+    viewInContainer(document.getElementById('entries-container'));
+  });
 };
+
+document.getElementById('entry_ledger_btn').onclick = function(e) {
+  e.stopPropagation();
+  viewInContainer(document.getElementById('ledger-container'));
+};
+
 
 function reset_entry_form(){
   var form = document.getElementById('entry_form');
@@ -33,6 +25,7 @@ function reset_entry_form(){
 
 function load_entry_form(entry_id) {
 
+  reset_entry_form();
   var form = document.getElementById('entry_form');
   var tbody = form.querySelector('#entry_form_table tbody');
 
@@ -54,22 +47,19 @@ function load_entry_form(entry_id) {
       //populate the table with loaded data
       for (var i = 0; i < data.length; i++) {
         console.log('populate: ' + i);
-        var line_data = data[i];
-        line_data.account_select = line_data.account;
-        line.setAttribute('data-source', JSON.stringify(line_data));
-        deserialize_row(line_data, line, 'input', 'name', 'value');
+        //clone empty first line
         if (data.length > 0 && i < data.length - 1) {
           var newline = $(line).clone(true);
           newline.appendTo($(line.parentNode));
           newline = newline[0];
-          reset_input_masks(newline);
-          account_typeahead_reset(newline);
         }
-        reset_input_masks(line);
+        var line_data = data[i];
+        line_data.account_select = line_data.account;
+        line.setAttribute('data-source', JSON.stringify(line_data));
         account_typeahead_reset(line);
+        reset_input_masks(line);
+        deserialize_row(line_data, line, 'input', 'name', 'value');
         recalculate_line_total(line);
-        if (data.length > 0 && i < data.length - 1)
-          recalculate_line_total(newline);
         recalculate_balance();
         line = newline;
       }
@@ -115,7 +105,7 @@ document.getElementById('save_entry_btn').onclick = function(e) {
 
 document.getElementById('cancel_entry_btn').onclick = function(e) {
     e.stopPropagation();
-    document.getElementById('entry_new_btn').onclick(e);
+    document.getElementById('entry_new_entry_btn').onclick(e);
 }
 
 $('.entry-table tbody input[name="debit"], input[name="credit"]').keydown(function(e) {

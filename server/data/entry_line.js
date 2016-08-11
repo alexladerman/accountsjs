@@ -47,7 +47,7 @@ module.exports.CreateBulk = function (arr, callback) {
 }
 
 module.exports.ListByBusiness = function (business_id, callback) {
-    var query = 'SELECT entry_id, entry_date, account.account_id, account.account, account.name as account_name, description, amount FROM ' + this.tableName;
+    var query = 'SELECT entry_id, entry_date, account.account_id, account.account, account.name as account_name, description, amount, IF(amount >= 0,amount,null) AS debit, IF(amount < 0,-amount,null) AS credit FROM ' + this.tableName;
     query += ' JOIN account ON account.account_id = ' + this.tableName + '.account_id';
     query += ' WHERE ' + this.tableName + '.business_id = ?';
 

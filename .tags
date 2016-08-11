@@ -5,6 +5,12 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 get_accounts	client/js/controller/accounts.js	/^function get_accounts(callback) {$/;"	f
+row_onclick	client/js/controller/accounts.js	/^  var row_onclick = function (e) {$/;"	f
+render_accounts	client/js/controller/accounts.js	/^function render_accounts() {$/;"	f
+document.getElementById	client/js/controller/accounts.js	/^}$/;"	f
+sort	client/js/controller/accounts.js	/^function sort(elements) {$/;"	f
+summarize	client/js/controller/accounts.js	/^function summarize(elements) {$/;"	f
+traverse	client/js/controller/accounts.js	/^function traverse(node, i, elements, len) {$/;"	f
 get_businesses	client/js/controller/business.js	/^function get_businesses(callback) {$/;"	f
 a.onclick	client/js/controller/business.js	/^        a.setAttribute('href', '#');$/;"	f
 replace_business_dropdown	client/js/controller/business.js	/^function replace_business_dropdown(data) {$/;"	f
@@ -20,10 +26,10 @@ get_customers	client/js/controller/customers.js	/^function get_customers(callbac
 document.getElementById	client/js/controller/customers.js	/^}$/;"	f
 business_row_onclick	client/js/controller/customers.js	/^function business_row_onclick(row, rowdata) {$/;"	f
 get_entries	client/js/controller/entries.js	/^function get_entries(callback) {$/;"	f
+document.getElementById.params.action	client/js/controller/entries.js	/^    var params = {$/;"	p
+document.getElementById.params.business_id	client/js/controller/entries.js	/^      action: 'last_entry_id',$/;"	p
 document.getElementById	client/js/controller/entries.js	/^}$/;"	f
-document.getElementById.params.action	client/js/controller/entry.js	/^    var params = {$/;"	p
-document.getElementById.params.business_id	client/js/controller/entry.js	/^      action: 'last_entry_id',$/;"	p
-document.getElementById	client/js/controller/entry.js	/^$/;"	f
+document.getElementById	client/js/controller/entry.js	/^document.getElementById('entry_entries_btn').onclick = function(e) {$/;"	f
 reset_entry_form	client/js/controller/entry.js	/^function reset_entry_form(){$/;"	f
 load_entry_form.params.action	client/js/controller/entry.js	/^  var params = {$/;"	p
 load_entry_form.params.business_id	client/js/controller/entry.js	/^    action: 'get',$/;"	p
@@ -55,6 +61,12 @@ repopulate_form	client/js/controller/global.js	/^function repopulate_form(form_i
 count_keys	client/js/controller/global.js	/^function count_keys(obj) {$/;"	f
 viewInContainer	client/js/controller/global.js	/^function viewInContainer(element) {$/;"	f
 get_ledger	client/js/controller/ledger.js	/^function get_ledger(account_id, callback) {$/;"	f
+document.getElementById	client/js/controller/ledger.js	/^}$/;"	f
+document.getElementById.params.action	client/js/controller/ledger.js	/^    var params = {$/;"	p
+document.getElementById.params.business_id	client/js/controller/ledger.js	/^      action: 'last_entry_id',$/;"	p
+htmlmenu	client/js/controller/menu.js	/^var htmlmenu = '';$/;"	v
+traverse_menu	client/js/controller/menu.js	/^function traverse_menu(node, i, elements, len) {$/;"	f
+document.getElementById	client/js/controller/navbar.js	/^document.getElementById('customers_navbar_link').onclick = function(e) {$/;"	f
 bill.params.customer_id	client/js/controller/old/bill.js	/^    var params = {$/;"	p
 document.getElementById	client/js/controller/old/bill.js	/^        customer_id: rowdata['id'] };$/;"	f
 bill	client/js/controller/old/bill.js	/^function bill(rowdata) { \/\/ customer rowdata$/;"	f
@@ -265,7 +277,7 @@ sjcl.C	client/lib/sjcl.js	/^function C(a,b){var c,d=sjcl.random.z[a],e=[];for(c 
 config.mysql	server/config/default.js	/^var config = {$/;"	p
 Data	server/data/account.js	/^var Data = require('data-mysql');$/;"	v
 module.exports.ListByBusiness	server/data/account.js	/^module.exports = Account;$/;"	f
-module.exports.ListByBusinessAndAccountWithBalance	server/data/account.js	/^}$/;"	f
+module.exports.ListByBusinessWithBalance	server/data/account.js	/^}$/;"	f
 Data	server/data/entry_line.js	/^var Data = require('data-mysql');$/;"	v
 module.exports.CreateBulk	server/data/entry_line.js	/^module.exports = EntryLine;$/;"	f
 module.exports.ListByBusiness	server/data/entry_line.js	/^}$/;"	f

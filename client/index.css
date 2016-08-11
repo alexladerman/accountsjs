@@ -3,8 +3,11 @@ body { font-family: 'Droid Sans'; background-color: #ffffff; overflow: hidden; }
 textarea { resize: none; }
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 #banner { margin: 0 0 0 0; padding-left: 8px; padding-right: 8px; }
-.navbar-brand { padding-left: 0; }
-.button-bar { padding-left: 8px; padding-right: 8px; margin-bottom: 8px; }
+.navbar { margin-bottom: 0; border-top-width: 0; border-bottom-width: 0 }
+.navbar-brand { padding-left: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100%;}
+.navbar-last { margin-bottom: 8px; border-bottom-width: 1px }
+.navbar-subtitle.navbar-brand { font-size-adjust: 1 }
+.button-bar { padding-left: 8px; padding-right: 8px; }
 #navbar_links { font-size: 10px; }
 #navbar_links>li.active>a { background-color: inherit; }
 #selected_business { color: lightblue; }

@@ -80,13 +80,8 @@ function select_business(e) {
         selected_business_name = this.attributes.business_name.value;
     }
 
-    $.getJSON(ws_base_url + "account", { business_id: selected_business_id }, function(data) {
-      selected_business_accounts = data;
-      selected_business_postable_accounts = filter_postable_accounts(selected_business_accounts);
-
-      // replace_entry_form_account_select(selected_business_postable_accounts);
-
-      var account_select = $('#entry_form input[name="account_select"]');
+    get_accounts(function () {
+      var account_select = $('input[name="account_select"]');
       account_select.typeahead(account_typeahead_options, account_typeahead_dataset());
       account_select.bind('typeahead:autocomplete typeahead:select', on_account_typeahead_change);
 
@@ -120,7 +115,6 @@ document.getElementById('save_new_business_btn').onclick = function(e) {
 };
 
 function filter_postable_accounts(accounts) {
-    console.log("get_postable_accounts");
     var len = accounts.length;
     var leaves = [];
     for (var i = 0; i < len-1 ; i++) {

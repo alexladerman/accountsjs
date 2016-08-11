@@ -47,7 +47,7 @@
       <div id="leader-main-container">
         <div id="home-container" style="display: none"><div style="font-size: 150px; font-weight: light; text-align:center">HOME</div></div>
         <div id="customers-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="customers-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="customers-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Customers</a>
 
             <ul class="nav navbar-nav navbar-right">
@@ -107,7 +107,7 @@
           <table id="customers_table"></table>
         </div>
         <div id="customer-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="customer-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="customer-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Customer</a>
 
             <ul class="nav navbar-nav navbar-right">
@@ -248,7 +248,7 @@
           </div>
         </div>
         <div id="sale-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="sale-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="sale-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Sale</a>
 
             <ul class="nav navbar-nav navbar-right">
@@ -419,14 +419,14 @@
           </div>
         </div>
         <div id="entries-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="entries-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="entries-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Journal Entries</a>
 
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <div class="navbar-form">
                   <div class="btn-group">
-                    <button id="entry_new_btn" type="button" class="btn btn-info" aria-expanded="false">
+                    <button id="entries_new_entry_btn" type="button" class="btn btn-info" aria-expanded="false">
                       New Entry
                     </button>
                   </div>
@@ -481,14 +481,14 @@
           <table id="entries_table"></table>
         </div>
         <div id="entry-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="entry-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="entry-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Journal Entry</a>
 
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <div class="navbar-form">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-info" aria-expanded="false">
+                    <button id="entry_new_entry_btn" type="button" class="btn btn-info" aria-expanded="false">
                       New
                     </button>
                   </div>
@@ -497,6 +497,16 @@
 
               <li>
                 <div class="navbar-form">
+                  <div class="btn-group">
+                    <button id="entry_entries_btn" type="button" class="btn btn-default" aria-expanded="false">
+                      Journal
+                    </button>
+                  </div>
+                  <div class="btn-group">
+                    <button id="entry_ledger_btn" type="button" class="btn btn-default" aria-expanded="false">
+                      Ledger
+                    </button>
+                  </div>
                   <div class="btn-group">
                     <button type="button" class="btn btn-default" aria-expanded="false">
                       Delete
@@ -608,14 +618,14 @@
           </div>
         </div>
         <div id="accounts-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="accounts-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="accounts-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Chart of Accounts</a>
 
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <div class="navbar-form">
                   <div class="btn-group">
-                    <button id="entry_new_btn" type="button" class="btn btn-info" aria-expanded="false">
+                    <button id="accounts_new_account_btn" type="button" class="btn btn-info" aria-expanded="false">
                       New Account
                     </button>
                   </div>
@@ -643,7 +653,7 @@
                     </button>
                   </div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default" aria-expanded="false">
+                    <button id="toggle_accounts_show_all_btn" value="all" type="button" class="btn btn-default" aria-expanded="false">
                       Show All
                     </button>
                   </div>
@@ -675,22 +685,12 @@
               <li>
                 <div class="navbar-form">
                   <div class="btn-group">
-                    <button id="entry_new_btn" type="button" class="btn btn-info" aria-expanded="false">
-                      New
+                    <button id="ledger_new_entry_btn" type="button" class="btn btn-info" aria-expanded="false">
+                      New Entry
                     </button>
                   </div>
                 </div>
               </li>
-              <li>
-                <div class="navbar-form">
-                  <div class="btn-group">
-                    <button id="ledger_accounts_btn" type="button" class="btn btn-default" aria-expanded="false">
-                      Reserved
-                    </button>
-                  </div>
-                </div>
-              </li>
-
               <li>
                 <div class="navbar-form">
                   <div class="btn-group">
@@ -718,9 +718,22 @@
                 </div>
               </li>
               <li>
+                <div class="navbar-form">
+                  <div class="btn-group">
+                    <button id="ledger_previous" type="button" class="btn btn-default" aria-expanded="false">
+                      <
+                    </button>
+                    <button id="ledger_next" type="button" class="btn btn-default" aria-expanded="false">
+                      >
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li>
                 <form class="navbar-form" role="search">
                   <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input class="typeahead form-control" name="account_select" placeholder="Search">
+                    <input type=hidden name="account_id" placeholder="Account">
                   </div>
                   <button type="submit" class="btn btn-default">Find</button>
                 </form>
@@ -728,11 +741,13 @@
 
             </ul>
           </nav>
+          <nav class="navbar-last navbar-subtitle navbar navbar-default button-bar" role="toolbar">
+            <a id="ledger_title" href="../" class="navbar-brand">Account</a>
+          </nav>
           <table id="ledger_table"></table>
         </div>
-
         <div id="businesses-container" style="display: none">
-          <nav class="navbar navbar-default button-bar" id="businesses-button-bar" role="toolbar">
+          <nav class="navbar-last navbar navbar-default button-bar" id="businesses-button-bar" role="toolbar">
             <a href="../" class="navbar-brand">Businesses</a>
 
             <ul class="nav navbar-nav navbar-right">
